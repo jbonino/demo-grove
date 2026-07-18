@@ -49,13 +49,35 @@ from the environment (see `apps/api/.env.example`).
 
 Orders are created by the Stripe webhook handler, not by `POST /api/orders` — see Payments below. A payment that fails never produces an Order document at all (not a "failed"-status one), matching the AC that no order exists on a declined card.
 
+`Order` also carries `rewardRedeemed: { name, discountAmountCents } | null` (set when a reward discounted the order), `pointsEarned: number`, and `pointsBalanceAfter: number` (both default `0`) — written by the webhook handler alongside the Order itself.
+
+**LoyaltyEvent** (`apps/api/src/models/LoyaltyEvent.ts`)
+- `phone: string` (required)
+- `orderId: ObjectId | null` ref `Order`
+- `type: "earn" | "redeem"` (required)
+- `points: number` (required — positive for `earn`, negative for `redeem`)
+- `createdAt: Date` (default now)
+
+A phone number's balance is never stored directly — it's derived by summing `LoyaltyEvents.points` for that phone (`apps/api/src/loyalty/balance.ts#getPointsBalance`, a Mongo aggregation), keeping history auditable per `design.md` §6.
+
+**Reward** (`apps/api/src/models/Reward.ts`)
+- `name: string` (required)
+- `description: string` (required)
+- `pointsCost: number` (required)
+- `discountAmountCents: number` (required) — beyond `design.md` §6's table; needed to know how much a redeemed reward discounts the charge.
+
+### Seed Data
+
+`apps/api/src/scripts/seed.ts` runs, in order: `seedMenuItems`, `seedRewards` (`apps/api/src/seed/rewards.ts` — fixed 3-reward catalog), and `seedLoyaltyHistory` (`apps/api/src/seed/loyaltyHistory.ts` — 35 synthetic customers with 1-5 paid `Order`s each and matching `earn` `LoyaltyEvent`s; a subset get a simulated past redemption, and a subset are left just under the cheapest reward's threshold). Each seed function deletes-then-inserts its own data, so re-running the script doesn't duplicate. `seedLoyaltyHistory` requires `MenuItems` and `Rewards` to already be seeded (reads current prices/reward thresholds to generate realistic data) and scopes its `Order` cleanup to its own `pi_seed_*`-prefixed `stripePaymentIntentId`s so it doesn't touch real orders.
+
 ## API Routes
 
 - `GET /health` — returns `200 { ok: true }` if the DB connection is live, `503 { ok: false }` otherwise.
 - `GET /api/menu-items` — returns all `MenuItem` documents as `MenuItemDTO[]` (`packages/shared`), sorted by category then name. CORS is enabled (`cors` middleware) so the Vite dev server (5173) can call the API (3001) cross-origin in local dev.
-- `POST /api/orders` — recomputes the subtotal server-side from current `MenuItem` prices (does not trust client-sent prices), creates a Stripe PaymentIntent with the cart snapshot (items/phone/pickup) stored in PaymentIntent `metadata`, and returns `{ clientSecret, paymentIntentId, subtotalCents }`. Does **not** create an `Order`.
+- `POST /api/orders` — recomputes the subtotal server-side from current `MenuItem` prices (does not trust client-sent prices), creates a Stripe PaymentIntent with the cart snapshot (items/phone/pickup) stored in PaymentIntent `metadata`, and returns `{ clientSecret, paymentIntentId, subtotalCents, discountedSubtotalCents }`. Does **not** create an `Order`. Accepts an optional `rewardId`: if present, looks up the `Reward`, verifies the phone's live balance (`getPointsBalance`) covers its `pointsCost` — rejecting with `400` before any PaymentIntent is created if not — then charges `subtotalCents - discountAmountCents` (floored at 0) instead of the full subtotal. Reward name/discount/pointsCost are carried in PaymentIntent metadata (`rewardName`, `rewardDiscountAmountCents`, `rewardPointsCost`) alongside the pre-discount `subtotalCents`, since the webhook has no other way to know them once the PaymentIntent exists.
 - `GET /api/orders/by-payment-intent/:paymentIntentId` — returns the `Order` for a PaymentIntent once the webhook has created it, or `404` if it hasn't landed yet. Polled by the frontend after client-side payment confirmation (`apps/web/src/api/orders.ts#pollForOrder`).
-- `POST /api/stripe/webhook` — verifies the Stripe signature (`stripe-signature` header, `STRIPE_WEBHOOK_SECRET`) against the **raw** request body (mounted with `express.raw()` *before* the global `express.json()` middleware in `app.ts` — order matters). On `payment_intent.succeeded`, creates the `Order` from the PaymentIntent's metadata via `findOneAndUpdate` with `$setOnInsert` + `upsert: true`, keyed on `stripePaymentIntentId` — redelivery of the same event is a no-op, not a duplicate.
+- `GET /api/rewards` — returns all `Reward` documents as `RewardDTO[]` (`packages/shared`), sorted by `pointsCost` ascending.
+- `POST /api/stripe/webhook` — verifies the Stripe signature (`stripe-signature` header, `STRIPE_WEBHOOK_SECRET`) against the **raw** request body (mounted with `express.raw()` *before* the global `express.json()` middleware in `app.ts` — order matters). On `payment_intent.succeeded`, checks whether an `Order` already exists for that `stripePaymentIntentId` and short-circuits if so (redelivery is a no-op, including for the `LoyaltyEvents` below). Otherwise creates the `Order` from the PaymentIntent's metadata via `findOneAndUpdate` with `$setOnInsert` + `upsert: true`, and writes the matching `LoyaltyEvents`: an `earn` event for `ceil(chargedAmountCents / 100)` points (the *discounted* amount, i.e. `paymentIntent.amount`), plus a `redeem` event for `-rewardPointsCost` when a reward was applied. `Order.pointsEarned`/`pointsBalanceAfter` are computed from the phone's balance immediately before these events are written.
 
 ## Payments (Stripe)
 
@@ -63,6 +85,7 @@ Orders are created by the Stripe webhook handler, not by `POST /api/orders` — 
 - **Client:** `@stripe/stripe-js`, loaded via `apps/web/src/stripeClient.ts` (`VITE_STRIPE_PUBLISHABLE_KEY`). Card input is a real Stripe Elements Card Element (`apps/web/src/components/PaymentCardInput.vue`) — the design mock shows a saved-card UI, but Phase 0 has no accounts/saved payment methods, so there's nothing to display as "saved" (see the design handoff README's Implementation Notes).
 - **Server:** `stripe` SDK via `apps/api/src/stripeClient.ts` (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`).
 - **Local dev / webhook delivery:** Stripe can't reach `localhost` directly. Use the Stripe CLI: `stripe listen --forward-to localhost:3001/api/stripe/webhook` (wrapped as `npm run stripe:listen --workspace apps/api`, used by the E2E setup below). `stripe listen --print-secret` deterministically returns the same signing secret for a given API key/device pairing, so it matches `STRIPE_WEBHOOK_SECRET` in `.env` without any extra copy-pasting.
+- **Single dev command:** `npm run dev` at the repo root (via `concurrently`) runs the API, the web dev server, and `stripe:listen` together in one terminal, labeled/colored per process — replaces running the three separately. `npm run dev:api` / `dev:web` still exist for running one in isolation.
 
 ## Frontend
 

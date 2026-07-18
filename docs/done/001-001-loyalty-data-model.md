@@ -1,6 +1,6 @@
 # 001-001 — Loyalty Data Model & Accrual/Redemption Logic
 
-**Status:** Active
+**Status:** Done
 
 ## Description
 
@@ -65,6 +65,12 @@ Feature: Loyalty ledger, accrual, and redemption
 **Automated:** Unit tests for balance derivation (sum of mixed earn/redeem events) and the ceil-based points calculation (including cent-rounding edge cases). Integration tests extending the existing order/webhook suite: reward redemption discounts the PaymentIntent amount correctly, an unaffordable reward is rejected pre-PaymentIntent, webhook redelivery doesn't duplicate LoyaltyEvents, and both earn+redeem events are written correctly on a redeemed order.
 
 **Manual:** None — this ticket has no UI surface; behavior is fully exercised by automated API/integration tests.
+
+**Verification record (2026-07-18):**
+- **Automated (apps/api):** 46 tests (up from 21 at the start of this ticket), all written test-first (RED confirmed before each implementation). New coverage: `LoyaltyEvent`/`Reward` model validation, `getPointsBalance` derivation (mixed events, cross-phone isolation, zero-history default), `GET /api/rewards`, `POST /api/orders` reward redemption (discounted PaymentIntent amount, unaffordable-reward rejection pre-PaymentIntent, unknown-rewardId rejection), the Stripe webhook's earn/redeem `LoyaltyEvent` writes (including the ceil-based points math and idempotent redelivery producing no duplicate events), and the `seedRewards`/`seedLoyaltyHistory` seed functions (customer-count bounds, non-negative balances, at least one past redemption, at least one near-threshold customer, reset-not-duplicate on re-run).
+- **Automated (packages/shared):** `RewardDTO` type-shape test (verified RED via `tsc --noEmit` before adding the type, since Vitest's esbuild transform doesn't enforce type errors at runtime).
+- Full workspace `build`/`lint`/`typecheck`/`test` pass (`apps/api` 46, `apps/web` 33 unaffected, `packages/shared` 2).
+- Ran `npm run seed --workspace apps/api` against the real configured MongoDB instance end-to-end (not just the in-memory test DB) to confirm the full seed chain (menu items → rewards → loyalty history) executes cleanly outside the test harness.
 
 ## Story Points
 
