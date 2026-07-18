@@ -1,6 +1,6 @@
 # 000-005 — Cart, Checkout & Stripe Payment
 
-**Status:** Backlog
+**Status:** Active
 
 ## Description
 
