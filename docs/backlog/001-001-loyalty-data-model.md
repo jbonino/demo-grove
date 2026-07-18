@@ -1,6 +1,6 @@
 # 001-001 — Loyalty Data Model & Accrual/Redemption Logic
 
-**Status:** Backlog
+**Status:** Active
 
 ## Description
 
