@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import request from "supertest";
 import { startTestDb, stopTestDb } from "../test/mongoMemory.js";
 import { MenuItem } from "../models/MenuItem.js";
+import { Order } from "../models/Order.js";
 import { Reward } from "../models/Reward.js";
 import { LoyaltyEvent } from "../models/LoyaltyEvent.js";
 import { createApp } from "../app.js";
@@ -153,5 +154,44 @@ describe("GET /api/orders/by-payment-intent/:paymentIntentId", () => {
   it("returns 404 when no order exists yet for that PaymentIntent", async () => {
     const res = await request(createApp()).get("/api/orders/by-payment-intent/pi_does_not_exist");
     expect(res.status).toBe(404);
+  });
+
+  it("includes rewardRedeemed, pointsEarned, and pointsBalanceAfter", async () => {
+    const order = await Order.create({
+      items: [],
+      subtotalCents: 3800,
+      phone: "+15551110009",
+      pickup: { mode: "asap", time: null },
+      stripePaymentIntentId: "pi_reward_test",
+      status: "paid",
+      rewardRedeemed: { name: "$10 off", discountAmountCents: 1000 },
+      pointsEarned: 38,
+      pointsBalanceAfter: 462,
+    });
+
+    const res = await request(createApp()).get(`/api/orders/by-payment-intent/${order.stripePaymentIntentId}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.rewardRedeemed).toEqual({ name: "$10 off", discountAmountCents: 1000 });
+    expect(res.body.pointsEarned).toBe(38);
+    expect(res.body.pointsBalanceAfter).toBe(462);
+  });
+
+  it("returns rewardRedeemed as null when no reward was used", async () => {
+    const order = await Order.create({
+      items: [],
+      subtotalCents: 1600,
+      phone: "+15551110010",
+      pickup: { mode: "asap", time: null },
+      stripePaymentIntentId: "pi_no_reward_test",
+      status: "paid",
+      pointsEarned: 16,
+      pointsBalanceAfter: 16,
+    });
+
+    const res = await request(createApp()).get(`/api/orders/by-payment-intent/${order.stripePaymentIntentId}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.rewardRedeemed).toBeNull();
   });
 });

@@ -13,3 +13,8 @@ export interface RewardDTO {
   pointsCost: number;
   discountAmountCents: number;
 }
+
+export interface RewardOptionDTO extends RewardDTO {
+  unlocked: boolean;
+  pointsNeeded: number;
+}

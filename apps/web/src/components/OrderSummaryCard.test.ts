@@ -34,6 +34,34 @@ describe("OrderSummaryCard", () => {
     expect(wrapper.text()).toContain("2× Burrata");
   });
 
+  it("shows a reward discount line and reduced total when redeemedReward is set", () => {
+    const wrapper = mount(OrderSummaryCard, {
+      props: {
+        subtotalCents: 3800,
+        ctaLabel: "Place Order",
+        redeemedReward: { name: "$10 off", discountAmountCents: 1000 },
+      },
+    });
+    expect(wrapper.text()).toContain("Reward: $10 off");
+    expect(wrapper.text()).toContain("-$10.00");
+    expect(wrapper.find(".row.total").text()).toContain("$28.00");
+  });
+
+  it("does not show a reward discount line when no reward is redeemed", () => {
+    const wrapper = mount(OrderSummaryCard, {
+      props: { subtotalCents: 3800, ctaLabel: "Place Order" },
+    });
+    expect(wrapper.find(".reward-discount").exists()).toBe(false);
+    expect(wrapper.find(".row.total").text()).toContain("$38.00");
+  });
+
+  it("shows a points-earned estimate when earnEstimatePoints is set", () => {
+    const wrapper = mount(OrderSummaryCard, {
+      props: { subtotalCents: 3800, ctaLabel: "Place Order", earnEstimatePoints: 38 },
+    });
+    expect(wrapper.text()).toContain("You'll earn +38 pts");
+  });
+
   it("emits cta when the button is clicked, and respects ctaDisabled", async () => {
     const wrapper = mount(OrderSummaryCard, {
       props: { subtotalCents: 1000, ctaLabel: "Place Order" },

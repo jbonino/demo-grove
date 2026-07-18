@@ -2,8 +2,8 @@
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { fetchOrderByPaymentIntent, type OrderDTO } from "../api/orders";
-import { STATIC_REWARDS_POINTS } from "../constants";
 import AppHeader from "../components/AppHeader.vue";
+import PointsEarnedPill from "../components/PointsEarnedPill.vue";
 
 const route = useRoute();
 const order = ref<OrderDTO | null>(null);
@@ -21,6 +21,10 @@ function orderNumber(id: string): string {
 
 function pickupLabel(orderDto: OrderDTO): string {
   return orderDto.pickup.mode === "asap" ? "ASAP" : (orderDto.pickup.time ?? "");
+}
+
+function chargedTotalCents(orderDto: OrderDTO): number {
+  return Math.max(orderDto.subtotalCents - (orderDto.rewardRedeemed?.discountAmountCents ?? 0), 0);
 }
 
 onMounted(async () => {
@@ -66,22 +70,37 @@ onMounted(async () => {
           Order {{ orderNumber(order.id) }} confirmed for {{ order.phone }}
         </p>
 
+        <PointsEarnedPill
+          :points-earned="order.pointsEarned"
+          :balance="order.pointsBalanceAfter"
+        />
+
         <div class="info-card">
           <div class="stat">
             <span class="label">Pickup Time</span>
             <span class="value">{{ pickupLabel(order) }}</span>
           </div>
-          <div class="stat desktop-only">
+          <div
+            v-if="order.rewardRedeemed"
+            class="stat desktop-only"
+          >
+            <span class="label">Reward Used</span>
+            <span class="value">{{ order.rewardRedeemed.name }}</span>
+          </div>
+          <div
+            v-else
+            class="stat desktop-only"
+          >
             <span class="label">Location</span>
             <span class="value">Grove</span>
           </div>
           <div class="stat">
             <span class="label">Total</span>
-            <span class="value">{{ formatPrice(order.subtotalCents) }}</span>
+            <span class="value">{{ formatPrice(chargedTotalCents(order)) }}</span>
           </div>
           <div class="stat">
-            <span class="label">Rewards</span>
-            <span class="value rewards">+{{ STATIC_REWARDS_POINTS }}</span>
+            <span class="label">Points Balance</span>
+            <span class="value rewards">{{ order.pointsBalanceAfter }}</span>
           </div>
         </div>
 
@@ -90,6 +109,12 @@ onMounted(async () => {
           class="back-button"
         >
           Back to Menu
+        </RouterLink>
+        <RouterLink
+          to="/loyalty"
+          class="rewards-link"
+        >
+          Check My Rewards
         </RouterLink>
       </template>
     </div>
@@ -166,6 +191,18 @@ h1 {
   display: inline-block;
   background: var(--color-deep-green);
   color: var(--color-cream);
+  border-radius: 4px;
+  padding: 14px 32px;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.rewards-link {
+  display: inline-block;
+  margin-left: 16px;
+  border: 1px solid var(--color-deep-green);
+  color: var(--color-deep-green);
   border-radius: 4px;
   padding: 14px 32px;
   font-weight: 600;

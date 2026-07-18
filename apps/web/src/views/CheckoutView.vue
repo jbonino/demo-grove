@@ -2,11 +2,15 @@
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { Stripe, StripeCardElement, StripeElements } from "@stripe/stripe-js";
+import type { RewardOptionDTO } from "@grove/shared";
 import { useCartStore } from "../stores/cart";
 import { createOrder, pollForOrder } from "../api/orders";
+import { fetchRewardsForPhone } from "../api/rewards";
 import AppHeader from "../components/AppHeader.vue";
 import OrderSummaryCard from "../components/OrderSummaryCard.vue";
 import PaymentCardInput from "../components/PaymentCardInput.vue";
+import PointsBanner from "../components/PointsBanner.vue";
+import RewardList from "../components/RewardList.vue";
 
 const cart = useCartStore();
 const router = useRouter();
@@ -19,6 +23,10 @@ const pickupTime = ref("");
 const submitting = ref(false);
 const errorMessage = ref("");
 
+const pointsBalance = ref<number | null>(null);
+const rewardOptions = ref<RewardOptionDTO[]>([]);
+const selectedRewardId = ref<string | null>(null);
+
 let stripe: Stripe | undefined;
 let cardElement: StripeCardElement | undefined;
 
@@ -30,6 +38,36 @@ function onCardReady(readyStripe: Stripe, _elements: StripeElements, readyCard: 
 const itemized = computed(() =>
   cart.lines.map((line) => ({ name: line.name, quantity: line.quantity, unitPrice: line.unitPrice })),
 );
+
+const unlockedCount = computed(() => rewardOptions.value.filter((reward) => reward.unlocked).length);
+
+const selectedReward = computed(
+  () => rewardOptions.value.find((reward) => reward.id === selectedRewardId.value) ?? null,
+);
+
+const discountedSubtotalCents = computed(() =>
+  Math.max(cart.subtotalCents - (selectedReward.value?.discountAmountCents ?? 0), 0),
+);
+
+const earnEstimatePoints = computed(() =>
+  pointsBalance.value === null ? null : Math.ceil(discountedSubtotalCents.value / 100),
+);
+
+async function onPhoneBlur() {
+  if (!phone.value.trim()) {
+    return;
+  }
+  const { balance, rewards } = await fetchRewardsForPhone(phone.value);
+  pointsBalance.value = balance;
+  rewardOptions.value = rewards;
+  if (!rewards.some((reward) => reward.id === selectedRewardId.value)) {
+    selectedRewardId.value = null;
+  }
+}
+
+function onSelectReward(rewardId: string) {
+  selectedRewardId.value = selectedRewardId.value === rewardId ? null : rewardId;
+}
 
 async function placeOrder() {
   errorMessage.value = "";
@@ -53,6 +91,7 @@ async function placeOrder() {
       items: cart.lines.map((line) => ({ itemId: line.itemId, quantity: line.quantity })),
       phone: phone.value,
       pickup: { mode: pickupMode.value, time: pickupMode.value === "scheduled" ? pickupTime.value : null },
+      ...(selectedRewardId.value ? { rewardId: selectedRewardId.value } : {}),
     });
 
     const result = await stripe.confirmCardPayment(clientSecret, {
@@ -102,9 +141,24 @@ async function placeOrder() {
                 v-model="phone"
                 type="tel"
                 placeholder="(555) 555-5555"
+                @blur="onPhoneBlur"
               >
             </label>
           </div>
+          <PointsBanner
+            v-if="pointsBalance !== null && pointsBalance > 0"
+            :balance="pointsBalance"
+            :unlocked-count="unlockedCount"
+          />
+        </section>
+
+        <section v-if="rewardOptions.length > 0">
+          <h2>Redeem a Reward</h2>
+          <RewardList
+            :rewards="rewardOptions"
+            :selected-id="selectedRewardId"
+            @select="onSelectReward"
+          />
         </section>
 
         <section>
@@ -152,6 +206,8 @@ async function placeOrder() {
       <OrderSummaryCard
         :subtotal-cents="cart.subtotalCents"
         :itemized="itemized"
+        :redeemed-reward="selectedReward"
+        :earn-estimate-points="earnEstimatePoints"
         cta-label="Place Order"
         :cta-disabled="submitting"
         @cta="placeOrder"

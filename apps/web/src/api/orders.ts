@@ -4,12 +4,14 @@ export interface CreateOrderRequest {
   items: { itemId: string; quantity: number }[];
   phone: string;
   pickup: { mode: "asap" | "scheduled"; time: string | null };
+  rewardId?: string;
 }
 
 export interface CreateOrderResponse {
   clientSecret: string;
   paymentIntentId: string;
   subtotalCents: number;
+  discountedSubtotalCents: number;
 }
 
 export async function createOrder(body: CreateOrderRequest): Promise<CreateOrderResponse> {
@@ -25,12 +27,20 @@ export async function createOrder(body: CreateOrderRequest): Promise<CreateOrder
   return res.json();
 }
 
+export interface OrderRewardRedeemed {
+  name: string;
+  discountAmountCents: number;
+}
+
 export interface OrderDTO {
   id: string;
   subtotalCents: number;
   phone: string;
   pickup: { mode: "asap" | "scheduled"; time: string | null };
   status: "pending" | "paid" | "failed";
+  rewardRedeemed: OrderRewardRedeemed | null;
+  pointsEarned: number;
+  pointsBalanceAfter: number;
   createdAt: string;
 }
 
