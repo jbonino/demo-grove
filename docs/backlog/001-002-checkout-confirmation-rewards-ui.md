@@ -1,6 +1,6 @@
 # 001-002 — Checkout & Confirmation: Rewards UI
 
-**Status:** Backlog
+**Status:** Active
 
 ## Description
 
