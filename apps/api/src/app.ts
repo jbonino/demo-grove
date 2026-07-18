@@ -1,10 +1,12 @@
 import express from "express";
+import { isDbConnected } from "./db.js";
 
 export function createApp() {
   const app = express();
 
   app.get("/health", (_req, res) => {
-    res.json({ ok: true });
+    const dbConnected = isDbConnected();
+    res.status(dbConnected ? 200 : 503).json({ ok: dbConnected });
   });
 
   return app;
