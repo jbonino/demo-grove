@@ -15,6 +15,10 @@ export const useCartStore = defineStore("cart", () => {
     lines.value.reduce((sum, line) => sum + line.quantity, 0),
   );
 
+  const subtotalCents = computed(() =>
+    lines.value.reduce((sum, line) => sum + line.quantity * line.unitPrice, 0),
+  );
+
   function addItem(item: { itemId: string; name: string; unitPrice: number }) {
     const existing = lines.value.find((line) => line.itemId === item.itemId);
     if (existing) {
@@ -24,5 +28,20 @@ export const useCartStore = defineStore("cart", () => {
     }
   }
 
-  return { lines, totalItemCount, addItem };
+  function setQuantity(itemId: string, quantity: number) {
+    if (quantity <= 0) {
+      lines.value = lines.value.filter((line) => line.itemId !== itemId);
+      return;
+    }
+    const existing = lines.value.find((line) => line.itemId === itemId);
+    if (existing) {
+      existing.quantity = quantity;
+    }
+  }
+
+  function clear() {
+    lines.value = [];
+  }
+
+  return { lines, totalItemCount, subtotalCents, addItem, setQuantity, clear };
 });

@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { spawn } from "node:child_process";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
