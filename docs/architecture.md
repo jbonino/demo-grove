@@ -85,6 +85,7 @@ A phone number's balance is never stored directly — it's derived by summing `L
 - **Client:** `@stripe/stripe-js`, loaded via `apps/web/src/stripeClient.ts` (`VITE_STRIPE_PUBLISHABLE_KEY`). Card input is a real Stripe Elements Card Element (`apps/web/src/components/PaymentCardInput.vue`) — the design mock shows a saved-card UI, but Phase 0 has no accounts/saved payment methods, so there's nothing to display as "saved" (see the design handoff README's Implementation Notes).
 - **Server:** `stripe` SDK via `apps/api/src/stripeClient.ts` (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`).
 - **Local dev / webhook delivery:** Stripe can't reach `localhost` directly. Use the Stripe CLI: `stripe listen --forward-to localhost:3001/api/stripe/webhook` (wrapped as `npm run stripe:listen --workspace apps/api`, used by the E2E setup below). `stripe listen --print-secret` deterministically returns the same signing secret for a given API key/device pairing, so it matches `STRIPE_WEBHOOK_SECRET` in `.env` without any extra copy-pasting.
+- **Single dev command:** `npm run dev` at the repo root (via `concurrently`) runs the API, the web dev server, and `stripe:listen` together in one terminal, labeled/colored per process — replaces running the three separately. `npm run dev:api` / `dev:web` still exist for running one in isolation.
 
 ## Frontend
 
