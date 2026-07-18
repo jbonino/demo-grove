@@ -1,6 +1,6 @@
 # 001-003 — Loyalty Lookup Screen
 
-**Status:** Backlog
+**Status:** Active
 
 ## Description
 
