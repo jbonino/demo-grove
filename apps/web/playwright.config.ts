@@ -1,4 +1,5 @@
 import { defineConfig } from "@playwright/test";
+import { stripeKeyAvailable } from "./e2e/stripeAvailable";
 
 export default defineConfig({
   testDir: "./e2e",
@@ -19,5 +20,15 @@ export default defineConfig({
       url: "http://localhost:5173",
       reuseExistingServer: !process.env.CI,
     },
+    ...(stripeKeyAvailable
+      ? [
+          {
+            command: "npm run stripe:listen --workspace apps/api",
+            cwd: "../..",
+            reuseExistingServer: true,
+            timeout: 15000,
+          },
+        ]
+      : []),
   ],
 });

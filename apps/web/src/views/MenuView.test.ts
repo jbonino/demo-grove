@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mount, flushPromises } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import * as menuItemsApi from "../api/menuItems";
+import { createTestRouter } from "../test/testRouter";
 import MenuView from "./MenuView.vue";
 
 const mockItems = [
@@ -15,9 +16,16 @@ beforeEach(() => {
   vi.spyOn(menuItemsApi, "fetchMenuItems").mockResolvedValue(mockItems);
 });
 
+async function mountMenuView() {
+  const router = createTestRouter();
+  router.push("/");
+  await router.isReady();
+  return mount(MenuView, { global: { plugins: [router] } });
+}
+
 describe("MenuView", () => {
   it("shows category tabs and item cards for the active category", async () => {
-    const wrapper = mount(MenuView);
+    const wrapper = await mountMenuView();
     await flushPromises();
 
     expect(wrapper.findAll(".tab")).toHaveLength(2);
@@ -27,7 +35,7 @@ describe("MenuView", () => {
   });
 
   it("filters the grid when a category tab is selected", async () => {
-    const wrapper = mount(MenuView);
+    const wrapper = await mountMenuView();
     await flushPromises();
 
     await wrapper.findAll(".tab")[1].trigger("click");
@@ -37,7 +45,7 @@ describe("MenuView", () => {
   });
 
   it("increments the header cart-pill count when adding an item", async () => {
-    const wrapper = mount(MenuView);
+    const wrapper = await mountMenuView();
     await flushPromises();
 
     expect(wrapper.find(".cart-pill").text()).toContain("Cart · 0");

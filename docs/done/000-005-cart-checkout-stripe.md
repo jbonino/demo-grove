@@ -1,6 +1,6 @@
 # 000-005 — Cart, Checkout & Stripe Payment
 
-**Status:** Active
+**Status:** Done
 
 ## Description
 
@@ -66,6 +66,13 @@ Feature: Cart review and checkout
 **Automated:** Unit tests for cart total calculation (subtotal, quantity edge cases). Integration tests for the order API — PaymentIntent creation, webhook signature verification, idempotent Order creation, failure path. Playwright E2E for the full happy path (cart → checkout → successful test-card payment) using a Stripe test card.
 
 **Manual:** Run the checkout flow with a real Stripe test card (e.g. `4242 4242 4242 4242`) and a declined test card, confirming both the success and failure paths end-to-end. Also manually verify the empty-cart state and the schedule-time picker, since neither has a design reference to compare against.
+
+**Verification record (2026-07-17):**
+- **Automated (apps/api):** 21 tests. `orders.test.ts` and `stripeWebhook.test.ts` make real calls to the Stripe test API — a genuine PaymentIntent is created and its amount matches the server-recomputed subtotal (not client-trusted prices); the webhook handler is exercised with `stripe.webhooks.generateTestHeaderString`-signed payloads, verifying both a valid-signature success path (Order created, status `paid`) and an invalid-signature rejection (400, no Order). A same-PaymentIntent redelivery test confirms exactly one Order is ever created (idempotency), backed by a unique+sparse index on `stripePaymentIntentId`.
+- **Automated (apps/web):** 33 component/store tests, including cart quantity stepper (increment/decrement/remove-at-zero), empty-cart state, Cart→Checkout navigation, Checkout validation, and — with Stripe.js mocked — both the payment-success (cart cleared, navigates to Confirmation) and payment-failure (inline error, stays on Checkout) paths.
+- **Automated E2E (Playwright, real Stripe):** `e2e/checkout.spec.ts` drives the actual Stripe Elements card iframe with Stripe's test cards against the full real stack — API backed by a freshly-seeded in-memory MongoDB (`e2eServer.ts`) and `stripe listen --forward-to localhost:3001/api/stripe/webhook` (`stripe:listen` npm script) for webhook delivery, both orchestrated automatically as Playwright `webServer` entries when `apps/api/.env` has `STRIPE_SECRET_KEY` set (skipped otherwise). Verified `4242 4242 4242 4242` → real PaymentIntent → real webhook → Order created → Confirmation screen, and `4000 0000 0000 0002` (declined) → inline error, stays on Checkout. Ran clean from a cold start (`npx playwright test`, no servers pre-started): 3/3 passed.
+- **Manual:** Screenshotted the empty-cart state (`/cart` with no items) and the "Schedule for later" time picker (Checkout) at 1280px — both render cleanly with the established design tokens. The success/declined-card paths above were verified against real Stripe infrastructure via the Playwright run rather than separately by hand, which is a stronger check than manual clicking would have been.
+- Full workspace `build`/`lint`/`typecheck`/`test` pass.
 
 ## Story Points
 

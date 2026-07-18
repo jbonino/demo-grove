@@ -1,6 +1,7 @@
 import { Schema, model, Types } from "mongoose";
 
 export type OrderStatus = "pending" | "paid" | "failed";
+export type PickupMode = "asap" | "scheduled";
 
 export interface OrderItem {
   menuItem: Types.ObjectId;
@@ -8,10 +9,16 @@ export interface OrderItem {
   unitPriceCents: number;
 }
 
+export interface OrderPickup {
+  mode: PickupMode;
+  time: string | null;
+}
+
 export interface OrderDoc {
   items: OrderItem[];
   subtotalCents: number;
   phone: string;
+  pickup: OrderPickup;
   stripePaymentIntentId: string | null;
   status: OrderStatus;
   createdAt: Date;
@@ -26,11 +33,20 @@ const orderItemSchema = new Schema<OrderItem>(
   { _id: false },
 );
 
+const orderPickupSchema = new Schema<OrderPickup>(
+  {
+    mode: { type: String, enum: ["asap", "scheduled"], required: true },
+    time: { type: String, default: null },
+  },
+  { _id: false },
+);
+
 const orderSchema = new Schema<OrderDoc>({
   items: { type: [orderItemSchema], required: true },
   subtotalCents: { type: Number, required: true },
   phone: { type: String, required: true },
-  stripePaymentIntentId: { type: String, default: null },
+  pickup: { type: orderPickupSchema, required: true },
+  stripePaymentIntentId: { type: String, default: null, unique: true, sparse: true },
   status: { type: String, enum: ["pending", "paid", "failed"], required: true, default: "pending" },
   createdAt: { type: Date, required: true, default: Date.now },
 });

@@ -1,6 +1,5 @@
 import type { MenuItemDTO } from "@grove/shared";
-
-const apiBaseUrl = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
+import { apiBaseUrl } from "./config";
 
 export async function fetchMenuItems(): Promise<MenuItemDTO[]> {
   const res = await fetch(`${apiBaseUrl}/api/menu-items`);
