@@ -8,16 +8,19 @@
     "build": "tsc -p tsconfig.json",
     "dev": "tsx watch src/index.ts",
     "seed": "tsx src/scripts/seed.ts",
+    "e2e-server": "tsx src/scripts/e2eServer.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint src --ext .ts",
     "test": "vitest run"
   },
   "dependencies": {
     "@grove/shared": "*",
+    "cors": "^2.8.5",
     "express": "^4.21.1",
     "mongoose": "^8.8.1"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.9.0",
     "mongodb-memory-server": "^10.1.2",

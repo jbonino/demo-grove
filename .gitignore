@@ -5,3 +5,6 @@ dist/
 !.env.example
 *.log
 *.tsbuildinfo
+test-results/
+playwright-report/
+playwright/.cache/
