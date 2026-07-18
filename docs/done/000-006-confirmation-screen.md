@@ -1,6 +1,6 @@
 # 000-006 — Order Confirmation Screen
 
-**Status:** Backlog
+**Status:** Done
 
 ## Description
 
@@ -40,6 +40,14 @@ Feature: Order confirmation
 **Automated:** Component test rendering the Confirmation screen with mock order data, asserting all fields display and the history button is absent. Playwright E2E extends 000-004/000-005's flow through to confirmation as the final step of the full order journey.
 
 **Manual:** Visual comparison against the 2a/2b Confirmation mock.
+
+**Verification record (2026-07-17):** Delivered as part of 000-005 rather than as separate work — the Checkout flow needed a landing screen to redirect to on successful payment, so `ConfirmationView.vue` was built and merged alongside it. All three Gherkin scenarios here are already satisfied by that implementation:
+- Success indicator, order number (`#` + last 6 chars of order id), pickup time, subtotal, and stubbed rewards value all render — see `ConfirmationView.vue` and its component test `ConfirmationView.test.ts`.
+- No "View Order History" action exists anywhere in the view (test asserts absence).
+- "Back to Menu" links to `/`; the cart is already cleared in `CheckoutView.vue` on successful payment (before the redirect), so the Menu is reached with an empty cart.
+- `e2e/checkout.spec.ts` (Playwright, real Stripe test-mode) drives the full flow through to `/confirmation/...` as its final assertion.
+
+No additional implementation needed. Closing as Done without a separate branch/PR.
 
 ## Story Points
 
