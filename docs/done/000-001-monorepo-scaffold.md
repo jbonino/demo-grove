@@ -1,6 +1,6 @@
 # 000-001 — Monorepo Scaffold
 
-**Status:** Active
+**Status:** Done
 
 ## Description
 
@@ -41,6 +41,8 @@ Feature: Monorepo scaffold
 **Automated:** CI-style script running `install`, `build`, `lint`, `typecheck`, `test` across all workspaces (test suites are empty/trivial at this stage but the runner must be wired).
 
 **Manual:** None — no user-facing surface yet.
+
+**Verification record (2026-07-17):** `npm install`, `npm run build`, `npm run lint`, `npm run typecheck`, and `npm run test` all pass with zero errors across `apps/api`, `apps/web`, `packages/shared`. `npm run dev:api` responds `{"ok":true}` on `GET /health` (port 3001); `npm run dev:web` serves the placeholder page (port 5173).
 
 ## Story Points
 
