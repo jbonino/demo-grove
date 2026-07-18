@@ -93,3 +93,12 @@ No real photography included — all "menu item photo" / "hero food photo" areas
 
 ## Files
 - `Grove - Phase 0 Visuals.dc.html` — contains all explored options. Build only the screens under option ids **2a** (desktop) and **2b** (mobile); ids 1a/1b/1c are earlier rejected directions kept for reference only.
+
+## Implementation Notes / Scope Decisions (resolved 2026-07-17)
+
+The mock includes some elements and gaps that cut across phase boundaries per `product-roadmap.md`. Resolved as follows for Phase 0 tickets:
+
+- **Rewards points line (Cart/Confirmation) & promo code field (Cart):** these are Phase 1 (Loyalty & Rewards) features. Build the visual layout as designed so it matches the mock, but the rewards value is a static placeholder and the promo field is non-functional (visible, not wired to real logic) until Phase 1 tickets implement the underlying logic.
+- **Empty-cart state (not designed in mock):** ship a simple, undesigned default — centered message + "Back to Menu" link, styled with the existing design tokens. No separate design pass needed.
+- **"Schedule for later" time picker (not designed in mock):** ship a simple, undesigned default — a basic time input or dropdown of time slots, styled with the existing design tokens. No separate design pass needed.
+- **"View Order History" button (Confirmation, desktop):** removed from Phase 0 build. Order history is a later, undesigned feature — add the button back when that view exists.
