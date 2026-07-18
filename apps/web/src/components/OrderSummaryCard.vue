@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { STATIC_REWARDS_POINTS } from "../constants";
+import { computed } from "vue";
 
 const props = defineProps<{
   subtotalCents: number;
@@ -7,6 +7,8 @@ const props = defineProps<{
   ctaDisabled?: boolean;
   showPromo?: boolean;
   itemized?: { name: string; quantity: number; unitPrice: number }[];
+  redeemedReward?: { name: string; discountAmountCents: number } | null;
+  earnEstimatePoints?: number | null;
 }>();
 
 const emit = defineEmits<{ cta: [] }>();
@@ -14,6 +16,10 @@ const emit = defineEmits<{ cta: [] }>();
 function formatPrice(cents: number): string {
   return `$${(cents / 100).toFixed(2)}`;
 }
+
+const totalCents = computed(() =>
+  Math.max(props.subtotalCents - (props.redeemedReward?.discountAmountCents ?? 0), 0),
+);
 </script>
 
 <template>
@@ -52,14 +58,23 @@ function formatPrice(cents: number): string {
       <span>Tax</span>
       <span>{{ formatPrice(0) }}</span>
     </div>
-    <div class="row rewards">
-      <span>Rewards points</span>
-      <span>+{{ STATIC_REWARDS_POINTS }}</span>
+    <div
+      v-if="redeemedReward"
+      class="row reward-discount"
+    >
+      <span>Reward: {{ redeemedReward.name }}</span>
+      <span>-{{ formatPrice(redeemedReward.discountAmountCents) }}</span>
     </div>
     <div class="divider" />
     <div class="row total">
       <span>Total</span>
-      <span>{{ formatPrice(props.subtotalCents) }}</span>
+      <span>{{ formatPrice(totalCents) }}</span>
+    </div>
+    <div
+      v-if="earnEstimatePoints"
+      class="row earn-estimate"
+    >
+      <span>You'll earn +{{ earnEstimatePoints }} pts</span>
     </div>
 
     <button
@@ -126,8 +141,14 @@ function formatPrice(cents: number): string {
   padding: 6px 0;
 }
 
-.row.rewards {
+.row.reward-discount {
+  color: var(--color-deep-green);
+  font-weight: 600;
+}
+
+.row.earn-estimate {
   color: var(--color-gold);
+  justify-content: flex-start;
 }
 
 .divider {

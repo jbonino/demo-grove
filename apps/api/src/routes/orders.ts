@@ -108,6 +108,9 @@ ordersRouter.get(
       phone: order.phone,
       pickup: order.pickup,
       status: order.status,
+      rewardRedeemed: order.rewardRedeemed,
+      pointsEarned: order.pointsEarned,
+      pointsBalanceAfter: order.pointsBalanceAfter,
       createdAt: order.createdAt,
     });
   }),

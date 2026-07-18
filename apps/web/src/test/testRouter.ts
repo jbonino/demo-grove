@@ -3,6 +3,7 @@ import MenuView from "../views/MenuView.vue";
 import CartView from "../views/CartView.vue";
 import CheckoutView from "../views/CheckoutView.vue";
 import ConfirmationView from "../views/ConfirmationView.vue";
+import LoyaltyView from "../views/LoyaltyView.vue";
 
 export function createTestRouter() {
   return createRouter({
@@ -16,6 +17,7 @@ export function createTestRouter() {
         name: "confirmation",
         component: ConfirmationView,
       },
+      { path: "/loyalty", name: "loyalty", component: LoyaltyView },
     ],
   });
 }

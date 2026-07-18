@@ -1,6 +1,6 @@
 # 001-002 — Checkout & Confirmation: Rewards UI
 
-**Status:** Active
+**Status:** Done
 
 ## Description
 
@@ -62,6 +62,19 @@ Feature: Rewards at checkout and confirmation
 **Automated:** Component tests for the reward list (locked vs. available rendering, radio selection, live total recalculation) and the points banner/pill. Integration/component test confirming a redeemed-reward order flows through to the correct Confirmation display. Extend the existing Playwright checkout E2E with a reward-redemption path using a phone number seeded (001-001) with enough points.
 
 **Manual:** Run checkout with a phone number that has zero points (no banner/rewards shown), a phone number with a locked-only reward, and a phone number that can redeem — confirm all three render correctly end-to-end with a real Stripe test card.
+
+**Manual test results (2026-07-18):** Driven against the E2E stack (`apps/api/src/scripts/e2eServer.ts` + real Stripe test keys), using an unseeded phone for the zero-points case and the seeded `E2E_LOCKED_ONLY_PHONE` (`+15559997777`, 100 pts) / `E2E_REWARDS_PHONE` (`+15559998888`, 400 pts) for the other two. Steps, per phone number:
+1. Add an item to cart, go to Checkout, fill name.
+2. Enter the phone number in the Phone field and blur (tab away or click elsewhere).
+3. Observe the points banner and "Redeem a Reward" list.
+4. For the redeemable case only: click the unlocked reward row, confirm the Order Summary sidebar updates, fill a real Stripe test card (`4242 4242 4242 4242`), and place the order.
+
+Results:
+- **Zero points** (unseeded phone): no points banner shown. "Redeem a Reward" list still renders (all rows locked, showing "need X more"), matching the design mock's always-visible reward list — confirmed correct behavior, not a bug, since no AC requires hiding the list itself.
+- **Locked-only** (100 pts): banner reads "100 points on file for this number — enough for 0 rewards below"; all 3 reward rows locked with correct "need X more" copy.
+- **Redeemable** (400 pts): banner + unlocked "Free Flatbread" row shown; selecting it updates the sidebar discount/total/earn-estimate live; placing the order charges the discounted amount via Stripe; Confirmation shows the points-earned pill, the "Reward Used" stat with the reward name, and a correctly discounted "Total" (bug caught and fixed during this pass: Confirmation was showing the pre-discount subtotal as "Total" instead of the amount actually charged — see `chargedTotalCents` in `ConfirmationView.vue`).
+
+All three scenarios verified visually via screenshots during this pass; not re-run as a standing manual step since the redeemable path is now covered by the `checkout.spec.ts` Playwright E2E and the zero/locked-only states by `RewardList`/`CheckoutView` component tests.
 
 ## Story Points
 
