@@ -1,6 +1,6 @@
 # 000-004 — Menu (Storefront) Screen
 
-**Status:** Backlog
+**Status:** Active
 
 ## Description
 
