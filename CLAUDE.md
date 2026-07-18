@@ -35,7 +35,8 @@ Before committing the ticket, check whether anything decided during brainstormin
 1. Scan `docs/backlog/`, pick the **lowest-numbered** ticket (numeric priority order — do not pick out of order without explicit instruction)
 2. Mark it `Active` in the ticket file, commit, push to `main`
 3. Checkout `feature/{ticket#}-{feature-name}`
-4. **Do not write specs or plans* (as /brainstorming trys do to) — the ticket's Gherkin AC *is* the plan.
+4. For UI-heavy tickets, check `docs/design/` for an existing handoff covering the screen before doing a new mockup/design pass — if a high-fidelity handoff already covers it, build against that instead of re-designing.
+5. **Do not write specs or plans* (as /brainstorming trys do to) — the ticket's Gherkin AC *is* the plan.
    If the AC or technical notes leave the implementation approach genuinely unclear, run `/brainstorming` first to resolve that before coding.
    Ask questions if unclean and go straight into Superpowers TDD, using the ticket's Gherkin AC as the spec.
 
