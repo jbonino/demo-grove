@@ -14,6 +14,7 @@ Browse menu → add to cart → checkout (phone number + Stripe payment) → poi
 - Menu items: name, description, price, category. Cart is client-side, no account required to build one.
 - Checkout requires phone number, cart items, and a successful Stripe (test mode) payment.
 - A successful payment creates an `Order` and issues loyalty points in the same flow — not a separate manual step.
+- Payment method is card only through Phase 0-2; real Apple Pay requires domain verification against a live HTTPS URL, so it's deferred to Phase 3 (see roadmap).
 
 **Loyalty & Rewards**
 - 1 point per $1 of pre-tax subtotal, credited on successful payment.
