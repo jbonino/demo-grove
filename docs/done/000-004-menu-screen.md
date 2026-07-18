@@ -1,6 +1,6 @@
 # 000-004 — Menu (Storefront) Screen
 
-**Status:** Active
+**Status:** Done
 
 ## Description
 
@@ -46,6 +46,8 @@ Feature: Menu browsing and add-to-cart
 **Automated:** Component tests (Vitest + Vue Testing Library) for category filtering and add-to-cart cart-count increment. Playwright E2E covering browse → filter → add-to-cart as the start of the full order flow (extended by 000-005/000-006).
 
 **Manual:** Visually compare the built screen against the 2a (desktop, 1280px) and 2b (mobile, 375px) reference mocks for layout/spacing/type fidelity.
+
+**Verification record (2026-07-17):** Automated — 10 component tests (Vitest + Vue Test Utils) covering category-tab active state/select emit, add-to-cart emit, menu view category filtering, and header cart-pill increment; 1 Playwright E2E test (browse → filter → add-to-cart) run against the real dev stack (API backed by an in-memory MongoDB seeded via `apps/api/src/scripts/e2eServer.ts`, web via Vite dev server) — passed. Full workspace `build`/`lint`/`typecheck`/`test` pass. Manual — screenshotted the built screen at 1280px and 375px viewports via Playwright and compared against the 2a/2b mocks: deep-green header with gold cart pill, serif category tabs with active underline, white item cards with hatched photo placeholders, 3-column desktop grid collapsing to a single-column list with 90×90 horizontal photo rows on mobile — matches the design tokens and layout spec. Found and fixed one integration gap not caught by component tests: the API had no CORS middleware, so cross-origin fetches from the Vite dev server (5173) to the API (3001) were silently failing in a real browser even though jsdom-based tests passed (jsdom doesn't enforce CORS) — added `cors` middleware to `apps/api/src/app.ts`.
 
 ## Story Points
 
