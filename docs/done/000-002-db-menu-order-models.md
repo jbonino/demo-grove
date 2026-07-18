@@ -1,6 +1,6 @@
 # 000-002 — Database Connection & Menu/Order Models
 
-**Status:** Active
+**Status:** Done
 
 ## Description
 
@@ -40,6 +40,8 @@ Feature: Database connection and core models
 **Automated:** Integration tests against an in-memory/test MongoDB instance (`mongodb-memory-server`) covering: health check with a live connection, MenuItem validation (required fields), Order validation and round-trip create/read.
 
 **Manual:** None — no UI surface.
+
+**Verification record (2026-07-17):** Automated integration tests (`mongodb-memory-server`) cover: `/health` returns 503 with no DB connection and 200 once connected; `MenuItem` rejects documents missing name/price/category and round-trips a valid document; `Order` rejects a document missing `phone` and round-trips a valid document by id. Full workspace `build`/`lint`/`typecheck`/`test` all pass.
 
 ## Story Points
 

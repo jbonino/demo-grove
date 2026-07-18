@@ -13,11 +13,13 @@
   },
   "dependencies": {
     "@grove/shared": "*",
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "mongoose": "^8.8.1"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^22.9.0",
+    "mongodb-memory-server": "^10.1.2",
     "supertest": "^7.0.0",
     "@types/supertest": "^6.0.2",
     "tsx": "^4.19.2",
