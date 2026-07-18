@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import type { RewardOptionDTO } from "@grove/shared";
 
-const props = defineProps<{
-  rewards: RewardOptionDTO[];
-  selectedId: string | null;
-}>();
+const props = withDefaults(
+  defineProps<{
+    rewards: RewardOptionDTO[];
+    selectedId: string | null;
+    readonly?: boolean;
+  }>(),
+  { readonly: false },
+);
 
 const emit = defineEmits<{ select: [rewardId: string] }>();
 
@@ -13,7 +17,7 @@ function formatPrice(cents: number): string {
 }
 
 function onRowClick(reward: RewardOptionDTO) {
-  if (reward.unlocked) {
+  if (!props.readonly && reward.unlocked) {
     emit("select", reward.id);
   }
 }
@@ -25,10 +29,11 @@ function onRowClick(reward: RewardOptionDTO) {
       v-for="reward in props.rewards"
       :key="reward.id"
       class="reward-row"
-      :class="{ locked: !reward.unlocked, selected: reward.id === props.selectedId }"
+      :class="{ locked: !reward.unlocked, selected: reward.id === props.selectedId, readonly: props.readonly }"
       @click="onRowClick(reward)"
     >
       <span
+        v-if="!props.readonly"
         class="radio"
         aria-hidden="true"
       />
@@ -75,6 +80,10 @@ function onRowClick(reward: RewardOptionDTO) {
   opacity: 0.55;
   cursor: default;
   border-color: var(--color-border);
+}
+
+.reward-row.readonly {
+  cursor: default;
 }
 
 .radio {
