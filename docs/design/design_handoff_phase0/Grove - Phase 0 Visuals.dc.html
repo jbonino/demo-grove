@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Work+Sans:wght@400;500;600;700&family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#efece4;font-family:'Work Sans',sans-serif}
+  .dv-turn{padding:40px 44px 60px;scroll-margin-top:16px}
+  .dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 24px}
+  .dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+  .dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}
+  .dv-opts{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+  .dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+  .dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+  .dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.55)}
+  .dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.08);overflow:hidden}
+  .dv-next{margin:22px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.5)}
+  a.dv-oid, a.dv-tid{}
+  a{color:#7a3b2e}
+  a:hover{color:#5c2c22}
+</style>
+</helmet>
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Grove Phase 0 — full flow in 1a style (rustic farmhouse), desktop + mobile</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Desktop — Menu → Cart → Checkout → Confirmation</div>
+<div style="display:flex;flex-direction:column;gap:24px">
+
+<div class="dv-card" style="width:1280px">
+  <div style="background:#faf7f0">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 48px;background:#2f4d3a;color:#faf7f0">
+      <div style="font-family:'DM Serif Display',serif;font-size:26px;letter-spacing:.5px">Grove</div>
+      <div style="display:flex;gap:36px;font-size:14px;font-weight:500;letter-spacing:.3px">
+        <span>Menu</span><span>Rewards</span><span>Order History</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;background:#c9a24b;color:#2f2410;padding:9px 18px;border-radius:3px;font-size:14px;font-weight:600">Cart · 3</div>
+    </div>
+    <div style="padding:36px 48px 12px;display:flex;gap:28px;font-family:'DM Serif Display',serif;font-size:17px;color:#2f4d3a;border-bottom:1px solid #e6dfc9">
+      <span style="padding-bottom:14px;border-bottom:2px solid #2f4d3a">Starters</span>
+      <span style="padding-bottom:14px;color:#9a9182">Mains</span>
+      <span style="padding-bottom:14px;color:#9a9182">Salads</span>
+      <span style="padding-bottom:14px;color:#9a9182">Desserts</span>
+    </div>
+    <div style="padding:32px 48px 48px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+      <div style="background:#fff;border:1px solid #e6dfc9;border-radius:6px;overflow:hidden">
+        <div style="height:150px;background:repeating-linear-gradient(45deg,#e6dfc9,#e6dfc9 10px,#f2ecd8 10px,#f2ecd8 20px);display:flex;align-items:center;justify-content:center;font:11px/1.3 ui-monospace,monospace;color:#9a9182">menu item photo</div>
+        <div style="padding:16px 18px">
+          <div style="display:flex;justify-content:space-between;font-family:'DM Serif Display',serif;font-size:18px;color:#2b2b26;margin-bottom:6px"><span>Roasted Beet Salad</span><span>$12</span></div>
+          <div style="font-size:13px;color:#7a7362;line-height:1.5;margin-bottom:14px">Whipped goat cheese, walnut, citrus vinaigrette</div>
+          <div style="display:flex;justify-content:flex-end"><div style="background:#2f4d3a;color:#faf7f0;font-size:13px;font-weight:600;padding:8px 16px;border-radius:3px">Add</div></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e6dfc9;border-radius:6px;overflow:hidden">
+        <div style="height:150px;background:repeating-linear-gradient(45deg,#e6dfc9,#e6dfc9 10px,#f2ecd8 10px,#f2ecd8 20px);display:flex;align-items:center;justify-content:center;font:11px/1.3 ui-monospace,monospace;color:#9a9182">menu item photo</div>
+        <div style="padding:16px 18px">
+          <div style="display:flex;justify-content:space-between;font-family:'DM Serif Display',serif;font-size:18px;color:#2b2b26;margin-bottom:6px"><span>Charred Flatbread</span><span>$10</span></div>
+          <div style="font-size:13px;color:#7a7362;line-height:1.5;margin-bottom:14px">Fig, blue cheese, honey, rosemary</div>
+          <div style="display:flex;justify-content:flex-end"><div style="background:#2f4d3a;color:#faf7f0;font-size:13px;font-weight:600;padding:8px 16px;border-radius:3px">Add</div></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e6dfc9;border-radius:6px;overflow:hidden">
+        <div style="height:150px;background:repeating-linear-gradient(45deg,#e6dfc9,#e6dfc9 10px,#f2ecd8 10px,#f2ecd8 20px);display:flex;align-items:center;justify-content:center;font:11px/1.3 ui-monospace,monospace;color:#9a9182">menu item photo</div>
+        <div style="padding:16px 18px">
+          <div style="display:flex;justify-content:space-between;font-family:'DM Serif Display',serif;font-size:18px;color:#2b2b26;margin-bottom:6px"><span>Squash Soup</span><span>$9</span></div>
+          <div style="font-size:13px;color:#7a7362;line-height:1.5;margin-bottom:14px">Brown butter, sage, toasted seeds</div>
+          <div style="display:flex;justify-content:flex-end"><div style="background:#2f4d3a;color:#faf7f0;font-size:13px;font-weight:600;padding:8px 16px;border-radius:3px">Add</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;font:11px system-ui,sans-serif;color:#9a9182;padding:6px 0 10px">Menu</div>
+</div>
+
+<div class="dv-card" style="width:1280px">
+  <div style="background:#faf7f0">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 48px;background:#2f4d3a;color:#faf7f0">
+      <div style="font-family:'DM Serif Display',serif;font-size:26px;letter-spacing:.5px">Grove</div>
+      <div style="display:flex;gap:36px;font-size:14px;font-weight:500;letter-spacing:.3px">
+        <span>Menu</span><span>Rewards</span><span>Order History</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;background:#c9a24b;color:#2f2410;padding:9px 18px;border-radius:3px;font-size:14px;font-weight:600">Cart · 3</div>
+    </div>
+    <div style="padding:44px 48px;display:grid;grid-template-columns:1.6fr 1fr;gap:48px">
+      <div>
+        <div style="font-family:'DM Serif Display',serif;font-size:30px;color:#2b2b26;margin-bottom:28px">Your Cart</div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;gap:16px;align-items:center;padding-bottom:20px;border-bottom:1px solid #e6dfc9">
+            <div style="width:76px;height:76px;flex:none;border-radius:6px;background:repeating-linear-gradient(45deg,#e6dfc9,#e6dfc9 8px,#f2ecd8 8px,#f2ecd8 16px)"></div>
+            <div style="flex:1">
+              <div style="font-family:'DM Serif Display',serif;font-size:17px;color:#2b2b26">Roasted Beet Salad</div>
+              <div style="font-size:12px;color:#7a7362;margin-top:4px">No walnuts</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;border:1px solid #e6dfc9;border-radius:20px;padding:6px 14px">
+              <span style="color:#2f4d3a;font-weight:700">–</span><span style="font-size:14px;font-weight:600">1</span><span style="color:#2f4d3a;font-weight:700">+</span>
+            </div>
+            <div style="width:56px;text-align:right;font-weight:600;color:#2b2b26">$12</div>
+          </div>
+          <div style="display:flex;gap:16px;align-items:center;padding-bottom:20px;border-bottom:1px solid #e6dfc9">
+            <div style="width:76px;height:76px;flex:none;border-radius:6px;background:repeating-linear-gradient(45deg,#e6dfc9,#e6dfc9 8px,#f2ecd8 8px,#f2ecd8 16px)"></div>
+            <div style="flex:1">
+              <div style="font-family:'DM Serif Display',serif;font-size:17px;color:#2b2b26">Charred Flatbread</div>
+              <div style="font-size:12px;color:#7a7362;margin-top:4px">Extra honey</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;border:1px solid #e6dfc9;border-radius:20px;padding:6px 14px">
+              <span style="color:#2f4d3a;font-weight:700">–</span><span style="font-size:14px;font-weight:600">2</span><span style="color:#2f4d3a;font-weight:700">+</span>
+            </div>
+            <div style="width:56px;text-align:right;font-weight:600;color:#2b2b26">$20</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:28px">
+          <div style="flex:1;border:1px dashed #c9a24b;border-radius:4px;padding:12px 16px;font-size:13px;color:#9a9182">Promo code</div>
+          <div style="background:#faf7f0;border:1px solid #2f4d3a;color:#2f4d3a;font-size:13px;font-weight:600;padding:12px 20px;border-radius:4px">Apply</div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e6dfc9;border-radius:8px;padding:28px;height:fit-content">
+        <div style="font-family:'DM Serif Display',serif;font-size:19px;color:#2b2b26;margin-bottom:20px">Order Summary</div>
+        <div style="display:flex;justify-content:space-between;font-size:14px;color:#5c5646;margin-bottom:12px"><span>Subtotal</span><span>$32.00</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:14px;color:#5c5646;margin-bottom:12px"><span>Tax</span><span>$2.88</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:14px;color:#5c5646;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #e6dfc9"><span>Rewards points</span><span style="color:#c9a24b">+32 pts</span></div>
+        <div style="display:flex;justify-content:space-between;font-family:'DM Serif Display',serif;font-size:20px;color:#2b2b26;margin-bottom:24px"><span>Total</span><span>$34.88</span></div>
+        <div style="background:#2f4d3a;color:#faf7f0;text-align:center;padding:14px;border-radius:4px;font-size:15px;font-weight:600">Go to Checkout</div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;font:11px system-ui,sans-serif;color:#9a9182;padding:6px 0 10px">Cart</div>
+</div>
+
+<div class="dv-card" style="width:1280px">
+  <div style="background:#faf7f0">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 48px;background:#2f4d3a;color:#faf7f0">
+      <div style="font-family:'DM Serif Display',serif;font-size:26px;letter-spacing:.5px">Grove</div>
+      <div style="font-size:14px;color:#e4e0d2">Step 2 of 3 · Checkout</div>
+    </div>
+    <div style="padding:44px 48px;display:grid;grid-template-columns:1.6fr 1fr;gap:48px">
+      <div>
+        <div style="font-family:'DM Serif Display',serif;font-size:26px;color:#2b2b26;margin-bottom:6px">Contact</div>
+        <div style="font-size:13px;color:#7a7362;margin-bottom:16px">We'll text you when your order's ready</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px">
+          <div style="border:1px solid #e6dfc9;border-radius:4px;padding:13px 16px;font-size:14px;color:#2b2b26;background:#fff">Jordan Lee</div>
+          <div style="border:1px solid #e6dfc9;border-radius:4px;padding:13px 16px;font-size:14px;color:#2b2b26;background:#fff">(415) 555‑0148</div>
+        </div>
+        <div style="font-family:'DM Serif Display',serif;font-size:26px;color:#2b2b26;margin-bottom:16px">Pickup Time</div>
+        <div style="display:flex;gap:12px;margin-bottom:32px">
+          <div style="border:1px solid #2f4d3a;background:#2f4d3a;color:#faf7f0;border-radius:20px;padding:10px 20px;font-size:14px;font-weight:600">ASAP · 20 min</div>
+          <div style="border:1px solid #e6dfc9;background:#fff;color:#5c5646;border-radius:20px;padding:10px 20px;font-size:14px">Schedule for later</div>
+        </div>
+        <div style="font-family:'DM Serif Display',serif;font-size:26px;color:#2b2b26;margin-bottom:16px">Payment</div>
+        <div style="display:flex;align-items:center;gap:14px;border:1px solid #2f4d3a;border-radius:6px;padding:16px 18px;background:#fff">
+          <div style="width:38px;height:26px;border-radius:3px;background:#2b2b26;color:#faf7f0;font:600 10px ui-monospace,monospace;display:flex;align-items:center;justify-content:center">VISA</div>
+          <div style="font-size:14px;color:#2b2b26">•••• 4242</div>
+          <div style="margin-left:auto;font-size:13px;color:#c9a24b;font-weight:600">Change</div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e6dfc9;border-radius:8px;padding:28px;height:fit-content">
+        <div style="font-family:'DM Serif Display',serif;font-size:19px;color:#2b2b26;margin-bottom:20px">Order Summary</div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:#5c5646;margin-bottom:10px"><span>Roasted Beet Salad ×1</span><span>$12.00</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:#5c5646;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #e6dfc9"><span>Charred Flatbread ×2</span><span>$20.00</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:14px;color:#5c5646;margin-bottom:12px"><span>Tax</span><span>$2.88</span></div>
+        <div style="display:flex;justify-content:space-between;font-family:'DM Serif Display',serif;font-size:20px;color:#2b2b26;margin-bottom:24px"><span>Total</span><span>$34.88</span></div>
+        <div style="background:#2f4d3a;color:#faf7f0;text-align:center;padding:14px;border-radius:4px;font-size:15px;font-weight:600">Place Order</div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;font:11px system-ui,sans-serif;color:#9a9182;padding:6px 0 10px">Checkout</div>
+</div>
+
+<div class="dv-card" style="width:1280px">
+  <div style="background:#faf7f0">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 48px;background:#2f4d3a;color:#faf7f0">
+      <div style="font-family:'DM Serif Display',serif;font-size:26px;letter-spacing:.5px">Grove</div>
+      <div style="font-size:14px;color:#e4e0d2">Order Confirmed</div>
+    </div>
+    <div style="padding:64px 48px;display:flex;flex-direction:column;align-items:center;text-align:center">
+      <div style="width:64px;height:64px;border-radius:50%;background:#c9a24b;display:flex;align-items:center;justify-content:center;margin-bottom:24px">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="#2f4d3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div style="font-family:'DM Serif Display',serif;font-size:32px;color:#2b2b26;margin-bottom:10px">You're all set, Jordan</div>
+      <div style="font-size:15px;color:#7a7362;margin-bottom:36px;max-width:480px">Order #10482 is being prepared. We'll text you at (415) 555‑0148 when it's ready for pickup.</div>
+      <div style="background:#fff;border:1px solid #e6dfc9;border-radius:8px;padding:28px 40px;display:flex;gap:56px;margin-bottom:36px">
+        <div><div style="font-size:12px;color:#9a9182;margin-bottom:6px">Pickup Time</div><div style="font-family:'DM Serif Display',serif;font-size:19px;color:#2b2b26">~7:40 PM</div></div>
+        <div><div style="font-size:12px;color:#9a9182;margin-bottom:6px">Location</div><div style="font-family:'DM Serif Display',serif;font-size:19px;color:#2b2b26">Grove · Market St</div></div>
+        <div><div style="font-size:12px;color:#9a9182;margin-bottom:6px">Total</div><div style="font-family:'DM Serif Display',serif;font-size:19px;color:#2b2b26">$34.88</div></div>
+        <div><div style="font-size:12px;color:#9a9182;margin-bottom:6px">Rewards</div><div style="font-family:'DM Serif Display',serif;font-size:19px;color:#c9a24b">+32 pts</div></div>
+      </div>
+      <div style="display:flex;gap:14px">
+        <div style="border:1px solid #2f4d3a;color:#2f4d3a;padding:13px 24px;border-radius:4px;font-size:14px;font-weight:600">View Order History</div>
+        <div style="background:#2f4d3a;color:#faf7f0;padding:13px 24px;border-radius:4px;font-size:14px;font-weight:600">Back to Menu</div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;font:11px system-ui,sans-serif;color:#9a9182;padding:6px 0 10px">Confirmation</div>
+</div>
+
+</div>
+</div>
+
+<div class="dv-opt" id="2b">
+<div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Mobile — same flow, phone width</div>
+<div style="display:flex;gap:20px;flex-wrap:wrap">
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<div class="dv-card" style="width:375px;border-radius:28px;overflow:hidden;border:6px solid #1c1c1c">
+  <div style="background:#faf7f0">
+    <div style="height:28px;background:#2f4d3a"></div>
+    <div style="padding:16px 20px;background:#2f4d3a;color:#faf7f0;display:flex;justify-content:space-between;align-items:center">
+      <div style="font-family:'DM Serif Display',serif;font-size:20px">Grove</div>
+      <div style="background:#c9a24b;color:#2f2410;font-size:12px;font-weight:700;padding:6px 12px;border-radius:14px">Cart · 3</div>
+    </div>
+    <div style="padding:18px 20px 8px;display:flex;gap:16px;font-family:'DM Serif Display',serif;font-size:14px;color:#2f4d3a;border-bottom:1px solid #e6dfc9;overflow-x:auto">
+      <span style="padding-bottom:10px;border-bottom:2px solid #2f4d3a;white-space:nowrap">Starters</span>
+      <span style="padding-bottom:10px;color:#9a9182;white-space:nowrap">Mains</span>
+      <span style="padding-bottom:10px;color:#9a9182;white-space:nowrap">Salads</span>
+    </div>
+    <div style="padding:16px 20px 24px;display:flex;flex-direction:column;gap:16px">
+      <div style="background:#fff;border:1px solid #e6dfc9;border-radius:8px;overflow:hidden;display:flex">
+        <div style="width:90px;height:90px;flex:none;background:repeating-linear-gradient(45deg,#e6dfc9,#e6dfc9 8px,#f2ecd8 8px,#f2ecd8 16px)"></div>
+        <div style="padding:12px 14px;flex:1">
+          <div style="font-family:'DM Serif Display',serif;font-size:15px;color:#2b2b26">Roasted Beet Salad</div>
+          <div style="font-size:11px;color:#7a7362;margin:4px 0 10px">Goat cheese, walnut</div>
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600;font-size:13px">$12</span><span style="background:#2f4d3a;color:#faf7f0;font-size:12px;font-weight:600;padding:6px 12px;border-radius:3px">Add</span></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e6dfc9;border-radius:8px;overflow:hidden;display:flex">
+        <div style="width:90px;height:90px;flex:none;background:repeating-linear-gradient(45deg,#e6dfc9,#e6dfc9 8px,#f2ecd8 8px,#f2ecd8 16px)"></div>
+        <div style="padding:12px 14px;flex:1">
+          <div style="font-family:'DM Serif Display',serif;font-size:15px;color:#2b2b26">Charred Flatbread</div>
+          <div style="font-size:11px;color:#7a7362;margin:4px 0 10px">Fig, blue cheese</div>
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600;font-size:13px">$10</span><span style="background:#2f4d3a;color:#faf7f0;font-size:12px;font-weight:600;padding:6px 12px;border-radius:3px">Add</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="height:20px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px"><div style="width:120px;height:4px;border-radius:2px;background:#1c1c1c"></div></div>
+  </div>
+</div>
+<div style="text-align:center;font:11px system-ui,sans-serif;color:#9a9182">Menu</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<div class="dv-card" style="width:375px;border-radius:28px;overflow:hidden;border:6px solid #1c1c1c">
+  <div style="background:#faf7f0">
+    <div style="height:28px;background:#2f4d3a"></div>
+    <div style="padding:16px 20px;background:#2f4d3a;color:#faf7f0;font-family:'DM Serif Display',serif;font-size:20px">Your Cart</div>
+    <div style="padding:18px 20px;display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;gap:12px;align-items:center;padding-bottom:16px;border-bottom:1px solid #e6dfc9">
+        <div style="width:56px;height:56px;flex:none;border-radius:6px;background:repeating-linear-gradient(45deg,#e6dfc9,#e6dfc9 8px,#f2ecd8 8px,#f2ecd8 16px)"></div>
+        <div style="flex:1"><div style="font-family:'DM Serif Display',serif;font-size:14px;color:#2b2b26">Roasted Beet Salad</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:8px;border:1px solid #e6dfc9;border-radius:16px;padding:4px 10px;width:fit-content">
+            <span style="color:#2f4d3a;font-weight:700;font-size:13px">–</span><span style="font-size:12px;font-weight:600">1</span><span style="color:#2f4d3a;font-weight:700;font-size:13px">+</span>
+          </div>
+        </div>
+        <div style="font-weight:600;font-size:13px;color:#2b2b26">$12</div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;padding-bottom:16px;border-bottom:1px solid #e6dfc9">
+        <div style="width:56px;height:56px;flex:none;border-radius:6px;background:repeating-linear-gradient(45deg,#e6dfc9,#e6dfc9 8px,#f2ecd8 8px,#f2ecd8 16px)"></div>
+        <div style="flex:1"><div style="font-family:'DM Serif Display',serif;font-size:14px;color:#2b2b26">Charred Flatbread</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:8px;border:1px solid #e6dfc9;border-radius:16px;padding:4px 10px;width:fit-content">
+            <span style="color:#2f4d3a;font-weight:700;font-size:13px">–</span><span style="font-size:12px;font-weight:600">2</span><span style="color:#2f4d3a;font-weight:700;font-size:13px">+</span>
+          </div>
+        </div>
+        <div style="font-weight:600;font-size:13px;color:#2b2b26">$20</div>
+      </div>
+    </div>
+    <div style="padding:0 20px 20px">
+      <div style="background:#fff;border:1px solid #e6dfc9;border-radius:8px;padding:18px">
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:#5c5646;margin-bottom:8px"><span>Subtotal</span><span>$32.00</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:#5c5646;margin-bottom:14px"><span>Tax</span><span>$2.88</span></div>
+        <div style="display:flex;justify-content:space-between;font-family:'DM Serif Display',serif;font-size:17px;color:#2b2b26;margin-bottom:16px;padding-top:12px;border-top:1px solid #e6dfc9"><span>Total</span><span>$34.88</span></div>
+        <div style="background:#2f4d3a;color:#faf7f0;text-align:center;padding:13px;border-radius:4px;font-size:14px;font-weight:600">Go to Checkout</div>
+      </div>
+    </div>
+    <div style="height:20px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px"><div style="width:120px;height:4px;border-radius:2px;background:#1c1c1c"></div></div>
+  </div>
+</div>
+<div style="text-align:center;font:11px system-ui,sans-serif;color:#9a9182">Cart</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<div class="dv-card" style="width:375px;border-radius:28px;overflow:hidden;border:6px solid #1c1c1c">
+  <div style="background:#faf7f0">
+    <div style="height:28px;background:#2f4d3a"></div>
+    <div style="padding:16px 20px;background:#2f4d3a;color:#e4e0d2;font-size:13px">Step 2 of 3 · Checkout</div>
+    <div style="padding:20px">
+      <div style="font-family:'DM Serif Display',serif;font-size:18px;color:#2b2b26;margin-bottom:12px">Contact</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
+        <div style="border:1px solid #e6dfc9;border-radius:4px;padding:12px 14px;font-size:13px;color:#2b2b26;background:#fff">Jordan Lee</div>
+        <div style="border:1px solid #e6dfc9;border-radius:4px;padding:12px 14px;font-size:13px;color:#2b2b26;background:#fff">(415) 555‑0148</div>
+      </div>
+      <div style="font-family:'DM Serif Display',serif;font-size:18px;color:#2b2b26;margin-bottom:12px">Pickup Time</div>
+      <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
+        <div style="border:1px solid #2f4d3a;background:#2f4d3a;color:#faf7f0;border-radius:18px;padding:9px 16px;font-size:13px;font-weight:600">ASAP · 20 min</div>
+        <div style="border:1px solid #e6dfc9;background:#fff;color:#5c5646;border-radius:18px;padding:9px 16px;font-size:13px">Later</div>
+      </div>
+      <div style="font-family:'DM Serif Display',serif;font-size:18px;color:#2b2b26;margin-bottom:12px">Payment</div>
+      <div style="display:flex;align-items:center;gap:12px;border:1px solid #2f4d3a;border-radius:6px;padding:14px;background:#fff;margin-bottom:24px">
+        <div style="width:34px;height:22px;border-radius:3px;background:#2b2b26;color:#faf7f0;font:600 9px ui-monospace,monospace;display:flex;align-items:center;justify-content:center">VISA</div>
+        <div style="font-size:13px;color:#2b2b26">•••• 4242</div>
+      </div>
+      <div style="background:#2f4d3a;color:#faf7f0;text-align:center;padding:14px;border-radius:4px;font-size:14px;font-weight:600">Place Order · $34.88</div>
+    </div>
+    <div style="height:20px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px"><div style="width:120px;height:4px;border-radius:2px;background:#1c1c1c"></div></div>
+  </div>
+</div>
+<div style="text-align:center;font:11px system-ui,sans-serif;color:#9a9182">Checkout</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<div class="dv-card" style="width:375px;border-radius:28px;overflow:hidden;border:6px solid #1c1c1c">
+  <div style="background:#faf7f0">
+    <div style="height:28px;background:#2f4d3a"></div>
+    <div style="padding:16px 20px;background:#2f4d3a;color:#e4e0d2;font-size:13px">Order Confirmed</div>
+    <div style="padding:44px 24px;display:flex;flex-direction:column;align-items:center;text-align:center">
+      <div style="width:52px;height:52px;border-radius:50%;background:#c9a24b;display:flex;align-items:center;justify-content:center;margin-bottom:18px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="#2f4d3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div style="font-family:'DM Serif Display',serif;font-size:22px;color:#2b2b26;margin-bottom:8px">You're all set, Jordan</div>
+      <div style="font-size:13px;color:#7a7362;margin-bottom:24px">Order #10482 is being prepared. We'll text you when it's ready.</div>
+      <div style="background:#fff;border:1px solid #e6dfc9;border-radius:8px;padding:18px;width:100%;display:flex;justify-content:space-between;margin-bottom:24px">
+        <div><div style="font-size:11px;color:#9a9182;margin-bottom:4px">Pickup</div><div style="font-family:'DM Serif Display',serif;font-size:15px;color:#2b2b26">~7:40 PM</div></div>
+        <div><div style="font-size:11px;color:#9a9182;margin-bottom:4px">Total</div><div style="font-family:'DM Serif Display',serif;font-size:15px;color:#2b2b26">$34.88</div></div>
+        <div><div style="font-size:11px;color:#9a9182;margin-bottom:4px">Rewards</div><div style="font-family:'DM Serif Display',serif;font-size:15px;color:#c9a24b">+32</div></div>
+      </div>
+      <div style="background:#2f4d3a;color:#faf7f0;text-align:center;padding:13px;border-radius:4px;font-size:14px;font-weight:600;width:100%">Back to Menu</div>
+    </div>
+    <div style="height:20px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px"><div style="width:120px;height:4px;border-radius:2px;background:#1c1c1c"></div></div>
+  </div>
+</div>
+<div style="text-align:center;font:11px system-ui,sans-serif;color:#9a9182">Confirmation</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "adjust copy on checkout" · "add an empty-cart state" · "tweak the gold accent color"</p>
+</section>
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Grove storefront — 3 direction options (Phase 0: menu/storefront screen)</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Rustic farmhouse — deep green, cream, gold, serif display</div>
+<div class="dv-card" style="width:1280px">
+  <div style="background:#faf7f0">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 48px;background:#2f4d3a;color:#faf7f0">
+      <div style="font-family:'DM Serif Display',serif;font-size:26px;letter-spacing:.5px">Grove</div>
+      <div style="display:flex;gap:36px;font-size:14px;font-weight:500;letter-spacing:.3px">
+        <span>Menu</span><span>Rewards</span><span>Order History</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;background:#c9a24b;color:#2f2410;padding:9px 18px;border-radius:3px;font-size:14px;font-weight:600">Cart · 3</div>
+    </div>
+    <div style="padding:56px 48px 40px;background:linear-gradient(180deg,#2f4d3a 0%,#2f4d3a 55%,#faf7f0 55%)">
+      <div style="max-width:640px;color:#faf7f0">
+        <div style="font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#c9a24b;margin-bottom:14px">Order Online · Pickup in 20 min</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:48px;line-height:1.08;margin-bottom:16px">Seasonal plates, made this morning.</div>
+        <div style="font-size:15px;line-height:1.6;color:#e4e0d2">Browse today's menu and earn points on every order — redeem for free apps and $ off down the line.</div>
+      </div>
+    </div>
+    <div style="padding:36px 48px 12px;display:flex;gap:28px;font-family:'DM Serif Display',serif;font-size:17px;color:#2f4d3a;border-bottom:1px solid #e6dfc9">
+      <span style="padding-bottom:14px;border-bottom:2px solid #2f4d3a">Starters</span>
+      <span style="padding-bottom:14px;color:#9a9182">Mains</span>
+      <span style="padding-bottom:14px;color:#9a9182">Salads</span>
+      <span style="padding-bottom:14px;color:#9a9182">Desserts</span>
+    </div>
+    <div style="padding:32px 48px 48px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+      <div style="background:#fff;border:1px solid #e6dfc9;border-radius:6px;overflow:hidden">
+        <div style="height:150px;background:repeating-linear-gradient(45deg,#e6dfc9,#e6dfc9 10px,#f2ecd8 10px,#f2ecd8 20px);display:flex;align-items:center;justify-content:center;font:11px/1.3 ui-monospace,monospace;color:#9a9182">menu item photo</div>
+        <div style="padding:16px 18px">
+          <div style="display:flex;justify-content:space-between;font-family:'DM Serif Display',serif;font-size:18px;color:#2b2b26;margin-bottom:6px"><span>Roasted Beet Salad</span><span>$12</span></div>
+          <div style="font-size:13px;color:#7a7362;line-height:1.5;margin-bottom:14px">Whipped goat cheese, walnut, citrus vinaigrette</div>
+          <div style="display:flex;justify-content:flex-end"><div style="background:#2f4d3a;color:#faf7f0;font-size:13px;font-weight:600;padding:8px 16px;border-radius:3px">Add</div></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e6dfc9;border-radius:6px;overflow:hidden">
+        <div style="height:150px;background:repeating-linear-gradient(45deg,#e6dfc9,#e6dfc9 10px,#f2ecd8 10px,#f2ecd8 20px);display:flex;align-items:center;justify-content:center;font:11px/1.3 ui-monospace,monospace;color:#9a9182">menu item photo</div>
+        <div style="padding:16px 18px">
+          <div style="display:flex;justify-content:space-between;font-family:'DM Serif Display',serif;font-size:18px;color:#2b2b26;margin-bottom:6px"><span>Charred Flatbread</span><span>$10</span></div>
+          <div style="font-size:13px;color:#7a7362;line-height:1.5;margin-bottom:14px">Fig, blue cheese, honey, rosemary</div>
+          <div style="display:flex;justify-content:flex-end"><div style="background:#2f4d3a;color:#faf7f0;font-size:13px;font-weight:600;padding:8px 16px;border-radius:3px">Add</div></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e6dfc9;border-radius:6px;overflow:hidden">
+        <div style="height:150px;background:repeating-linear-gradient(45deg,#e6dfc9,#e6dfc9 10px,#f2ecd8 10px,#f2ecd8 20px);display:flex;align-items:center;justify-content:center;font:11px/1.3 ui-monospace,monospace;color:#9a9182">menu item photo</div>
+        <div style="padding:16px 18px">
+          <div style="display:flex;justify-content:space-between;font-family:'DM Serif Display',serif;font-size:18px;color:#2b2b26;margin-bottom:6px"><span>Squash Soup</span><span>$9</span></div>
+          <div style="font-size:13px;color:#7a7362;line-height:1.5;margin-bottom:14px">Brown butter, sage, toasted seeds</div>
+          <div style="display:flex;justify-content:flex-end"><div style="background:#2f4d3a;color:#faf7f0;font-size:13px;font-weight:600;padding:8px 16px;border-radius:3px">Add</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Modern minimal — warm terracotta on off-white, clean sans</div>
+<div class="dv-card" style="width:1280px">
+  <div style="background:#fbf9f6">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 48px;border-bottom:1px solid #ece5db">
+      <div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:22px;color:#1c1c1c">grove</div>
+      <div style="display:flex;gap:32px;font-size:14px;font-weight:500;color:#5a5652">
+        <span>Menu</span><span>Rewards</span><span>Order History</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;background:#b5432f;color:#fff;padding:9px 18px;border-radius:24px;font-size:14px;font-weight:600">Cart · 3</div>
+    </div>
+    <div style="padding:48px 48px 32px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px">
+        <div>
+          <div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:34px;color:#1c1c1c;margin-bottom:8px">Today's Menu</div>
+          <div style="font-size:14px;color:#8a857e">Pickup ready in ~20 min · Free rewards points on every order</div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <span style="font-size:13px;font-weight:600;padding:9px 18px;border-radius:20px;background:#1c1c1c;color:#fff">Starters</span>
+          <span style="font-size:13px;font-weight:600;padding:9px 18px;border-radius:20px;background:#efe9e0;color:#5a5652">Mains</span>
+          <span style="font-size:13px;font-weight:600;padding:9px 18px;border-radius:20px;background:#efe9e0;color:#5a5652">Salads</span>
+          <span style="font-size:13px;font-weight:600;padding:9px 18px;border-radius:20px;background:#efe9e0;color:#5a5652">Desserts</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+        <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)">
+          <div style="height:140px;background:repeating-linear-gradient(45deg,#f0e9de,#f0e9de 10px,#f7f2e9 10px,#f7f2e9 20px);display:flex;align-items:center;justify-content:center;font:11px/1.3 ui-monospace,monospace;color:#a89f92">menu item photo</div>
+          <div style="padding:16px 18px">
+            <div style="font-weight:600;font-size:15px;color:#1c1c1c;margin-bottom:4px">Roasted Beet Salad</div>
+            <div style="font-size:13px;color:#8a857e;margin-bottom:14px">Goat cheese, walnut, citrus</div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:700;color:#1c1c1c">$12</span><span style="background:#b5432f;color:#fff;font-size:13px;font-weight:600;padding:7px 16px;border-radius:20px">Add</span></div>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)">
+          <div style="height:140px;background:repeating-linear-gradient(45deg,#f0e9de,#f0e9de 10px,#f7f2e9 10px,#f7f2e9 20px);display:flex;align-items:center;justify-content:center;font:11px/1.3 ui-monospace,monospace;color:#a89f92">menu item photo</div>
+          <div style="padding:16px 18px">
+            <div style="font-weight:600;font-size:15px;color:#1c1c1c;margin-bottom:4px">Charred Flatbread</div>
+            <div style="font-size:13px;color:#8a857e;margin-bottom:14px">Fig, blue cheese, honey</div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:700;color:#1c1c1c">$10</span><span style="background:#b5432f;color:#fff;font-size:13px;font-weight:600;padding:7px 16px;border-radius:20px">Add</span></div>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)">
+          <div style="height:140px;background:repeating-linear-gradient(45deg,#f0e9de,#f0e9de 10px,#f7f2e9 10px,#f7f2e9 20px);display:flex;align-items:center;justify-content:center;font:11px/1.3 ui-monospace,monospace;color:#a89f92">menu item photo</div>
+          <div style="padding:16px 18px">
+            <div style="font-weight:600;font-size:15px;color:#1c1c1c;margin-bottom:4px">Squash Soup</div>
+            <div style="font-size:13px;color:#8a857e;margin-bottom:14px">Brown butter, sage, seeds</div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:700;color:#1c1c1c">$9</span><span style="background:#b5432f;color:#fff;font-size:13px;font-weight:600;padding:7px 16px;border-radius:20px">Add</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Bold appetite-driven — charcoal + warm gold, large imagery</div>
+<div class="dv-card" style="width:1280px">
+  <div style="background:#1a1815">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 48px;border-bottom:1px solid rgba(255,255,255,.08)">
+      <div style="font-family:'Newsreader',serif;font-style:italic;font-size:24px;color:#f2ede2">Grove</div>
+      <div style="display:flex;gap:32px;font-size:14px;font-weight:500;color:#c9c2b3">
+        <span>Menu</span><span>Rewards</span><span>Order History</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;background:#d9c27a;color:#1a1815;padding:9px 18px;border-radius:3px;font-size:14px;font-weight:700">Cart · 3</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1.1fr 1fr">
+      <div style="padding:56px 48px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#d9c27a;margin-bottom:16px">Order Online</div>
+        <div style="font-family:'Newsreader',serif;font-size:46px;line-height:1.1;color:#f2ede2;margin-bottom:18px">Made fresh.<br>Earn points every order.</div>
+        <div style="font-size:14px;line-height:1.6;color:#a39d8e;max-width:420px">Grove's kitchen turns out seasonal plates daily — order ahead and rack up rewards toward a free app or $ off.</div>
+      </div>
+      <div style="height:320px;background:repeating-linear-gradient(45deg,#252119,#252119 12px,#2c2720 12px,#2c2720 24px);display:flex;align-items:center;justify-content:center;font:11px/1.3 ui-monospace,monospace;color:#75705f">hero food photo</div>
+    </div>
+    <div style="padding:32px 48px 12px;display:flex;gap:28px;font-size:14px;font-weight:600;border-bottom:1px solid rgba(255,255,255,.08)">
+      <span style="padding-bottom:14px;color:#d9c27a;border-bottom:2px solid #d9c27a">Starters</span>
+      <span style="padding-bottom:14px;color:#8a8578">Mains</span>
+      <span style="padding-bottom:14px;color:#8a8578">Salads</span>
+      <span style="padding-bottom:14px;color:#8a8578">Desserts</span>
+    </div>
+    <div style="padding:32px 48px 48px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+      <div style="background:#221f1a;border-radius:8px;overflow:hidden">
+        <div style="height:150px;background:repeating-linear-gradient(45deg,#2c2820,#2c2820 10px,#332e25 10px,#332e25 20px);display:flex;align-items:center;justify-content:center;font:11px/1.3 ui-monospace,monospace;color:#75705f">menu item photo</div>
+        <div style="padding:16px 18px">
+          <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:600;color:#f2ede2;margin-bottom:6px"><span>Roasted Beet Salad</span><span style="color:#d9c27a">$12</span></div>
+          <div style="font-size:13px;color:#8a8578;line-height:1.5;margin-bottom:14px">Whipped goat cheese, walnut, citrus</div>
+          <div style="display:flex;justify-content:flex-end"><div style="background:#d9c27a;color:#1a1815;font-size:13px;font-weight:700;padding:8px 16px;border-radius:3px">Add</div></div>
+        </div>
+      </div>
+      <div style="background:#221f1a;border-radius:8px;overflow:hidden">
+        <div style="height:150px;background:repeating-linear-gradient(45deg,#2c2820,#2c2820 10px,#332e25 10px,#332e25 20px);display:flex;align-items:center;justify-content:center;font:11px/1.3 ui-monospace,monospace;color:#75705f">menu item photo</div>
+        <div style="padding:16px 18px">
+          <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:600;color:#f2ede2;margin-bottom:6px"><span>Charred Flatbread</span><span style="color:#d9c27a">$10</span></div>
+          <div style="font-size:13px;color:#8a8578;line-height:1.5;margin-bottom:14px">Fig, blue cheese, honey, rosemary</div>
+          <div style="display:flex;justify-content:flex-end"><div style="background:#d9c27a;color:#1a1815;font-size:13px;font-weight:700;padding:8px 16px;border-radius:3px">Add</div></div>
+        </div>
+      </div>
+      <div style="background:#221f1a;border-radius:8px;overflow:hidden">
+        <div style="height:150px;background:repeating-linear-gradient(45deg,#2c2820,#2c2820 10px,#332e25 10px,#332e25 20px);display:flex;align-items:center;justify-content:center;font:11px/1.3 ui-monospace,monospace;color:#75705f">menu item photo</div>
+        <div style="padding:16px 18px">
+          <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:600;color:#f2ede2;margin-bottom:6px"><span>Squash Soup</span><span style="color:#d9c27a">$9</span></div>
+          <div style="font-size:13px;color:#8a8578;line-height:1.5;margin-bottom:14px">Brown butter, sage, toasted seeds</div>
+          <div style="display:flex;justify-content:flex-end"><div style="background:#d9c27a;color:#1a1815;font-size:13px;font-weight:700;padding:8px 16px;border-radius:3px">Add</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "go with <a class="dv-oid" href="#1a">1a</a>, build all Phase 0 screens" · "combine <a class="dv-oid" href="#1b">1b</a> layout with <a class="dv-oid" href="#1c">1c</a> colors" · "show mobile versions of these"</p>
+</section>
+
+</x-dc>
+</body>
+</html>
