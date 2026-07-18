@@ -1,3 +1,4 @@
+import "dotenv/config";
 import mongoose from "mongoose";
 import { connectDb } from "../db.js";
 import { seedMenuItems } from "../seed/menuItems.js";
