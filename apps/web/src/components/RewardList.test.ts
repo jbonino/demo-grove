@@ -51,4 +51,12 @@ describe("RewardList", () => {
     const wrapper = mount(RewardList, { props: { rewards, selectedId: "r1" } });
     expect(wrapper.findAll(".reward-row")[0].classes()).toContain("selected");
   });
+
+  it("hides the radio and does not emit select when readonly", async () => {
+    const wrapper = mount(RewardList, { props: { rewards, selectedId: null, readonly: true } });
+
+    expect(wrapper.find(".radio").exists()).toBe(false);
+    await wrapper.findAll(".reward-row")[0].trigger("click");
+    expect(wrapper.emitted("select")).toBeUndefined();
+  });
 });

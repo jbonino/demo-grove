@@ -1,6 +1,6 @@
 # 001-003 — Loyalty Lookup Screen
 
-**Status:** Active
+**Status:** Done
 
 ## Description
 
@@ -49,6 +49,15 @@ Feature: Loyalty phone lookup
 **Automated:** Integration test for `GET /api/loyalty/:phone` covering a phone with mixed history, a phone with no history (empty-state shape), and reward unlock-threshold correctness. Component tests for the lookup form, stat cards, reward list (all-locked read-only rendering), and activity list. Playwright E2E: look up a seeded phone number with history and confirm balance/rewards/activity render.
 
 **Manual:** Look up a phone number with no history and confirm the undesigned empty-state message renders cleanly at both desktop and mobile widths (no design reference exists for this state).
+
+**Manual testing performed (2026-07-18):**
+1. Started the API against the e2e-seeded in-memory DB (`npm run e2e-server --workspace apps/api`) and the web dev server (`npm run dev --workspace apps/web`).
+2. Navigated to `/loyalty` at 1280×900 (desktop) and 390×844 (mobile) viewports via a headless-Chromium screenshot script.
+3. Looked up the seeded rewards phone (`+15559998888`, 400 pts, no orders) — confirmed points balance (400) and lifetime orders (0) stat cards render, the reward list shows one unlocked row and two locked rows with "need X more" and no radio selector, and Recent Activity shows the balance-adjustment entry with +400 pts.
+4. Looked up an unrecognized phone number (`+15551110000`) — confirmed the "No rewards history found for this number." message renders in place of the stat cards/reward list/activity list, cleanly at both widths, with no layout overflow.
+5. Confirmed the header's "Rewards" nav tab is gold-underlined/active while on `/loyalty`.
+
+All steps passed; screenshots reviewed directly, no regressions observed.
 
 ## Story Points
 

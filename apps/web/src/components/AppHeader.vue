@@ -26,7 +26,12 @@ const cart = useCartStore();
       <RouterLink to="/">
         Menu
       </RouterLink>
-      <span>Rewards</span>
+      <RouterLink
+        to="/loyalty"
+        class="rewards-tab"
+      >
+        Rewards
+      </RouterLink>
       <span>Order History</span>
     </nav>
 
@@ -75,6 +80,12 @@ const cart = useCartStore();
 .nav-links a {
   color: inherit;
   text-decoration: none;
+}
+
+.rewards-tab.router-link-active {
+  color: var(--color-cream);
+  border-bottom: 2px solid var(--color-gold);
+  padding-bottom: 2px;
 }
 
 .cart-pill {

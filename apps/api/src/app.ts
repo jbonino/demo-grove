@@ -4,6 +4,7 @@ import { isDbConnected } from "./db.js";
 import { menuItemsRouter } from "./routes/menuItems.js";
 import { ordersRouter } from "./routes/orders.js";
 import { rewardsRouter } from "./routes/rewards.js";
+import { loyaltyRouter } from "./routes/loyalty.js";
 import { stripeWebhookRouter } from "./routes/stripeWebhook.js";
 
 export function createApp() {
@@ -24,6 +25,7 @@ export function createApp() {
   app.use("/api/menu-items", menuItemsRouter);
   app.use("/api/orders", ordersRouter);
   app.use("/api/rewards", rewardsRouter);
+  app.use("/api/loyalty", loyaltyRouter);
 
   return app;
 }
