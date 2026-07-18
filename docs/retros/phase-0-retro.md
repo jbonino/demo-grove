@@ -3,23 +3,25 @@
 **Date:** 2026-07-18
 **Scope:** 000-001 through 000-006 — monorepo scaffold, DB models, seed script, menu screen, cart/checkout/Stripe, confirmation screen.
 
-## Outcome
+## Good
 
-Exit criteria met: a customer can browse the menu, add items to a cart, and complete a real Stripe test-mode paid order, start to finish, verified end-to-end via Playwright against the real stack (not mocks). 6 tickets, 22 nominal story points, delivered as 5 PRs.
+- **Real E2E coverage with Playwright + Stripe.** The 000-005 checkout flow is tested against the actual Stripe test API and drives the real Elements card iframe end-to-end — not mocked. Called out as genuinely impressive and worth protecting as a bar for future payment/critical-path work.
 
-## What went well
+## Bad
 
-- **Verification discipline held up.** Every ticket has a dated verification record with concrete evidence (test counts, what was actually exercised) rather than a bare "tests pass" claim. 000-005 in particular ran its Stripe integration tests against the real Stripe test API and drove real Elements iframes in Playwright — no mocked payment logic anywhere in the critical path.
-- **A real bug surfaced by going past unit tests.** 000-004's manual/E2E pass caught a missing CORS middleware that component tests (jsdom, which doesn't enforce CORS) completely missed — it would have silently broken the real browser → API path. This is the payoff of the "test in a real browser before claiming done" step in the workflow; worth keeping non-negotiable for UI tickets.
-- **Model-tier picks tracked ticket complexity well** (Haiku for scaffold/seed, Sonnet for schema/UI/Stripe work) — no ticket felt mis-sized for its assigned model in hindsight.
+- **TDD wasn't actually followed, even though the workflow calls for it.** Each ticket landed as a single squashed commit with implementation and tests together — no red/green/refactor history. I wrote tests alongside or after implementation rather than test-first, despite the ticket workflow specifying Superpowers TDD. The code came out correct, but that's not the same as having followed the process, and it means the tests were shaped by what I already knew the code did rather than by the acceptance criteria alone — a weaker check.
+  - **Action for Phase 1:** actually write the failing test first per Gherkin scenario, confirm it fails, then implement. Don't rely on final code quality as a substitute for the process.
+- **Seed script didn't load `.env`.** `apps/api/src/scripts/seed.ts` was missing `import "dotenv/config"` — present in `index.ts`, `e2eServer.ts`, and `stripeListen.ts`, but not here. Running `npm run seed` standalone would throw `GROVE_MONGO_URI is not set` unless the shell happened to already have it exported. This is exactly the kind of thing the "manual verification" step in 000-003 should have caught, but that step was deferred to 000-004 and never circled back to test the script in true isolation.
+  - **Fixed now:** added the missing import (commit pending).
 
-## What didn't go well
+## Suggestions (for Phase 1+)
 
-- **000-006 (Confirmation screen) was redundant scope.** Checkout (000-005) necessarily needed a screen to redirect to on payment success, so the Confirmation view got built as part of that ticket whether or not it existed separately in the backlog. 000-006 ended up costing zero incremental implementation effort — it was just closed out after the fact. This is a sequencing miss: the two tickets had a hard dependency that should have been caught at ticket-creation time (either merge them into one ticket, or explicitly scope 000-005 to stop short of the confirmation UI with a stub).
-  - **How to apply going forward:** when brainstorming a ticket, check whether an adjacent ticket's acceptance criteria already implies the screen/flow being planned. If "given a successful X, the user lands on Y" appears in one ticket's AC, Y's ticket should be checked for actual incremental scope before backlog-ordering assumes it's separate work.
-- **One deferred manual step chained across tickets.** 000-003's manual seed verification was pushed to 000-004 (no local Mongo daemon available to smoke-test in isolation). It did get covered implicitly once 000-004 visually verified seeded data rendering correctly, but this was a soft dependency that wasn't written down as a blocking note on 000-004 — it worked out, but was implicit rather than tracked.
+- **UI needs interaction feedback.** No loading/disabled/pressed states surfaced during clicks (e.g. "Place Order" while the PaymentIntent is in flight). Worth a pass adding basic loading/disabled states on async actions across Cart/Checkout, and building it in by default for new Phase 1 screens (loyalty lookup).
+- **Checkout should support more Stripe payment methods**, e.g. Apple Pay / Google Pay via the Payment Request Button or Stripe's Payment Element, not just manual card entry. Currently only Stripe Elements card input is wired (per 000-005's technical notes, which explicitly scoped to "inline card-on-file UI, not a redirect-based Checkout Session"). Wallet support wasn't in Phase 0's scope, but worth a ticket if the demo should show it off.
+- **One-command local dev.** Right now bringing the stack up locally means three separate terminals (`dev:api`, `dev:web`, `stripe:listen`). Wants a single `npm run dev` (or similar) that orchestrates all three together.
 
 ## Carry-forward notes for Phase 1
 
-- Loyalty/rewards work will touch the same checkout path (000-005) for points accrual — re-check for the same kind of overlap that caused the 000-006 redundancy before finalizing Phase 1 ticket boundaries.
-- Keep the "drive it in a real browser, not just component tests" bar for any new UI ticket (loyalty lookup screen) — that's what caught the CORS gap last time.
+- Loyalty/rewards work will touch the same checkout path (000-005) for points accrual — check for the kind of ticket-boundary overlap that made 000-006 redundant before finalizing Phase 1 ticket scoping.
+- Apply real TDD discipline per ticket, not just test coverage after the fact.
+- Consider whether "wallet payment methods" and "single dev command" belong as their own small Phase 1 tickets or as cross-cutting polish alongside the loyalty work.
