@@ -43,6 +43,40 @@ describe("Order model", () => {
     await expect(doc.validate()).rejects.toThrow();
   });
 
+  it("defaults reward/points fields when none are provided", async () => {
+    const created = await Order.create({
+      items: [{ menuItem: new Types.ObjectId(), quantity: 1, unitPriceCents: 500 }],
+      subtotalCents: 500,
+      phone: "+15551234567",
+      pickup: { mode: "asap", time: null },
+      status: "pending",
+      stripePaymentIntentId: "pi_reward_defaults_test",
+    });
+
+    expect(created.rewardRedeemed).toBeNull();
+    expect(created.pointsEarned).toBe(0);
+    expect(created.pointsBalanceAfter).toBe(0);
+  });
+
+  it("saves reward/points fields when a reward is redeemed", async () => {
+    const created = await Order.create({
+      items: [{ menuItem: new Types.ObjectId(), quantity: 1, unitPriceCents: 500 }],
+      subtotalCents: 500,
+      phone: "+15551234567",
+      pickup: { mode: "asap", time: null },
+      status: "paid",
+      rewardRedeemed: { name: "Free Flatbread", discountAmountCents: 1200 },
+      pointsEarned: 5,
+      pointsBalanceAfter: 42,
+      stripePaymentIntentId: "pi_reward_saved_test",
+    });
+
+    const found = await Order.findById(created._id);
+    expect(found?.rewardRedeemed).toMatchObject({ name: "Free Flatbread", discountAmountCents: 1200 });
+    expect(found?.pointsEarned).toBe(5);
+    expect(found?.pointsBalanceAfter).toBe(42);
+  });
+
   it("enforces uniqueness on stripePaymentIntentId", async () => {
     await Order.create({
       items: [{ menuItem: new Types.ObjectId(), quantity: 1, unitPriceCents: 500 }],

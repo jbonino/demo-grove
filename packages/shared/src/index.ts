@@ -5,3 +5,11 @@ export interface MenuItemDTO {
   priceCents: number;
   category: string;
 }
+
+export interface RewardDTO {
+  id: string;
+  name: string;
+  description: string;
+  pointsCost: number;
+  discountAmountCents: number;
+}

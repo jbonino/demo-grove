@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { MenuItem } from "../models/MenuItem.js";
 import { Order } from "../models/Order.js";
+import { Reward } from "../models/Reward.js";
+import { getPointsBalance } from "../loyalty/balance.js";
 import { getStripeClient } from "../stripeClient.js";
 import { asyncHandler } from "../asyncHandler.js";
 
@@ -10,6 +12,7 @@ interface CreateOrderBody {
   items?: { itemId: string; quantity: number }[];
   phone?: string;
   pickup?: { mode: "asap" | "scheduled"; time: string | null };
+  rewardId?: string;
 }
 
 ordersRouter.post(
@@ -45,15 +48,40 @@ ordersRouter.post(
 
     const subtotalCents = snapshotItems.reduce((sum, item) => sum + item.price * item.q, 0);
 
+    let rewardName = "";
+    let rewardDiscountAmountCents = 0;
+    let rewardPointsCost = 0;
+    if (body.rewardId) {
+      const reward = await Reward.findById(body.rewardId);
+      if (!reward) {
+        res.status(400).json({ error: "Unknown reward" });
+        return;
+      }
+      const balance = await getPointsBalance(body.phone);
+      if (balance < reward.pointsCost) {
+        res.status(400).json({ error: "Insufficient points for this reward" });
+        return;
+      }
+      rewardName = reward.name;
+      rewardDiscountAmountCents = reward.discountAmountCents;
+      rewardPointsCost = reward.pointsCost;
+    }
+
+    const discountedSubtotalCents = Math.max(subtotalCents - rewardDiscountAmountCents, 0);
+
     const stripe = getStripeClient();
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: subtotalCents,
+      amount: discountedSubtotalCents,
       currency: "usd",
       metadata: {
         phone: body.phone,
         pickupMode: body.pickup.mode,
         pickupTime: body.pickup.time ?? "",
         itemsJson: JSON.stringify(snapshotItems),
+        subtotalCents: String(subtotalCents),
+        rewardName,
+        rewardDiscountAmountCents: String(rewardDiscountAmountCents),
+        rewardPointsCost: String(rewardPointsCost),
       },
     });
 
@@ -61,6 +89,7 @@ ordersRouter.post(
       clientSecret: paymentIntent.client_secret,
       paymentIntentId: paymentIntent.id,
       subtotalCents,
+      discountedSubtotalCents,
     });
   }),
 );

@@ -14,6 +14,11 @@ export interface OrderPickup {
   time: string | null;
 }
 
+export interface OrderRewardRedeemed {
+  name: string;
+  discountAmountCents: number;
+}
+
 export interface OrderDoc {
   items: OrderItem[];
   subtotalCents: number;
@@ -21,6 +26,9 @@ export interface OrderDoc {
   pickup: OrderPickup;
   stripePaymentIntentId: string | null;
   status: OrderStatus;
+  rewardRedeemed: OrderRewardRedeemed | null;
+  pointsEarned: number;
+  pointsBalanceAfter: number;
   createdAt: Date;
 }
 
@@ -41,6 +49,14 @@ const orderPickupSchema = new Schema<OrderPickup>(
   { _id: false },
 );
 
+const orderRewardRedeemedSchema = new Schema<OrderRewardRedeemed>(
+  {
+    name: { type: String, required: true },
+    discountAmountCents: { type: Number, required: true },
+  },
+  { _id: false },
+);
+
 const orderSchema = new Schema<OrderDoc>({
   items: { type: [orderItemSchema], required: true },
   subtotalCents: { type: Number, required: true },
@@ -48,6 +64,9 @@ const orderSchema = new Schema<OrderDoc>({
   pickup: { type: orderPickupSchema, required: true },
   stripePaymentIntentId: { type: String, default: null, unique: true, sparse: true },
   status: { type: String, enum: ["pending", "paid", "failed"], required: true, default: "pending" },
+  rewardRedeemed: { type: orderRewardRedeemedSchema, default: null },
+  pointsEarned: { type: Number, required: true, default: 0 },
+  pointsBalanceAfter: { type: Number, required: true, default: 0 },
   createdAt: { type: Date, required: true, default: Date.now },
 });
 
