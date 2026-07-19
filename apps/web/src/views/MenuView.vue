@@ -7,9 +7,12 @@ import AppHeader from "../components/AppHeader.vue";
 import CategoryTabs from "../components/CategoryTabs.vue";
 import MenuItemCard from "../components/MenuItemCard.vue";
 
+const SKELETON_CARD_COUNT = 6;
+
 const cart = useCartStore();
 const menuItems = ref<MenuItemDTO[]>([]);
 const activeCategory = ref("");
+const isLoading = ref(true);
 
 const categories = computed(() => [...new Set(menuItems.value.map((item) => item.category))]);
 
@@ -28,6 +31,7 @@ function addToCart(item: MenuItemDTO) {
 onMounted(async () => {
   menuItems.value = await fetchMenuItems();
   activeCategory.value = categories.value[0] ?? "";
+  isLoading.value = false;
 });
 </script>
 
@@ -39,7 +43,20 @@ onMounted(async () => {
       :active-category="activeCategory"
       @select="selectCategory"
     />
-    <div class="item-grid">
+    <div
+      v-if="isLoading"
+      class="item-grid"
+    >
+      <div
+        v-for="n in SKELETON_CARD_COUNT"
+        :key="n"
+        class="skeleton-card"
+      />
+    </div>
+    <div
+      v-else
+      class="item-grid"
+    >
       <MenuItemCard
         v-for="item in visibleItems"
         :key="item.id"
@@ -58,11 +75,37 @@ onMounted(async () => {
   padding: 32px 48px 48px;
 }
 
+.skeleton-card {
+  height: 246px;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 25%,
+    var(--color-cream) 50%,
+    var(--color-border) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 @media (max-width: 768px) {
   .item-grid {
     grid-template-columns: 1fr;
     gap: 16px;
     padding: 16px 20px 24px;
+  }
+
+  .skeleton-card {
+    height: 90px;
   }
 }
 </style>

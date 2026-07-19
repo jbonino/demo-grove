@@ -54,4 +54,31 @@ describe("MenuView", () => {
 
     expect(wrapper.find(".cart-pill").text()).toContain("Cart · 1");
   });
+
+  describe("loading state", () => {
+    it("shows skeleton placeholders while menu items are loading", async () => {
+      let resolveFetch!: (items: typeof mockItems) => void;
+      vi.spyOn(menuItemsApi, "fetchMenuItems").mockReturnValue(
+        new Promise((resolve) => {
+          resolveFetch = resolve;
+        }),
+      );
+
+      const wrapper = await mountMenuView();
+
+      expect(wrapper.findAll(".skeleton-card").length).toBeGreaterThan(0);
+      expect(wrapper.find(".add-button").exists()).toBe(false);
+
+      resolveFetch(mockItems);
+      await flushPromises();
+    });
+
+    it("hides skeleton placeholders once menu items have loaded", async () => {
+      const wrapper = await mountMenuView();
+      await flushPromises();
+
+      expect(wrapper.findAll(".skeleton-card")).toHaveLength(0);
+      expect(wrapper.text()).toContain("Burrata & Heirloom Tomato");
+    });
+  });
 });
