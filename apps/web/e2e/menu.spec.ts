@@ -5,7 +5,9 @@ test("browse menu, filter by category, and add an item to the cart", async ({ pa
 
   const tabs = page.locator(".tab");
   await expect(tabs.first()).toBeVisible();
+  await expect(tabs.first()).toHaveText("All");
   await expect(tabs.first()).toHaveClass(/active/);
+  await expect(page.locator(".category-heading").first()).toBeVisible();
 
   await tabs.nth(1).click();
   await expect(tabs.nth(1)).toHaveClass(/active/);

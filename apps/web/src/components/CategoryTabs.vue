@@ -1,16 +1,20 @@
 <script setup lang="ts">
-defineProps<{
+import { computed } from "vue";
+
+const props = defineProps<{
   categories: string[];
   activeCategory: string;
 }>();
 
 const emit = defineEmits<{ select: [category: string] }>();
+
+const tabs = computed(() => ["All", ...props.categories]);
 </script>
 
 <template>
   <div class="category-tabs">
     <button
-      v-for="category in categories"
+      v-for="category in tabs"
       :key="category"
       type="button"
       class="tab"
