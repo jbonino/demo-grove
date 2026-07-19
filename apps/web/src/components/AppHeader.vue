@@ -1,9 +1,26 @@
 <script setup lang="ts">
+import { ref, watch } from "vue";
 import { useCartStore } from "../stores/cart";
 
 withDefaults(defineProps<{ step?: string }>(), { step: undefined });
 
+const PULSE_DURATION_MS = 400;
 const cart = useCartStore();
+const isPulsing = ref(false);
+let pulseTimeout: ReturnType<typeof setTimeout> | undefined;
+
+watch(
+  () => cart.totalItemCount,
+  (count, previousCount) => {
+    if (count > previousCount) {
+      isPulsing.value = true;
+      clearTimeout(pulseTimeout);
+      pulseTimeout = setTimeout(() => {
+        isPulsing.value = false;
+      }, PULSE_DURATION_MS);
+    }
+  },
+);
 </script>
 
 <template>
@@ -39,6 +56,7 @@ const cart = useCartStore();
       v-if="!step"
       to="/cart"
       class="cart-pill"
+      :class="{ 'is-pulsing': isPulsing }"
     >
       Cart · {{ cart.totalItemCount }}
     </RouterLink>
@@ -96,6 +114,22 @@ const cart = useCartStore();
   padding: 6px 14px;
   border-radius: 3px;
   text-decoration: none;
+}
+
+.cart-pill.is-pulsing {
+  animation: cart-pill-pulse 0.4s ease;
+}
+
+@keyframes cart-pill-pulse {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @media (max-width: 768px) {

@@ -1,11 +1,26 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import type { MenuItemDTO } from "@grove/shared";
 
 defineProps<{ item: MenuItemDTO }>();
 const emit = defineEmits<{ add: [item: MenuItemDTO] }>();
 
+const ADDED_FEEDBACK_MS = 900;
+const justAdded = ref(false);
+let revertTimeout: ReturnType<typeof setTimeout> | undefined;
+
 function formatPrice(cents: number): string {
   return `$${(cents / 100).toFixed(2)}`;
+}
+
+function handleAdd(item: MenuItemDTO) {
+  emit("add", item);
+  navigator.vibrate?.(20);
+  justAdded.value = true;
+  clearTimeout(revertTimeout);
+  revertTimeout = setTimeout(() => {
+    justAdded.value = false;
+  }, ADDED_FEEDBACK_MS);
 }
 </script>
 
@@ -28,9 +43,10 @@ function formatPrice(cents: number): string {
       <button
         type="button"
         class="add-button"
-        @click="emit('add', item)"
+        :class="{ 'is-added': justAdded }"
+        @click="handleAdd(item)"
       >
-        Add
+        {{ justAdded ? "Added ✓" : "Add" }}
       </button>
     </div>
   </article>
@@ -96,6 +112,13 @@ function formatPrice(cents: number): string {
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.add-button.is-added {
+  background: var(--color-gold);
+  color: var(--color-gold-on-dark);
+  transform: scale(1.05);
 }
 
 @media (max-width: 768px) {
