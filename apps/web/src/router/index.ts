@@ -6,6 +6,8 @@ import ConfirmationView from "../views/ConfirmationView.vue";
 import LoyaltyView from "../views/LoyaltyView.vue";
 import AdminLoginView from "../views/admin/AdminLoginView.vue";
 import AdminDashboardView from "../views/admin/AdminDashboardView.vue";
+import AdminCustomersView from "../views/admin/AdminCustomersView.vue";
+import AdminOrdersView from "../views/admin/AdminOrdersView.vue";
 import { useAdminAuthStore } from "../stores/adminAuth";
 import { requiresAdminAuth } from "./adminGuard";
 
@@ -23,6 +25,8 @@ export const router = createRouter({
     { path: "/loyalty", name: "loyalty", component: LoyaltyView },
     { path: "/admin/login", name: "admin-login", component: AdminLoginView },
     { path: "/admin", name: "admin-dashboard", component: AdminDashboardView },
+    { path: "/admin/customers", name: "admin-customers", component: AdminCustomersView },
+    { path: "/admin/orders", name: "admin-orders", component: AdminOrdersView },
   ],
 });
 
