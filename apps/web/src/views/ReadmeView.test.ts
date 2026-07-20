@@ -49,4 +49,38 @@ describe("ReadmeView", () => {
     expect(wrapper.text()).toContain("customers");
     expect(wrapper.text()).toContain("orders");
   });
+
+  it("describes the agentic, single-day build process and model usage", async () => {
+    const wrapper = await mountReadmeView();
+
+    expect(wrapper.text()).toContain("single work day");
+    expect(wrapper.text()).toContain("agentically");
+    expect(wrapper.text()).toContain("Haiku");
+    expect(wrapper.text()).toContain("Sonnet");
+    expect(wrapper.text()).toContain("low usage");
+    expect(wrapper.text()).toContain("claude.ai/design");
+    expect(wrapper.html()).toContain("github.com/obra/superpowers");
+  });
+
+  it("describes the docs folder structure", async () => {
+    const wrapper = await mountReadmeView();
+
+    expect(wrapper.text()).toContain("docs/design.md");
+    expect(wrapper.text()).toContain("docs/product-roadmap.md");
+    expect(wrapper.text()).toContain("docs/architecture.md");
+    expect(wrapper.text()).toContain("docs/backlog/");
+    expect(wrapper.text()).toContain("docs/done/");
+    expect(wrapper.text()).toContain("docs/retros/");
+  });
+
+  it("links walkthrough paths to the real in-app routes", async () => {
+    const wrapper = await mountReadmeView();
+
+    const hrefs = wrapper.findAll("a.path-link").map((a) => a.attributes("href"));
+    expect(hrefs).toContain("/checkout");
+    expect(hrefs).toContain("/loyalty");
+    expect(hrefs).toContain("/admin");
+    expect(hrefs).toContain("/admin/customers");
+    expect(hrefs).toContain("/admin/orders");
+  });
 });

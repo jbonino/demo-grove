@@ -11,7 +11,8 @@ import AppHeader from "../components/AppHeader.vue";
       <p class="subtext">
         A restaurant ordering + loyalty rewards demo, built as a portfolio piece for an
         Owner.com interview. The scope and stack mirror Owner.com's product surface
-        (commission-free ordering, phone-based loyalty accrual).
+        (commission-free ordering, phone-based loyalty accrual). Built in a single
+        work day, agentically — see <a href="#build-process">Build process</a> below.
       </p>
 
       <section>
@@ -45,8 +46,22 @@ import AppHeader from "../components/AppHeader.vue";
       <section>
         <h2>Demo walkthrough — customer path</h2>
         <ol>
-          <li>Browse the menu at <code>/</code> and add a couple of items to the cart.</li>
-          <li>Open the cart and continue to <code>/checkout</code>.</li>
+          <li>
+            Browse the menu at <RouterLink
+              to="/"
+              class="path-link"
+            >
+              /
+            </RouterLink> and add a couple of items to the cart.
+          </li>
+          <li>
+            Open the cart and continue to <RouterLink
+              to="/checkout"
+              class="path-link"
+            >
+              /checkout
+            </RouterLink>.
+          </li>
           <li>Enter a phone number, e.g. <code>(555) 123-4567</code>.</li>
           <li>
             Pay with the Stripe test card <code>4242 4242 4242 4242</code>, any future
@@ -57,8 +72,13 @@ import AppHeader from "../components/AppHeader.vue";
             for that phone number.
           </li>
           <li>
-            Visit <code>/loyalty</code> and look up the same phone number to see the
-            balance, available rewards, and recent activity.
+            Visit <RouterLink
+              to="/loyalty"
+              class="path-link"
+            >
+              /loyalty
+            </RouterLink> and look up the same phone number to see the balance,
+            available rewards, and recent activity.
           </li>
         </ol>
       </section>
@@ -67,13 +87,69 @@ import AppHeader from "../components/AppHeader.vue";
         <h2>Demo walkthrough — admin path</h2>
         <ol>
           <li>
-            Visit <code>/admin</code> and log in with the admin password (shared
-            separately, not published on this page).
+            Visit <RouterLink
+              to="/admin"
+              class="path-link"
+            >
+              /admin
+            </RouterLink> and log in with the admin password (shared separately,
+            not published on this page).
           </li>
           <li>View the dashboard: recent orders and loyalty stats at a glance.</li>
-          <li>Open <code>/admin/customers</code> to see the customer list with balances.</li>
-          <li>Open <code>/admin/orders</code> to see the full orders list.</li>
+          <li>
+            Open <RouterLink
+              to="/admin/customers"
+              class="path-link"
+            >
+              /admin/customers
+            </RouterLink> to see the customer list with balances.
+          </li>
+          <li>
+            Open <RouterLink
+              to="/admin/orders"
+              class="path-link"
+            >
+              /admin/orders
+            </RouterLink> to see the full orders list.
+          </li>
         </ol>
+      </section>
+
+      <section id="build-process">
+        <h2>Build process</h2>
+        <p>
+          Grove was built agentically in a single work day, end to end: schema and API
+          design, the ordering and loyalty flows, the admin panel, Stripe integration,
+          tests, and deployment. Implementation was split by ticket complexity between
+          Claude Haiku (small/mechanical tickets — data and config changes) and Claude
+          Sonnet (typical feature work), keeping the whole build on low usage rather than
+          defaulting every ticket to the largest model.
+        </p>
+        <p>
+          The <code>docs/</code> folder is the project's source of truth and working
+          memory, not an afterthought:
+        </p>
+        <ul>
+          <li><code>docs/design.md</code> — product decisions (referenced by section, e.g. &sect;6), the source other docs and tickets point back to.</li>
+          <li><code>docs/product-roadmap.md</code> — phase sequencing and what's in/out of scope per phase.</li>
+          <li><code>docs/architecture.md</code> — concrete technical details: schemas, stack wiring, how the pieces fit together.</li>
+          <li><code>docs/backlog/</code> — one file per not-yet-built ticket, each with Gherkin acceptance criteria, technical notes, a test plan, a story-point estimate, and a suggested implementation model.</li>
+          <li><code>docs/done/</code> — the same tickets, moved here on completion with a record of what was actually tested.</li>
+          <li><code>docs/design/</code> — high-fidelity UI mockups/handoffs, produced with claude.ai/design before implementing UI-heavy tickets.</li>
+          <li><code>docs/retros/</code> — a short retro written at the close of each phase.</li>
+        </ul>
+        <p>
+          This structure and the phase/ticket workflow that drives it are a
+          project-specific, modified version of the
+          <a
+            href="https://github.com/obra/superpowers"
+            target="_blank"
+            rel="noopener"
+          >Superpowers</a> Claude Code plugin — its skills for brainstorming, TDD,
+          systematic debugging, and structured code review, adapted with a
+          ticket/backlog/phase workflow layered on top (see <code>CLAUDE.md</code> in the
+          repo root).
+        </p>
       </section>
     </div>
   </div>
@@ -132,6 +208,24 @@ code {
   border-radius: 3px;
   padding: 2px 5px;
   font-size: 14px;
+}
+
+.path-link {
+  background: var(--color-border);
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-size: 14px;
+  font-family: monospace;
+  color: var(--color-deep-green);
+  text-decoration: none;
+}
+
+.path-link:hover {
+  text-decoration: underline;
+}
+
+a {
+  color: var(--color-deep-green);
 }
 
 @media (max-width: 768px) {
