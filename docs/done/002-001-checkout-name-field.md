@@ -1,6 +1,6 @@
 # 002-001 — Checkout Name Field & Seed Backfill
 
-**Status:** Active
+**Status:** Done
 
 ## Description
 
@@ -46,6 +46,11 @@ Feature: Optional customer name at checkout
 - Component test: Checkout renders the optional name field and includes its value in the order-creation request when filled.
 
 **Manual:** None — no live third-party service, payment flow, or unautomatable UI beyond what's already covered by the existing Stripe Elements integration test pattern.
+
+**Verification record (2026-07-20):**
+- All new tests written test-first (RED confirmed before each implementation): `Order` model defaulting/saving `customerName`, webhook setting `customerName` from metadata (present and absent cases), `POST /api/orders` forwarding `name` into PaymentIntent metadata (verified against the real Stripe test API via `paymentIntents.retrieve`), `seedLoyaltyHistory` producing a mix of named/unnamed customers, and `CheckoutView` validation/submission (phone-only required, name optional and passed through, existing "missing name/phone" test updated to "missing phone").
+- Full workspace `build`/`lint`/`test` pass: `apps/api` 60 tests (up from 52), `apps/web` 80 tests (up from 77), `packages/shared` unaffected.
+- Ran `npm run seed --workspace apps/api` against the real configured MongoDB instance end-to-end — seed chain (menu items → rewards → loyalty history with names) completed cleanly.
 
 ## Story Points
 

@@ -6,6 +6,7 @@ import { Order } from "../models/Order.js";
 import { Reward } from "../models/Reward.js";
 import { LoyaltyEvent } from "../models/LoyaltyEvent.js";
 import { createApp } from "../app.js";
+import { getStripeClient } from "../stripeClient.js";
 
 beforeAll(startTestDb);
 afterAll(stopTestDb);
@@ -31,6 +32,49 @@ describe("POST /api/orders", () => {
     expect(res.body.subtotalCents).toBe(3200);
     expect(res.body.paymentIntentId).toMatch(/^pi_/);
     expect(res.body.clientSecret).toContain(res.body.paymentIntentId);
+  });
+
+  it("carries an optional name through to the PaymentIntent metadata", async () => {
+    const menuItem = await MenuItem.create({
+      name: "Roasted Beet Salad",
+      description: "desc",
+      priceCents: 1200,
+      category: "Starters",
+    });
+
+    const res = await request(createApp())
+      .post("/api/orders")
+      .send({
+        items: [{ itemId: menuItem._id.toString(), quantity: 1 }],
+        phone: "+15551234568",
+        name: "Jane Doe",
+        pickup: { mode: "asap", time: null },
+      });
+
+    expect(res.status).toBe(201);
+    const paymentIntent = await getStripeClient().paymentIntents.retrieve(res.body.paymentIntentId);
+    expect(paymentIntent.metadata.customerName).toBe("Jane Doe");
+  });
+
+  it("leaves customerName metadata empty when no name is given", async () => {
+    const menuItem = await MenuItem.create({
+      name: "French Onion Soup",
+      description: "desc",
+      priceCents: 1100,
+      category: "Starters",
+    });
+
+    const res = await request(createApp())
+      .post("/api/orders")
+      .send({
+        items: [{ itemId: menuItem._id.toString(), quantity: 1 }],
+        phone: "+15551234569",
+        pickup: { mode: "asap", time: null },
+      });
+
+    expect(res.status).toBe(201);
+    const paymentIntent = await getStripeClient().paymentIntents.retrieve(res.body.paymentIntentId);
+    expect(paymentIntent.metadata.customerName).toBe("");
   });
 
   it("rejects an empty cart", async () => {

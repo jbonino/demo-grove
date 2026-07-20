@@ -44,11 +44,40 @@ describe("CheckoutView", () => {
     expect(wrapper.find('input[type="time"]').exists()).toBe(true);
   });
 
-  it("shows a validation error when name/phone are missing", async () => {
+  it("shows a validation error when phone is missing", async () => {
     const { wrapper } = await mountCheckoutView();
     await wrapper.find(".cta").trigger("click");
     await flushPromises();
-    expect(wrapper.text()).toContain("Please enter your name and phone number.");
+    expect(wrapper.text()).toContain("Please enter your phone number.");
+  });
+
+  it("allows placing an order with no name entered", async () => {
+    const createOrderSpy = vi.spyOn(ordersApi, "createOrder").mockResolvedValue({
+      clientSecret: "pi_test_secret",
+      paymentIntentId: "pi_test",
+      subtotalCents: 1600,
+      discountedSubtotalCents: 1600,
+    });
+    confirmCardPayment.mockResolvedValue({ paymentIntent: { status: "succeeded" } });
+    vi.spyOn(ordersApi, "pollForOrder").mockResolvedValue({
+      id: "order1",
+      subtotalCents: 1600,
+      phone: "+15551234567",
+      pickup: { mode: "asap", time: null },
+      status: "paid",
+      rewardRedeemed: null,
+      pointsEarned: 16,
+      pointsBalanceAfter: 16,
+      createdAt: new Date().toISOString(),
+    });
+
+    const { wrapper, router } = await mountCheckoutView();
+    await wrapper.find('input[type="tel"]').setValue("+15551234567");
+    await wrapper.find(".cta").trigger("click");
+    await flushPromises();
+
+    expect(router.currentRoute.value.name).toBe("confirmation");
+    expect(createOrderSpy).toHaveBeenCalledWith(expect.objectContaining({ name: "" }));
   });
 
   it("shows an error and stays on Checkout when payment fails", async () => {
@@ -71,7 +100,7 @@ describe("CheckoutView", () => {
   });
 
   it("clears the cart and navigates to Confirmation on successful payment", async () => {
-    vi.spyOn(ordersApi, "createOrder").mockResolvedValue({
+    const createOrderSpy = vi.spyOn(ordersApi, "createOrder").mockResolvedValue({
       clientSecret: "pi_test_secret",
       paymentIntentId: "pi_test",
       subtotalCents: 1600,
@@ -99,6 +128,7 @@ describe("CheckoutView", () => {
     expect(cart.lines).toHaveLength(0);
     expect(router.currentRoute.value.name).toBe("confirmation");
     expect(router.currentRoute.value.params.paymentIntentId).toBe("pi_test");
+    expect(createOrderSpy).toHaveBeenCalledWith(expect.objectContaining({ name: "Jane Doe" }));
   });
 });
 

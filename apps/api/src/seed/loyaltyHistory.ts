@@ -7,8 +7,28 @@ export const CUSTOMER_COUNT = 35;
 
 const SEED_PAYMENT_INTENT_PREFIX = "pi_seed_";
 
+const FIRST_NAMES = [
+  "Ava", "Liam", "Maya", "Noah", "Zoe", "Ethan", "Ivy", "Owen",
+  "Nora", "Leo", "Ruby", "Milo", "Jade", "Kai", "Elena", "Theo",
+];
+const LAST_NAMES = [
+  "Bennett", "Carter", "Diaz", "Foster", "Grant", "Hayes", "Ito",
+  "Jensen", "Kwan", "Lopez", "Moore", "Nguyen", "Ortiz", "Park",
+];
+
 function phoneForCustomer(index: number): string {
   return `+1555${String(2000000 + index).padStart(7, "0")}`;
+}
+
+function nameForCustomer(index: number): string | null {
+  // Leave roughly 1 in 6 customers without a name, matching real checkout usage
+  // where the field is optional and sometimes skipped.
+  if (index % 6 === 0) {
+    return null;
+  }
+  const first = FIRST_NAMES[index % FIRST_NAMES.length];
+  const last = LAST_NAMES[(index * 3) % LAST_NAMES.length];
+  return `${first} ${last}`;
 }
 
 export async function seedLoyaltyHistory(): Promise<void> {
@@ -24,6 +44,7 @@ export async function seedLoyaltyHistory(): Promise<void> {
 
   for (let i = 0; i < CUSTOMER_COUNT; i++) {
     const phone = phoneForCustomer(i);
+    const customerName = nameForCustomer(i);
     const orderCount = 1 + (i % 5);
     let balance = 0;
 
@@ -37,6 +58,7 @@ export async function seedLoyaltyHistory(): Promise<void> {
         items: [{ menuItem: item._id, quantity, unitPriceCents: item.priceCents }],
         subtotalCents,
         phone,
+        customerName,
         pickup: { mode: "asap", time: null },
         stripePaymentIntentId: `${SEED_PAYMENT_INTENT_PREFIX}${phone}_${o}`,
         status: "paid",

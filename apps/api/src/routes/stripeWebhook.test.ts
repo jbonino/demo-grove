@@ -28,6 +28,7 @@ function paymentSucceededPayload(
     amount?: number;
     subtotalCents?: number;
     phone?: string;
+    customerName?: string;
     rewardName?: string;
     rewardDiscountAmountCents?: number;
     rewardPointsCost?: number;
@@ -45,6 +46,7 @@ function paymentSucceededPayload(
         amount,
         metadata: {
           phone: options.phone ?? "+15551234567",
+          customerName: options.customerName ?? "",
           pickupMode: "asap",
           pickupTime: "",
           itemsJson,
@@ -79,6 +81,38 @@ describe("POST /api/stripe/webhook", () => {
     expect(order?.phone).toBe("+15551234567");
     expect(order?.subtotalCents).toBe(1600);
     expect(order?.items).toHaveLength(1);
+  });
+
+  it("saves customerName from metadata when provided", async () => {
+    const menuItem = await MenuItem.create({
+      name: "Wedge Salad",
+      description: "desc",
+      priceCents: 1400,
+      category: "Starters",
+    });
+    const itemsJson = JSON.stringify([{ id: menuItem._id.toString(), q: 1, price: 1400 }]);
+
+    await signedWebhookRequest(
+      paymentSucceededPayload("evt_name_1", "pi_name_1", itemsJson, { customerName: "Jane Doe" }),
+    );
+
+    const order = await Order.findOne({ stripePaymentIntentId: "pi_name_1" });
+    expect(order?.customerName).toBe("Jane Doe");
+  });
+
+  it("saves customerName as null when metadata has no name", async () => {
+    const menuItem = await MenuItem.create({
+      name: "Caesar Salad",
+      description: "desc",
+      priceCents: 1300,
+      category: "Starters",
+    });
+    const itemsJson = JSON.stringify([{ id: menuItem._id.toString(), q: 1, price: 1300 }]);
+
+    await signedWebhookRequest(paymentSucceededPayload("evt_name_2", "pi_name_2", itemsJson));
+
+    const order = await Order.findOne({ stripePaymentIntentId: "pi_name_2" });
+    expect(order?.customerName).toBeNull();
   });
 
   it("is idempotent on webhook redelivery for the same PaymentIntent", async () => {

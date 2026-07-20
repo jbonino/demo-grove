@@ -34,6 +34,15 @@ describe("seedLoyaltyHistory", () => {
     }
   });
 
+  it("gives most customers a customerName, but leaves a subset null", async () => {
+    const orders = await Order.find();
+    const named = orders.filter((order) => order.customerName !== null);
+    const unnamed = orders.filter((order) => order.customerName === null);
+
+    expect(named.length).toBeGreaterThan(0);
+    expect(unnamed.length).toBeGreaterThan(0);
+  });
+
   it("gives at least one customer a past redemption", async () => {
     const redeemedOrder = await Order.findOne({ rewardRedeemed: { $ne: null } });
     expect(redeemedOrder).not.toBeNull();

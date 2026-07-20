@@ -3,6 +3,7 @@ import { apiBaseUrl } from "./config";
 export interface CreateOrderRequest {
   items: { itemId: string; quantity: number }[];
   phone: string;
+  name?: string;
   pickup: { mode: "asap" | "scheduled"; time: string | null };
   rewardId?: string;
 }
