@@ -4,6 +4,7 @@ import CartView from "../views/CartView.vue";
 import CheckoutView from "../views/CheckoutView.vue";
 import ConfirmationView from "../views/ConfirmationView.vue";
 import LoyaltyView from "../views/LoyaltyView.vue";
+import ReadmeView from "../views/ReadmeView.vue";
 import AdminLoginView from "../views/admin/AdminLoginView.vue";
 import AdminDashboardView from "../views/admin/AdminDashboardView.vue";
 import AdminCustomersView from "../views/admin/AdminCustomersView.vue";
@@ -23,6 +24,7 @@ export const router = createRouter({
       component: ConfirmationView,
     },
     { path: "/loyalty", name: "loyalty", component: LoyaltyView },
+    { path: "/readme", name: "readme", component: ReadmeView },
     { path: "/admin/login", name: "admin-login", component: AdminLoginView },
     { path: "/admin", name: "admin-dashboard", component: AdminDashboardView },
     { path: "/admin/customers", name: "admin-customers", component: AdminCustomersView },

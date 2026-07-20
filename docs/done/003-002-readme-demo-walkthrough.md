@@ -39,8 +39,9 @@ Feature: /readme page documents the project and demo walkthrough
 
 ## Test plan
 
-- **Automated:** a component test asserting `/readme` renders (route resolves, key content present) — consistent with existing `apps/web` component test coverage.
+- **Automated:** a component test asserting `/readme` renders (route resolves, key content present) — consistent with existing `apps/web` component test coverage. Done: `apps/web/src/views/ReadmeView.test.ts` (4 cases — route resolves, concept/stack content, customer walkthrough with the Stripe test card number, admin walkthrough covering dashboard/customers/orders).
 - **Manual:** follow the `/readme` page's own walkthrough script top to bottom against the live URL exactly as written; confirm every step works as described and fix any step that doesn't match reality. Spot-check the root `README.md` matches.
+  - **Not yet done** — this change hasn't been deployed to Fly.io yet, so the live `/readme` page still serves the pre-ticket build. Verified locally instead: full `apps/web` test suite (137 tests) + lint + typecheck pass; `/readme` route renders correctly against the Vite dev server; content reviewed against `design.md` §1-2/§7 and the 003-001 deploy record for the live URL, Stripe test card, and admin login flow. Once this is deployed, walk `/readme` on the live URL top to bottom and spot-check `README.md` matches before considering this scenario fully closed.
 
 ## Story point estimate
 
@@ -52,4 +53,4 @@ Sonnet — mostly content assembly, but adding a new route/view and keeping two 
 
 ## Status
 
-Active
+Done
