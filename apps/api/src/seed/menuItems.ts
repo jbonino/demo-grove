@@ -3,10 +3,7 @@ import { MenuItem, type MenuItemDoc } from "../models/MenuItem.js";
 export const seedMenuItemData: MenuItemDoc[] = [
   // Starters
   { name: "Seared Sea Scallops", description: "Pan-seared diver scallops, English pea purée, crispy prosciutto", priceCents: 1800, category: "Starters", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Scallops_at_Capital_Grille.jpg/500px-Scallops_at_Capital_Grille.jpg" },
-  { name: "Burrata & Heirloom Tomato", description: "Fresh burrata, heirloom tomatoes, basil oil, aged balsamic", priceCents: 1600, category: "Starters", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Burrata_salad_and_paella%2C_The_Providore%2C_Singapore_-_20160930.jpg/500px-Burrata_salad_and_paella%2C_The_Providore%2C_Singapore_-_20160930.jpg" },
   { name: "Tuna Tartare", description: "Ahi tuna, avocado, sesame-soy vinaigrette, wonton crisps", priceCents: 1900, category: "Starters", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/TunaTartare.jpg/500px-TunaTartare.jpg" },
-  { name: "Roasted Bone Marrow", description: "Herb gremolata, grilled sourdough, sea salt", priceCents: 1700, category: "Starters" },
-  { name: "Wild Mushroom Soup", description: "Roasted wild mushrooms, truffle oil, crème fraîche", priceCents: 1200, category: "Starters", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Bowl_of_Cream_of_Mushroom_Soup.JPG/500px-Bowl_of_Cream_of_Mushroom_Soup.JPG" },
 
   // Entrées
   { name: "Braised Short Rib", description: "Red wine braised short rib, parmesan polenta, root vegetables", priceCents: 3400, category: "Entrées", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Slow_Braised_Short_Rib_NYC.jpg/500px-Slow_Braised_Short_Rib_NYC.jpg" },
@@ -19,7 +16,6 @@ export const seedMenuItemData: MenuItemDoc[] = [
 
   // Sides
   { name: "Truffle Parmesan Fries", description: "Hand-cut fries, black truffle, shaved parmesan", priceCents: 900, category: "Sides", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Truffle_fries_with_parmesan%2C_aioli%2C_hot_sauce_%2821153782574%29.jpg/500px-Truffle_fries_with_parmesan%2C_aioli%2C_hot_sauce_%2821153782574%29.jpg" },
-  { name: "Charred Brussels Sprouts", description: "Brown butter, toasted hazelnuts, aged balsamic", priceCents: 850, category: "Sides", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Roasted_Brussel_Sprouts_%284070526401%29.jpg/500px-Roasted_Brussel_Sprouts_%284070526401%29.jpg" },
   { name: "Garlic Whipped Potatoes", description: "Yukon gold potatoes, roasted garlic, crème fraîche", priceCents: 750, category: "Sides", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/2019-11-28_14_29_27_A_bowl_of_mashed_potatoes_laid_out_for_Thanksgiving_Dinner_in_the_Parkway_Village_section_of_Ewing_Township%2C_Mercer_County%2C_New_Jersey.jpg/500px-2019-11-28_14_29_27_A_bowl_of_mashed_potatoes_laid_out_for_Thanksgiving_Dinner_in_the_Parkway_Village_section_of_Ewing_Township%2C_Mercer_County%2C_New_Jersey.jpg" },
   { name: "Grilled Asparagus", description: "Lemon zest, shaved parmesan, extra virgin olive oil", priceCents: 800, category: "Sides", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Grilled_asparagus%2C_prosciutto%2C_63-degree_egg_and_torn_croutons.jpg/500px-Grilled_asparagus%2C_prosciutto%2C_63-degree_egg_and_torn_croutons.jpg" },
 
