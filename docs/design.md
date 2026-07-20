@@ -57,7 +57,7 @@ Balance for a phone number = sum of matching `LoyaltyEvents.points` (earn positi
 - **API:** REST/JSON. Stripe webhook verifies signatures before writing; idempotent on `stripePaymentIntentId`.
 - **Auth:** admin-only, signed cookie; customers identified by phone number, not credentials.
 - **Testing:** Vitest + supertest for loyalty math and order/payment flow; Playwright E2E for the critical customer path (browse → checkout → confirmation) and admin login → dashboard.
-- **Deployment:** Fly.io for both `apps/api` and the built `apps/web` static assets; MongoDB via Atlas free tier. A live URL is a Phase 3 exit requirement.
+- **Deployment:** a single Fly.io app serving both the API and the built `apps/web` static assets (same origin, no CORS); MongoDB via Atlas free tier. A live URL is a Phase 3 exit requirement.
 
 Full stack wiring, routes, and schema details live in `architecture.md` as they're implemented.
 

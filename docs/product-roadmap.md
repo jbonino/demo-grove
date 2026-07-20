@@ -46,7 +46,7 @@ Give an operator visibility into what Phases 0-1 built.
 
 Make the demo reachable and interview-ready.
 
-- Fly.io deployment: `apps/api` and built `apps/web` as separate Fly apps
+- Fly.io deployment: a single Fly app serving the API and the built `apps/web` static assets together
 - README / demo walkthrough script for the interview
 
 **Exit criteria:** a live URL exists, the full customer and admin paths work on it, and there's a documented walkthrough ready to run.

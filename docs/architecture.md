@@ -10,7 +10,7 @@ Technical reference for implementation details that don't belong in `design.md` 
 - **Backend:** Express + TypeScript
 - **Database:** MongoDB (Atlas free tier)
 - **Payments:** Stripe (test mode)
-- **Deployment:** Fly.io (API and web as separate Fly apps)
+- **Deployment:** Fly.io (single app — Express serves both the API and the built `apps/web` static assets)
 
 *(Filled in further as tickets are implemented — routes, data model, project layout, service wiring.)*
 

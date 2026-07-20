@@ -1,4 +1,4 @@
-# 003-003 — README + Demo Walkthrough
+# 003-002 — README + Demo Walkthrough
 
 ## User-facing description
 
@@ -27,9 +27,9 @@ Feature: README documents the project and demo walkthrough
 
 ## Technical notes
 
-- Root `README.md`: concept summary (from `design.md` §1-2), stack/architecture summary (from `design.md` §7 / `architecture.md`), links to the live web and API URLs (003-001, 003-002).
+- Root `README.md`: concept summary (from `design.md` §1-2), stack/architecture summary (from `design.md` §7 / `architecture.md`), link to the live URL (003-001).
 - Walkthrough script: concrete numbered steps for the customer path (browse → cart → checkout with a specific Stripe test card number → confirmation → loyalty lookup) and the admin path (login with the shared password → dashboard → customers → orders).
-- Depends on 003-001/003-002 being deployed so the URLs and steps can be verified against the real thing rather than written speculatively.
+- Depends on 003-001 being deployed so the URL and steps can be verified against the real thing rather than written speculatively.
 
 ## Test plan
 
