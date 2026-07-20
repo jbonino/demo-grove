@@ -7,6 +7,7 @@ const emit = defineEmits<{ add: [item: MenuItemDTO] }>();
 
 const ADDED_FEEDBACK_MS = 900;
 const justAdded = ref(false);
+const imageFailed = ref(false);
 let revertTimeout: ReturnType<typeof setTimeout> | undefined;
 
 function formatPrice(cents: number): string {
@@ -26,7 +27,16 @@ function handleAdd(item: MenuItemDTO) {
 
 <template>
   <article class="item-card">
+    <img
+      v-if="item.imageUrl && !imageFailed"
+      class="photo"
+      :src="item.imageUrl"
+      :alt="item.name"
+      loading="lazy"
+      @error="imageFailed = true"
+    >
     <div
+      v-else
       class="photo"
       aria-hidden="true"
     />
@@ -62,6 +72,9 @@ function handleAdd(item: MenuItemDTO) {
 
 .photo {
   height: 150px;
+  width: 100%;
+  display: block;
+  object-fit: cover;
   background: repeating-linear-gradient(
     45deg,
     var(--color-border),

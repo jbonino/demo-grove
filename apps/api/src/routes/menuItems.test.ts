@@ -41,4 +41,28 @@ describe("GET /api/menu-items", () => {
     const categoryOrder = res.body.map((item: { category: string }) => item.category);
     expect(categoryOrder).toEqual(["Starters", "Entrées", "Sides", "Desserts"]);
   });
+
+  it("includes imageUrl when the menu item has one", async () => {
+    await MenuItem.deleteMany({});
+    await MenuItem.create({
+      name: "Tuna Tartare",
+      description: "desc",
+      priceCents: 1900,
+      category: "Starters",
+      imageUrl: "https://example.com/tuna.jpg",
+    });
+
+    const res = await request(createApp()).get("/api/menu-items");
+
+    expect(res.body[0].imageUrl).toBe("https://example.com/tuna.jpg");
+  });
+
+  it("omits imageUrl when the menu item has none", async () => {
+    await MenuItem.deleteMany({});
+    await MenuItem.create({ name: "Tuna Tartare", description: "desc", priceCents: 1900, category: "Starters" });
+
+    const res = await request(createApp()).get("/api/menu-items");
+
+    expect(res.body[0].imageUrl).toBeUndefined();
+  });
 });

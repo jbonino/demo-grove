@@ -26,6 +26,17 @@ describe("seedMenuItems", () => {
     }
   });
 
+  it("gives most items a well-formed https imageUrl", async () => {
+    await seedMenuItems();
+
+    const items = await MenuItem.find();
+    const withImages = items.filter((item) => item.imageUrl);
+    expect(withImages.length).toBeGreaterThanOrEqual(15);
+    for (const item of withImages) {
+      expect(item.imageUrl).toMatch(/^https:\/\//);
+    }
+  });
+
   it("resets rather than duplicates on re-run", async () => {
     await seedMenuItems();
     const firstCount = await MenuItem.countDocuments();

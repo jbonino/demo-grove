@@ -5,6 +5,7 @@ export interface MenuItemDoc {
   description: string;
   priceCents: number;
   category: string;
+  imageUrl?: string;
 }
 
 const menuItemSchema = new Schema<MenuItemDoc>({
@@ -12,6 +13,7 @@ const menuItemSchema = new Schema<MenuItemDoc>({
   description: { type: String, required: true },
   priceCents: { type: Number, required: true },
   category: { type: String, required: true },
+  imageUrl: { type: String, required: false },
 });
 
 export const MenuItem = model<MenuItemDoc>("MenuItem", menuItemSchema);
