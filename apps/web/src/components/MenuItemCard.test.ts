@@ -51,6 +51,31 @@ describe("MenuItemCard", () => {
     });
   });
 
+  describe("photo", () => {
+    it("shows an image when the item has an imageUrl", () => {
+      const itemWithPhoto = { ...item, imageUrl: "https://example.com/photo.jpg" };
+      const wrapper = mount(MenuItemCard, { props: { item: itemWithPhoto } });
+      const img = wrapper.find("img.photo");
+      expect(img.exists()).toBe(true);
+      expect(img.attributes("src")).toBe("https://example.com/photo.jpg");
+      expect(img.attributes("alt")).toBe(itemWithPhoto.name);
+    });
+
+    it("shows the placeholder when the item has no imageUrl", () => {
+      const wrapper = mount(MenuItemCard, { props: { item } });
+      expect(wrapper.find("img.photo").exists()).toBe(false);
+      expect(wrapper.find("div.photo").exists()).toBe(true);
+    });
+
+    it("falls back to the placeholder if the image fails to load", async () => {
+      const itemWithPhoto = { ...item, imageUrl: "https://example.com/broken.jpg" };
+      const wrapper = mount(MenuItemCard, { props: { item: itemWithPhoto } });
+      await wrapper.find("img.photo").trigger("error");
+      expect(wrapper.find("img.photo").exists()).toBe(false);
+      expect(wrapper.find("div.photo").exists()).toBe(true);
+    });
+  });
+
   describe("haptic feedback", () => {
     it("vibrates when the Add button is clicked, if the browser supports it", async () => {
       const vibrate = vi.fn();

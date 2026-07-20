@@ -4,6 +4,7 @@ export interface MenuItemDTO {
   description: string;
   priceCents: number;
   category: string;
+  imageUrl?: string;
 }
 
 export interface RewardDTO {

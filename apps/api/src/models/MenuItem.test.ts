@@ -31,4 +31,21 @@ describe("MenuItem model", () => {
     const found = await MenuItem.findById(created._id);
     expect(found?.name).toBe("Burger");
   });
+
+  it("saves and retrieves an optional imageUrl", async () => {
+    const created = await MenuItem.create({
+      name: "Burger",
+      description: "desc",
+      priceCents: 1200,
+      category: "Mains",
+      imageUrl: "https://example.com/burger.jpg",
+    });
+    const found = await MenuItem.findById(created._id);
+    expect(found?.imageUrl).toBe("https://example.com/burger.jpg");
+  });
+
+  it("allows a document without an imageUrl", async () => {
+    const doc = new MenuItem({ name: "Burger", description: "desc", priceCents: 1200, category: "Mains" });
+    await expect(doc.validate()).resolves.toBeUndefined();
+  });
 });

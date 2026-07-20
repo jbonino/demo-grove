@@ -22,6 +22,7 @@ menuItemsRouter.get("/", async (_req, res) => {
     description: item.description,
     priceCents: item.priceCents,
     category: item.category,
+    ...(item.imageUrl ? { imageUrl: item.imageUrl } : {}),
   }));
   res.json(dtos);
 });
