@@ -50,6 +50,12 @@ describe("ReadmeView", () => {
     expect(wrapper.text()).toContain("orders");
   });
 
+  it("gives the admin password so the walkthrough is self-serve", async () => {
+    const wrapper = await mountReadmeView();
+
+    expect(wrapper.text()).toContain("grove");
+  });
+
   it("describes the agentic, single-day build process and model usage", async () => {
     const wrapper = await mountReadmeView();
 

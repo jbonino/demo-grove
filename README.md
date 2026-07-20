@@ -45,7 +45,7 @@ wiring details.
 ## Demo walkthrough — admin path
 
 1. Visit [`/admin`](https://grove-jbonino.fly.dev/admin) and log in with the admin
-   password (shared separately, not published in this repo or on the `/readme` page).
+   password: `grove`.
 2. View the dashboard: recent orders and loyalty stats at a glance.
 3. Open [`/admin/customers`](https://grove-jbonino.fly.dev/admin/customers) to see the
    customer list with balances.

@@ -91,8 +91,7 @@ import AppHeader from "../components/AppHeader.vue";
               class="path-link"
             >
               /admin
-            </RouterLink> and log in with the admin password (shared separately,
-            not published on this page).
+            </RouterLink> and log in with the admin password: <code>grove</code>.
           </li>
           <li>View the dashboard: recent orders and loyalty stats at a glance.</li>
           <li>
