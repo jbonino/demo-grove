@@ -1,6 +1,6 @@
 # 002-003 — Admin Dashboard
 
-**Status:** Backlog
+**Status:** Active
 
 ## Description
 
