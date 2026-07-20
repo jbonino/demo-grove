@@ -1,6 +1,6 @@
 # 002-002 — Admin Login & Session
 
-**Status:** Backlog
+**Status:** Active
 
 ## Description
 
