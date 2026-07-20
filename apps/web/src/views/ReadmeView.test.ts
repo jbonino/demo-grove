@@ -83,4 +83,20 @@ describe("ReadmeView", () => {
     expect(hrefs).toContain("/admin/customers");
     expect(hrefs).toContain("/admin/orders");
   });
+
+  it("summarizes test coverage, including Playwright E2E", async () => {
+    const wrapper = await mountReadmeView();
+
+    expect(wrapper.text()).toContain("Vitest");
+    expect(wrapper.text()).toContain("Playwright");
+    expect(wrapper.text()).toContain("apps/api");
+    expect(wrapper.text()).toContain("apps/web");
+  });
+
+  it("shows contact info and no Owner.com references", async () => {
+    const wrapper = await mountReadmeView();
+
+    expect(wrapper.find('a[href="mailto:jbonino@protonmail.com"]').exists()).toBe(true);
+    expect(wrapper.text()).not.toContain("Owner.com");
+  });
 });

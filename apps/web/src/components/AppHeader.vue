@@ -49,6 +49,12 @@ watch(
       >
         Rewards
       </RouterLink>
+      <RouterLink
+        to="/readme"
+        class="readme-tab"
+      >
+        Readme
+      </RouterLink>
     </nav>
 
     <RouterLink
@@ -103,6 +109,35 @@ watch(
   color: var(--color-cream);
   border-bottom: 2px solid var(--color-gold);
   padding-bottom: 2px;
+}
+
+.nav-links a.readme-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-gold);
+  border: 1px solid var(--color-gold);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.readme-tab::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-gold);
+}
+
+.nav-links a.readme-tab:hover,
+.nav-links a.readme-tab.router-link-active {
+  background: var(--color-gold);
+  color: var(--color-gold-on-dark);
+}
+
+.readme-tab:hover::before,
+.readme-tab.router-link-active::before {
+  background: var(--color-gold-on-dark);
 }
 
 .cart-pill {

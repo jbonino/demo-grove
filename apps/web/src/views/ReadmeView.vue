@@ -9,10 +9,9 @@ import AppHeader from "../components/AppHeader.vue";
     <div class="content">
       <h1>Grove</h1>
       <p class="subtext">
-        A restaurant ordering + loyalty rewards demo, built as a portfolio piece for an
-        Owner.com interview. The scope and stack mirror Owner.com's product surface
-        (commission-free ordering, phone-based loyalty accrual). Built in a single
-        work day, agentically — see <a href="#build-process">Build process</a> below.
+        A restaurant ordering + loyalty rewards demo, built as a demo for interviews.
+        Built in a single work day, agentically — see
+        <a href="#build-process">Build process</a> below.
       </p>
 
       <section>
@@ -149,6 +148,36 @@ import AppHeader from "../components/AppHeader.vue";
           systematic debugging, and structured code review, adapted with a
           ticket/backlog/phase workflow layered on top (see <code>CLAUDE.md</code> in the
           repo root).
+        </p>
+      </section>
+
+      <section>
+        <h2>Test coverage</h2>
+        <ul>
+          <li>
+            <strong>113</strong> Vitest + Supertest tests in <code>apps/api</code> —
+            loyalty math, order/payment flow, and API routes.
+          </li>
+          <li>
+            <strong>140</strong> Vitest + Vue Test Utils component tests in
+            <code>apps/web</code>.
+          </li>
+          <li>
+            Playwright E2E (<code>apps/web/e2e</code>) driving the real Stripe Elements
+            card iframe against a live webhook-driven backend: the critical customer
+            path (browse &rarr; checkout &rarr; confirmation, including a
+            reward-redemption case) and admin login &rarr; dashboard.
+          </li>
+        </ul>
+        <p>
+          Everything was TDD'd — tests written before the implementation they cover.
+        </p>
+      </section>
+
+      <section>
+        <h2>Contact</h2>
+        <p>
+          <a href="mailto:jbonino@protonmail.com">jbonino@protonmail.com</a>
         </p>
       </section>
     </div>

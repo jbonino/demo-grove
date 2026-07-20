@@ -1,9 +1,7 @@
 # Grove
 
-A restaurant ordering + loyalty rewards demo, built as a portfolio piece for an
-Owner.com interview. The scope and stack mirror Owner.com's product surface
-(commission-free ordering, phone-based loyalty accrual). Built in a single work day,
-agentically — see [Build process](#build-process) below.
+A restaurant ordering + loyalty rewards demo, built as a demo for interviews. Built in a
+single work day, agentically — see [Build process](#build-process) below.
 
 Live demo: https://grove-jbonino.fly.dev — the deployed app also serves this same
 overview and walkthrough at [`/readme`](https://grove-jbonino.fly.dev/readme), reachable
@@ -86,6 +84,21 @@ modified version of the [Superpowers](https://github.com/obra/superpowers) Claud
 plugin — its skills for brainstorming, TDD, systematic debugging, and structured code
 review, adapted with a ticket/backlog/phase workflow layered on top (see `CLAUDE.md` in
 the repo root).
+
+## Test coverage
+
+- **113** Vitest + Supertest tests in `apps/api` — loyalty math, order/payment flow, and
+  API routes.
+- **140** Vitest + Vue Test Utils component tests in `apps/web`.
+- Playwright E2E (`apps/web/e2e`) driving the real Stripe Elements card iframe against a
+  live webhook-driven backend: the critical customer path (browse → checkout →
+  confirmation, including a reward-redemption case) and admin login → dashboard.
+
+Everything was TDD'd — tests written before the implementation they cover.
+
+## Contact
+
+jbonino@protonmail.com
 
 ## Local development
 
