@@ -26,6 +26,27 @@ describe("AppHeader", () => {
     expect(rewardsLink.classes()).toContain("router-link-active");
   });
 
+  it("shows Menu, Rewards, then a distinctive Readme link, in that order", async () => {
+    const wrapper = await mountHeader("/");
+    const navLinks = wrapper.findAll(".nav-links a");
+
+    expect(navLinks.map((link) => link.text())).toEqual(["Menu", "Rewards", "Readme"]);
+    expect(wrapper.get(".readme-tab").attributes("href")).toBe("/readme");
+  });
+
+  it("hides the nav, and the Readme link with it, when a step label is shown", async () => {
+    setActivePinia(createPinia());
+    const router = createTestRouter();
+    router.push("/checkout");
+    await router.isReady();
+    const wrapper = mount(AppHeader, {
+      props: { step: "Step 2 of 3" },
+      global: { plugins: [router] },
+    });
+
+    expect(wrapper.find(".readme-tab").exists()).toBe(false);
+  });
+
   describe("cart pill pulse", () => {
     beforeEach(() => {
       vi.useFakeTimers();
