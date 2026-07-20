@@ -1,6 +1,6 @@
 # 002-001 — Checkout Name Field & Seed Backfill
 
-**Status:** Backlog
+**Status:** Active
 
 ## Description
 
