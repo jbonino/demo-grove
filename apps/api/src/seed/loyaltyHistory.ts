@@ -69,7 +69,12 @@ export async function seedLoyaltyHistory(): Promise<void> {
 
       const isLastOrderForCustomer = o === orderCount - 1;
       const shouldSimulatePastRedemption = i % 4 === 0 && isLastOrderForCustomer;
-      if (shouldSimulatePastRedemption && balance >= cheapestReward.pointsCost) {
+      if (shouldSimulatePastRedemption) {
+        if (balance < cheapestReward.pointsCost) {
+          const topUp = cheapestReward.pointsCost - balance;
+          await LoyaltyEvent.create({ phone, orderId: order._id, type: "earn", points: topUp });
+          balance += topUp;
+        }
         await LoyaltyEvent.create({
           phone,
           orderId: order._id,

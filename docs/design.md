@@ -18,7 +18,7 @@ Browse menu → add to cart → checkout (phone number + Stripe payment) → poi
 
 **Loyalty & Rewards**
 - 1 point per $1 of pre-tax subtotal, credited on successful payment.
-- Small fixed reward catalog (e.g. "Free appetizer — 300 pts", "$10 off — 500 pts"), seeded, not admin-editable in v1.
+- Small fixed reward catalog (e.g. "$10 off — 500 pts", "$20 off — 900 pts"), seeded, not admin-editable in v1.
 - Redemption happens at checkout: if the phone number has enough points, one reward can be applied, discounting the charge.
 - Balance is derived from a `LoyaltyEvent` ledger (earn/redeem entries), not a mutable counter — keeps history auditable.
 
