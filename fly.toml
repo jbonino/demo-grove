@@ -2,6 +2,8 @@ app = "grove-jbonino"
 primary_region = "iad"
 
 [build]
+  [build.args]
+    VITE_STRIPE_PUBLISHABLE_KEY = "pk_test_51QFzwfA3yvIY7s1WJ3kRpTHJjI8FWql4I8SmZd2MWBPP4d2nBUaWTeSLySuCUdlpjSniEU3IV7RKnaK552KqcG1T00millre6Q"
 
 [env]
   GROVE_API_PORT = "8080"
