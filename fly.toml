@@ -1,4 +1,4 @@
-app = "grove"
+app = "grove-jbonino"
 primary_region = "iad"
 
 [build]
