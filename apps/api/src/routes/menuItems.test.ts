@@ -26,4 +26,19 @@ describe("GET /api/menu-items", () => {
     });
     expect(res.body[0].id).toBeTruthy();
   });
+
+  it("orders items by the menu's category flow, not alphabetically", async () => {
+    await MenuItem.deleteMany({});
+    await MenuItem.create([
+      { name: "Crème Brûlée", description: "desc", priceCents: 1100, category: "Desserts" },
+      { name: "Charred Brussels Sprouts", description: "desc", priceCents: 850, category: "Sides" },
+      { name: "Braised Short Rib", description: "desc", priceCents: 3400, category: "Entrées" },
+      { name: "Burrata & Heirloom Tomato", description: "desc", priceCents: 1600, category: "Starters" },
+    ]);
+
+    const res = await request(createApp()).get("/api/menu-items");
+
+    const categoryOrder = res.body.map((item: { category: string }) => item.category);
+    expect(categoryOrder).toEqual(["Starters", "Entrées", "Sides", "Desserts"]);
+  });
 });
