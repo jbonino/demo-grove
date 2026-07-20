@@ -1,6 +1,6 @@
 # 003-003 — Combine Cart & Checkout
 
-**Status:** Backlog
+**Status:** Active
 
 ## Description
 
@@ -70,4 +70,4 @@ Feature: Combined cart and checkout
 
 ## Status
 
-Backlog
+Active
