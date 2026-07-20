@@ -9,11 +9,31 @@ describe("CategoryTabs", () => {
     });
 
     const tabs = wrapper.findAll(".tab");
-    expect(tabs[0].classes()).toContain("active");
-    expect(tabs[1].classes()).not.toContain("active");
+    expect(tabs[1].classes()).toContain("active");
+    expect(tabs[2].classes()).not.toContain("active");
 
-    await tabs[1].trigger("click");
+    await tabs[2].trigger("click");
 
     expect(wrapper.emitted("select")).toEqual([["Entrées"]]);
+  });
+
+  it("renders an All tab before the given categories", () => {
+    const wrapper = mount(CategoryTabs, {
+      props: { categories: ["Starters", "Entrées"], activeCategory: "All" },
+    });
+
+    const tabs = wrapper.findAll(".tab");
+    expect(tabs.map((tab) => tab.text())).toEqual(["All", "Starters", "Entrées"]);
+    expect(tabs[0].classes()).toContain("active");
+  });
+
+  it("emits select with 'All' when the All tab is clicked", async () => {
+    const wrapper = mount(CategoryTabs, {
+      props: { categories: ["Starters", "Entrées"], activeCategory: "Starters" },
+    });
+
+    await wrapper.findAll(".tab")[0].trigger("click");
+
+    expect(wrapper.emitted("select")).toEqual([["All"]]);
   });
 });

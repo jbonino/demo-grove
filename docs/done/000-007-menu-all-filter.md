@@ -1,6 +1,6 @@
 # 000-007 — Menu "All" Filter with Most Popular
 
-**Status:** Active
+**Status:** Done
 
 ## Description
 
@@ -61,6 +61,8 @@ Feature: Browsing the full menu via the All filter
 - Playwright E2E: update the existing browse → filter → add-to-cart flow (from 000-004) to account for All being the default landing state instead of the first category.
 
 **Manual:** None — no live third-party service, payment flow, or unautomatable UI involved.
+
+**Verification record (2026-07-19):** Automated — added 3 new tests to `CategoryTabs.test.ts` (All tab rendering, active state, select emit) and replaced/added tests in `MenuView.test.ts` (defaults to All, grouped headings, single-category narrowing, return-to-All, Most Popular presence/absence, Most Popular items also appear in their category section) — all written test-first, watched fail, then implemented `CategoryTabs.vue` and `MenuView.vue` to pass. Updated the existing `e2e/menu.spec.ts` Playwright test to assert All-as-default and a visible category heading before the filter-by-category flow; ran against the real dev stack (API via `e2e-server`, web via Vite) — passed. Full workspace `build`/`lint`/`typecheck`/`test` pass (14 API test files/52 tests, 19 web test files/79 tests, shared 2 tests). Manual — launched the real dev stack and screenshotted the built screen at 1280px, 375px, and the filtered single-category state via Playwright: Most Popular pinned at top with the 4 curated items, category sections below each with a DM Serif Display heading matching the Checkout screen's existing header style, mobile collapses to single column, filtering to a category tab still shows the flat grid with no headings — matches the design. No console errors observed.
 
 ## Story Points
 
