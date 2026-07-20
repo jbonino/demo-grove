@@ -10,6 +10,7 @@ import { loyaltyRouter } from "./routes/loyalty.js";
 import { stripeWebhookRouter } from "./routes/stripeWebhook.js";
 import { adminAuthRouter } from "./routes/adminAuth.js";
 import { adminDashboardRouter } from "./routes/adminDashboard.js";
+import { adminCustomersRouter } from "./routes/adminCustomers.js";
 
 export function createApp() {
   const app = express();
@@ -33,6 +34,7 @@ export function createApp() {
   app.use("/api/loyalty", loyaltyRouter);
   app.use("/api/admin", adminAuthRouter);
   app.use("/api/admin", adminDashboardRouter);
+  app.use("/api/admin", adminCustomersRouter);
 
   return app;
 }
