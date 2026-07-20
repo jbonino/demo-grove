@@ -9,6 +9,16 @@ const cart = useCartStore();
 const isPulsing = ref(false);
 let pulseTimeout: ReturnType<typeof setTimeout> | undefined;
 
+const isNavOpen = ref(false);
+
+function toggleNav() {
+  isNavOpen.value = !isNavOpen.value;
+}
+
+function closeNav() {
+  isNavOpen.value = false;
+}
+
 watch(
   () => cart.totalItemCount,
   (count, previousCount) => {
@@ -36,26 +46,44 @@ watch(
       v-if="step"
       class="step"
     >{{ step }}</span>
-    <nav
-      v-else
-      class="nav-links"
-    >
-      <RouterLink to="/">
-        Menu
-      </RouterLink>
-      <RouterLink
-        to="/loyalty"
-        class="rewards-tab"
+    <template v-else>
+      <button
+        type="button"
+        class="nav-toggle"
+        :aria-expanded="isNavOpen"
+        aria-label="Toggle navigation"
+        @click="toggleNav"
       >
-        Rewards
-      </RouterLink>
-      <RouterLink
-        to="/readme"
-        class="readme-tab"
+        <span />
+        <span />
+        <span />
+      </button>
+      <nav
+        class="nav-links"
+        :class="{ 'is-open': isNavOpen }"
       >
-        Readme
-      </RouterLink>
-    </nav>
+        <RouterLink
+          to="/"
+          @click="closeNav"
+        >
+          Menu
+        </RouterLink>
+        <RouterLink
+          to="/loyalty"
+          class="rewards-tab"
+          @click="closeNav"
+        >
+          Rewards
+        </RouterLink>
+        <RouterLink
+          to="/readme"
+          class="readme-tab"
+          @click="closeNav"
+        >
+          Readme
+        </RouterLink>
+      </nav>
+    </template>
 
     <RouterLink
       v-if="!step"
@@ -70,6 +98,7 @@ watch(
 
 <style scoped>
 .app-header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -98,6 +127,27 @@ watch(
   font-size: 14px;
   font-weight: 500;
   color: var(--color-header-muted);
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--color-cream);
+  border-radius: 1px;
 }
 
 .nav-links a {
@@ -175,8 +225,29 @@ watch(
     font-size: 20px;
   }
 
+  .nav-toggle {
+    display: flex;
+    order: -1;
+  }
+
   .nav-links {
     display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--color-deep-green);
+    padding: 8px 20px 16px;
+  }
+
+  .nav-links.is-open {
+    display: flex;
+  }
+
+  .nav-links a {
+    padding: 12px 0;
   }
 
   .cart-pill {

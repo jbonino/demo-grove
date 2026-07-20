@@ -47,6 +47,51 @@ describe("AppHeader", () => {
     expect(wrapper.find(".readme-tab").exists()).toBe(false);
   });
 
+  describe("mobile nav toggle", () => {
+    it("does not show the nav links open on initial mount", async () => {
+      const wrapper = await mountHeader("/");
+      expect(wrapper.get(".nav-links").classes()).not.toContain("is-open");
+      expect(wrapper.get(".nav-toggle").attributes("aria-expanded")).toBe("false");
+    });
+
+    it("opens the nav links when the toggle button is clicked", async () => {
+      const wrapper = await mountHeader("/");
+      await wrapper.get(".nav-toggle").trigger("click");
+
+      expect(wrapper.get(".nav-links").classes()).toContain("is-open");
+      expect(wrapper.get(".nav-toggle").attributes("aria-expanded")).toBe("true");
+    });
+
+    it("closes the nav links when the toggle button is clicked again", async () => {
+      const wrapper = await mountHeader("/");
+      await wrapper.get(".nav-toggle").trigger("click");
+      await wrapper.get(".nav-toggle").trigger("click");
+
+      expect(wrapper.get(".nav-links").classes()).not.toContain("is-open");
+    });
+
+    it("closes the nav links after a nav link is clicked", async () => {
+      const wrapper = await mountHeader("/");
+      await wrapper.get(".nav-toggle").trigger("click");
+      await wrapper.get(".nav-links a.rewards-tab").trigger("click");
+
+      expect(wrapper.get(".nav-links").classes()).not.toContain("is-open");
+    });
+
+    it("does not render a nav toggle when a step label is shown", async () => {
+      setActivePinia(createPinia());
+      const router = createTestRouter();
+      router.push("/checkout");
+      await router.isReady();
+      const wrapper = mount(AppHeader, {
+        props: { step: "Step 2 of 3" },
+        global: { plugins: [router] },
+      });
+
+      expect(wrapper.find(".nav-toggle").exists()).toBe(false);
+    });
+  });
+
   describe("cart pill pulse", () => {
     beforeEach(() => {
       vi.useFakeTimers();
