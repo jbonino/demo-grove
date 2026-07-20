@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import path from "node:path";
 import { isDbConnected } from "./db.js";
 import { getSessionSecret } from "./adminAuth.js";
 import { menuItemsRouter } from "./routes/menuItems.js";
@@ -13,7 +14,7 @@ import { adminDashboardRouter } from "./routes/adminDashboard.js";
 import { adminCustomersRouter } from "./routes/adminCustomers.js";
 import { adminOrdersRouter } from "./routes/adminOrders.js";
 
-export function createApp() {
+export function createApp(options?: { staticDir?: string }) {
   const app = express();
 
   app.use(cors({ origin: true, credentials: true }));
@@ -37,6 +38,18 @@ export function createApp() {
   app.use("/api/admin", adminDashboardRouter);
   app.use("/api/admin", adminCustomersRouter);
   app.use("/api/admin", adminOrdersRouter);
+
+  if (options?.staticDir) {
+    const staticDir = options.staticDir;
+    app.use(express.static(staticDir));
+    app.get(/.*/, (req, res, next) => {
+      if (req.path.startsWith("/api/")) {
+        next();
+        return;
+      }
+      res.sendFile(path.join(staticDir, "index.html"));
+    });
+  }
 
   return app;
 }
