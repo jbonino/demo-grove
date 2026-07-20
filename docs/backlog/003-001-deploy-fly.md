@@ -47,14 +47,15 @@ Feature: App deployed to Fly.io as a single app
 - `apps/web` is built (`vite build`) with `VITE_API_URL` pointing at the same origin (e.g. relative `/api`) and `VITE_STRIPE_PUBLISHABLE_KEY` (test mode) baked in at build time.
 - Express (`apps/api/src/app.ts`) adds static-file middleware serving `apps/web`'s build output, plus a catch-all route falling back to `index.html` for non-API paths so `vue-router`'s history-mode routes (`/cart`, `/checkout`, `/admin`, etc.) survive a refresh/deep link — mounted *after* the existing `/api/*` and `/health` routes so it doesn't shadow them.
 - Single `Dockerfile` (multi-stage: build `apps/web` and `apps/api`, copy both into one runtime image) and one `fly.toml`.
-- Fly secrets: `GROVE_MONGO_URI` (existing Atlas cluster's connection string), `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` — **test mode** keys, matching local dev.
+- Fly secrets (see `apps/api/.env.example` for the full local-dev list): `GROVE_MONGO_URI` (existing Atlas cluster's connection string), `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` — **test mode** keys, matching local dev — plus `GROVE_ADMIN_PASSWORD` / `GROVE_SESSION_SECRET` for the admin panel (Phase 2), which the app fails to boot without.
 - Register a new webhook endpoint in the Stripe dashboard (test mode) pointing at `https://grove.fly.dev/api/stripe/webhook`; use its signing secret for `STRIPE_WEBHOOK_SECRET` (this replaces the local `stripe listen` flow for the deployed environment only — local dev is unaffected).
 - Run `npm run seed --workspace apps/api` once against the production `GROVE_MONGO_URI` (manual step, not part of the deploy pipeline) so the live demo has the same menu/rewards/loyalty-history data as local dev.
 
 ## Test plan
 
-- **Automated:** none new — this ticket ships infra config, not application logic; existing Vitest/Playwright suites already cover the code being deployed.
-- **Manual:**
+- **Automated:** none new for the deploy config itself; the static-serving/SPA-fallback behavior added to `apps/api/src/app.ts` is covered by new Vitest cases in `app.test.ts` (TDD'd alongside this ticket).
+- **Manual (local, already done during implementation):** built the Docker image locally and ran it alongside a throwaway Mongo container — confirmed `/health` (200), `/` (200, menu assets load), `/checkout` refreshed via direct fallback request (200, serves `index.html`), `/api/menu-items` (200), and `/api/does-not-exist` (404, does not fall back to `index.html`). Also caught and fixed a pre-existing bug where the root `npm run build` built workspaces in the wrong order and failed on a truly clean checkout (`packages/shared` must build before `apps/api`/`apps/web`).
+- **Manual (live, still required before marking Done):**
   1. Deploy: `fly deploy` from the repo root.
   2. `curl https://grove.fly.dev/health` → expect `200 { ok: true }`.
   3. Visit `https://grove.fly.dev`, confirm menu loads.

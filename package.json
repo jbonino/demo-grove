@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
+    "build": "npm run build --workspace packages/shared && npm run build --workspace apps/api --workspace apps/web",
     "dev": "concurrently -n api,web,stripe -c blue,green,magenta \"npm run dev --workspace apps/api\" \"npm run dev --workspace apps/web\" \"npm run stripe:listen --workspace apps/api\"",
     "dev:api": "npm run dev --workspace apps/api",
     "dev:web": "npm run dev --workspace apps/web",
