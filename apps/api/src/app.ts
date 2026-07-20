@@ -11,6 +11,7 @@ import { stripeWebhookRouter } from "./routes/stripeWebhook.js";
 import { adminAuthRouter } from "./routes/adminAuth.js";
 import { adminDashboardRouter } from "./routes/adminDashboard.js";
 import { adminCustomersRouter } from "./routes/adminCustomers.js";
+import { adminOrdersRouter } from "./routes/adminOrders.js";
 
 export function createApp() {
   const app = express();
@@ -35,6 +36,7 @@ export function createApp() {
   app.use("/api/admin", adminAuthRouter);
   app.use("/api/admin", adminDashboardRouter);
   app.use("/api/admin", adminCustomersRouter);
+  app.use("/api/admin", adminOrdersRouter);
 
   return app;
 }
