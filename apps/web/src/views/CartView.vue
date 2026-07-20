@@ -42,7 +42,6 @@ function goToCheckout() {
       <OrderSummaryCard
         :subtotal-cents="cart.subtotalCents"
         cta-label="Go to Checkout"
-        show-promo
         @cta="goToCheckout"
       />
     </div>

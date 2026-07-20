@@ -49,7 +49,6 @@ watch(
       >
         Rewards
       </RouterLink>
-      <span>Order History</span>
     </nav>
 
     <RouterLink

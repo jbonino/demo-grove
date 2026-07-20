@@ -11,18 +11,6 @@ describe("OrderSummaryCard", () => {
     expect(wrapper.text()).toContain("Go to Checkout");
   });
 
-  it("shows the promo field only when showPromo is true", () => {
-    const withPromo = mount(OrderSummaryCard, {
-      props: { subtotalCents: 1000, ctaLabel: "Go to Checkout", showPromo: true },
-    });
-    expect(withPromo.find(".promo").exists()).toBe(true);
-
-    const withoutPromo = mount(OrderSummaryCard, {
-      props: { subtotalCents: 1000, ctaLabel: "Place Order" },
-    });
-    expect(withoutPromo.find(".promo").exists()).toBe(false);
-  });
-
   it("renders itemized lines when provided", () => {
     const wrapper = mount(OrderSummaryCard, {
       props: {

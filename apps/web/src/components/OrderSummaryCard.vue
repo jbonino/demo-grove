@@ -5,7 +5,6 @@ const props = defineProps<{
   subtotalCents: number;
   ctaLabel: string;
   ctaDisabled?: boolean;
-  showPromo?: boolean;
   itemized?: { name: string; quantity: number; unitPrice: number }[];
   redeemedReward?: { name: string; discountAmountCents: number } | null;
   earnEstimatePoints?: number | null;
@@ -36,19 +35,6 @@ const totalCents = computed(() =>
         <span>{{ formatPrice(line.unitPrice * line.quantity) }}</span>
       </li>
     </ul>
-
-    <div
-      v-if="showPromo"
-      class="promo"
-    >
-      <input
-        type="text"
-        placeholder="Promo code"
-      >
-      <button type="button">
-        Apply
-      </button>
-    </div>
 
     <div class="row">
       <span>Subtotal</span>
@@ -111,28 +97,6 @@ const totalCents = computed(() =>
   justify-content: space-between;
 }
 
-.promo {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
-.promo input {
-  flex: 1;
-  border: 1px dashed var(--color-gold);
-  border-radius: 4px;
-  padding: 10px 12px;
-}
-
-.promo button {
-  border: 1px solid var(--color-deep-green);
-  color: var(--color-deep-green);
-  background: none;
-  border-radius: 4px;
-  padding: 0 16px;
-  cursor: pointer;
-}
-
 .row {
   display: flex;
   justify-content: space-between;
@@ -183,10 +147,6 @@ const totalCents = computed(() =>
 @media (max-width: 768px) {
   .summary-card {
     padding: 18px;
-  }
-
-  .promo {
-    display: none;
   }
 
   .row.total {
