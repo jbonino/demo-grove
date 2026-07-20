@@ -85,3 +85,58 @@ export async function fetchCustomers(options: { search?: string; page?: number }
   }
   return res.json();
 }
+
+export interface OrderRowDTO {
+  id: string;
+  customerName: string;
+  createdAt: string;
+  totalCents: number;
+  status: "Completed";
+}
+
+export interface OrderListDTO {
+  orders: OrderRowDTO[];
+  page: number;
+  totalPages: number;
+}
+
+export async function fetchOrders(options: { page?: number }): Promise<OrderListDTO> {
+  const params = new URLSearchParams();
+  if (options.page) params.set("page", String(options.page));
+  const query = params.toString();
+
+  const res = await fetch(`${apiBaseUrl}/api/admin/orders${query ? `?${query}` : ""}`, {
+    credentials: "include",
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch orders: ${res.status}`);
+  }
+  return res.json();
+}
+
+export interface OrderDetailItemDTO {
+  name: string;
+  quantity: number;
+  unitPriceCents: number;
+}
+
+export interface OrderDetailDTO {
+  id: string;
+  customerName: string;
+  phone: string;
+  createdAt: string;
+  items: OrderDetailItemDTO[];
+  totalCents: number;
+  pointsEarned: number;
+  status: "Completed";
+}
+
+export async function fetchOrderDetail(id: string): Promise<OrderDetailDTO> {
+  const res = await fetch(`${apiBaseUrl}/api/admin/orders/${id}`, {
+    credentials: "include",
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch order detail: ${res.status}`);
+  }
+  return res.json();
+}
