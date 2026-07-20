@@ -4,6 +4,7 @@ import { Order } from "../models/Order.js";
 import { LoyaltyEvent } from "../models/LoyaltyEvent.js";
 import { getPointsBalance } from "../loyalty/balance.js";
 import { toRewardOptionDTOs } from "../loyalty/rewardOptions.js";
+import { normalizePhone } from "../loyalty/phone.js";
 import { asyncHandler } from "../asyncHandler.js";
 
 export const loyaltyRouter = Router();
@@ -46,7 +47,7 @@ async function getActivity(phone: string): Promise<ActivityEntry[]> {
 loyaltyRouter.get(
   "/:phone",
   asyncHandler(async (req, res) => {
-    const phone = String(req.params.phone);
+    const phone = normalizePhone(String(req.params.phone));
 
     const hasHistory = await LoyaltyEvent.exists({ phone });
     if (!hasHistory) {

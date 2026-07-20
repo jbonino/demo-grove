@@ -77,6 +77,15 @@ describe("GET /api/loyalty/:phone", () => {
     });
   });
 
+  it("matches loyalty history when the phone is looked up with different formatting", async () => {
+    await LoyaltyEvent.create({ phone: "9062351626", orderId: null, type: "earn", points: 120 });
+
+    const res = await request(createApp()).get("/api/loyalty/(906) 235-1626");
+
+    expect(res.status).toBe(200);
+    expect(res.body.pointsBalance).toBe(120);
+  });
+
   it("returns 404 when the phone has no loyalty history", async () => {
     const res = await request(createApp()).get("/api/loyalty/+15550000000");
     expect(res.status).toBe(404);

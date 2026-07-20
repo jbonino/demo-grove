@@ -46,4 +46,13 @@ describe("GET /api/rewards", () => {
     expect(byName("Small Bite")).toMatchObject({ unlocked: true, pointsNeeded: 0 });
     expect(byName("$25 off")).toMatchObject({ unlocked: false, pointsNeeded: 500 });
   });
+
+  it("matches a phone's balance when the query is formatted differently than storage", async () => {
+    await LoyaltyEvent.create({ phone: "9062351626", orderId: null, type: "earn", points: 120 });
+
+    const res = await request(createApp()).get("/api/rewards").query({ phone: "(906) 235-1626" });
+
+    expect(res.status).toBe(200);
+    expect(res.body.balance).toBe(120);
+  });
 });

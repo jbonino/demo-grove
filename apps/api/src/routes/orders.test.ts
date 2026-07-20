@@ -34,6 +34,27 @@ describe("POST /api/orders", () => {
     expect(res.body.clientSecret).toContain(res.body.paymentIntentId);
   });
 
+  it("normalizes a formatted phone number before storing it on the PaymentIntent metadata", async () => {
+    const menuItem = await MenuItem.create({
+      name: "Marinated Olives",
+      description: "desc",
+      priceCents: 800,
+      category: "Starters",
+    });
+
+    const res = await request(createApp())
+      .post("/api/orders")
+      .send({
+        items: [{ itemId: menuItem._id.toString(), quantity: 1 }],
+        phone: "(906) 235-1626",
+        pickup: { mode: "asap", time: null },
+      });
+
+    expect(res.status).toBe(201);
+    const paymentIntent = await getStripeClient().paymentIntents.retrieve(res.body.paymentIntentId);
+    expect(paymentIntent.metadata.phone).toBe("9062351626");
+  });
+
   it("carries an optional name through to the PaymentIntent metadata", async () => {
     const menuItem = await MenuItem.create({
       name: "Roasted Beet Salad",

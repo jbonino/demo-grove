@@ -3,6 +3,7 @@ import { MenuItem } from "../models/MenuItem.js";
 import { Order } from "../models/Order.js";
 import { Reward } from "../models/Reward.js";
 import { getPointsBalance } from "../loyalty/balance.js";
+import { normalizePhone } from "../loyalty/phone.js";
 import { getStripeClient } from "../stripeClient.js";
 import { asyncHandler } from "../asyncHandler.js";
 
@@ -33,6 +34,7 @@ ordersRouter.post(
       res.status(400).json({ error: "Pickup mode is required" });
       return;
     }
+    const phone = normalizePhone(body.phone);
 
     const menuItems = await MenuItem.find({ _id: { $in: body.items.map((line) => line.itemId) } });
     const priceById = new Map(menuItems.map((item) => [item._id.toString(), item.priceCents]));
@@ -58,7 +60,7 @@ ordersRouter.post(
         res.status(400).json({ error: "Unknown reward" });
         return;
       }
-      const balance = await getPointsBalance(body.phone);
+      const balance = await getPointsBalance(phone);
       if (balance < reward.pointsCost) {
         res.status(400).json({ error: "Insufficient points for this reward" });
         return;
@@ -75,7 +77,7 @@ ordersRouter.post(
       amount: discountedSubtotalCents,
       currency: "usd",
       metadata: {
-        phone: body.phone,
+        phone,
         customerName: body.name?.trim() ?? "",
         pickupMode: body.pickup.mode,
         pickupTime: body.pickup.time ?? "",
