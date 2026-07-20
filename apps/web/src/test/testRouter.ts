@@ -4,6 +4,8 @@ import CartView from "../views/CartView.vue";
 import CheckoutView from "../views/CheckoutView.vue";
 import ConfirmationView from "../views/ConfirmationView.vue";
 import LoyaltyView from "../views/LoyaltyView.vue";
+import AdminLoginView from "../views/admin/AdminLoginView.vue";
+import AdminDashboardView from "../views/admin/AdminDashboardView.vue";
 
 export function createTestRouter() {
   return createRouter({
@@ -18,6 +20,8 @@ export function createTestRouter() {
         component: ConfirmationView,
       },
       { path: "/loyalty", name: "loyalty", component: LoyaltyView },
+      { path: "/admin/login", name: "admin-login", component: AdminLoginView },
+      { path: "/admin", name: "admin-dashboard", component: AdminDashboardView },
     ],
   });
 }
