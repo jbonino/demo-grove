@@ -72,8 +72,8 @@ function onSelectReward(rewardId: string) {
 async function placeOrder() {
   errorMessage.value = "";
 
-  if (!name.value.trim() || !phone.value.trim()) {
-    errorMessage.value = "Please enter your name and phone number.";
+  if (!phone.value.trim()) {
+    errorMessage.value = "Please enter your phone number.";
     return;
   }
   if (pickupMode.value === "scheduled" && !pickupTime.value) {
@@ -90,6 +90,7 @@ async function placeOrder() {
     const { clientSecret, paymentIntentId } = await createOrder({
       items: cart.lines.map((line) => ({ itemId: line.itemId, quantity: line.quantity })),
       phone: phone.value,
+      name: name.value.trim(),
       pickup: { mode: pickupMode.value, time: pickupMode.value === "scheduled" ? pickupTime.value : null },
       ...(selectedRewardId.value ? { rewardId: selectedRewardId.value } : {}),
     });
@@ -128,7 +129,7 @@ async function placeOrder() {
           <h2>Contact</h2>
           <div class="fields fields-2col">
             <label>
-              Name
+              Name (optional)
               <input
                 v-model="name"
                 type="text"

@@ -77,6 +77,34 @@ describe("Order model", () => {
     expect(found?.pointsBalanceAfter).toBe(42);
   });
 
+  it("defaults customerName to null when not provided", async () => {
+    const created = await Order.create({
+      items: [{ menuItem: new Types.ObjectId(), quantity: 1, unitPriceCents: 500 }],
+      subtotalCents: 500,
+      phone: "+15551234567",
+      pickup: { mode: "asap", time: null },
+      status: "pending",
+      stripePaymentIntentId: "pi_customer_name_default_test",
+    });
+
+    expect(created.customerName).toBeNull();
+  });
+
+  it("saves customerName when provided", async () => {
+    const created = await Order.create({
+      items: [{ menuItem: new Types.ObjectId(), quantity: 1, unitPriceCents: 500 }],
+      subtotalCents: 500,
+      phone: "+15551234567",
+      pickup: { mode: "asap", time: null },
+      status: "pending",
+      customerName: "Jane Doe",
+      stripePaymentIntentId: "pi_customer_name_saved_test",
+    });
+
+    const found = await Order.findById(created._id);
+    expect(found?.customerName).toBe("Jane Doe");
+  });
+
   it("enforces uniqueness on stripePaymentIntentId", async () => {
     await Order.create({
       items: [{ menuItem: new Types.ObjectId(), quantity: 1, unitPriceCents: 500 }],

@@ -39,6 +39,7 @@ stripeWebhookRouter.post(
       if (!alreadyProcessed) {
         const snapshotItems: OrderItemSnapshot[] = JSON.parse(paymentIntent.metadata.itemsJson);
         const phone = paymentIntent.metadata.phone;
+        const customerName = paymentIntent.metadata.customerName || null;
         const rewardName = paymentIntent.metadata.rewardName || "";
         const rewardDiscountAmountCents = Number(paymentIntent.metadata.rewardDiscountAmountCents || 0);
         const rewardPointsCost = Number(paymentIntent.metadata.rewardPointsCost || 0);
@@ -57,6 +58,7 @@ stripeWebhookRouter.post(
               })),
               subtotalCents: Number(paymentIntent.metadata.subtotalCents),
               phone,
+              customerName,
               pickup: {
                 mode: paymentIntent.metadata.pickupMode,
                 time: paymentIntent.metadata.pickupTime || null,

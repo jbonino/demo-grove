@@ -23,6 +23,7 @@ export interface OrderDoc {
   items: OrderItem[];
   subtotalCents: number;
   phone: string;
+  customerName: string | null;
   pickup: OrderPickup;
   stripePaymentIntentId: string | null;
   status: OrderStatus;
@@ -61,6 +62,7 @@ const orderSchema = new Schema<OrderDoc>({
   items: { type: [orderItemSchema], required: true },
   subtotalCents: { type: Number, required: true },
   phone: { type: String, required: true },
+  customerName: { type: String, default: null },
   pickup: { type: orderPickupSchema, required: true },
   stripePaymentIntentId: { type: String, default: null, unique: true, sparse: true },
   status: { type: String, enum: ["pending", "paid", "failed"], required: true, default: "pending" },

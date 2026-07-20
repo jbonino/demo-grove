@@ -11,6 +11,7 @@ export const ordersRouter = Router();
 interface CreateOrderBody {
   items?: { itemId: string; quantity: number }[];
   phone?: string;
+  name?: string;
   pickup?: { mode: "asap" | "scheduled"; time: string | null };
   rewardId?: string;
 }
@@ -75,6 +76,7 @@ ordersRouter.post(
       currency: "usd",
       metadata: {
         phone: body.phone,
+        customerName: body.name?.trim() ?? "",
         pickupMode: body.pickup.mode,
         pickupTime: body.pickup.time ?? "",
         itemsJson: JSON.stringify(snapshotItems),
