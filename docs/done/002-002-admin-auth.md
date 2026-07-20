@@ -1,6 +1,6 @@
 # 002-002 — Admin Login & Session
 
-**Status:** Active
+**Status:** Done
 
 ## Description
 
@@ -65,3 +65,24 @@ Feature: Admin authentication
 ## Suggested Implementation Model
 
 **Sonnet** — auth middleware/session wiring is a well-trodden pattern, but touches both API and frontend routing with real security surface (password/cookie handling), warranting more than a mechanical pass.
+
+## Manual Test Record (2026-07-20)
+
+Ran both dev servers (`npm run dev` in `apps/api` and `apps/web`) and exercised the real endpoints with `curl` against the running API:
+
+1. `POST /api/admin/login` with the wrong password → `401`, no `Set-Cookie` header.
+2. `POST /api/admin/login` with the correct password (`GROVE_ADMIN_PASSWORD`) → `200`, signed httpOnly `grove_admin_session` cookie set with a ~10-year `Max-Age` (no forced expiry, per the ticket's "stay signed in until explicit sign-out" requirement).
+3. `GET /api/admin/session` with the session cookie → `200 { authenticated: true }`.
+4. `GET /api/admin/session` with no cookie → `401`.
+5. `POST /api/admin/logout` → `200`, cookie cleared (`Expires` set to epoch).
+6. `GET /api/admin/session` after logout → `401` again, confirming the session was actually cleared, not just client-side state.
+7. Confirmed `Access-Control-Allow-Credentials: true` and an echoed `Access-Control-Allow-Origin` (not `*`) on responses, which is required for the browser to accept/send the cookie across the web (`:5173`) → API (`:3001`) origin split in dev.
+
+Frontend login form (`/admin/login`) → dashboard redirect and inline-error paths are covered by the automated component tests (`AdminLoginView.test.ts`); a full browser click-through and the `/admin` route-guard redirect are deferred to 002-003 per the ticket's Playwright note, once a real Dashboard exists to land on/assert against.
+
+## Verification record (2026-07-20)
+
+- All new tests written test-first (RED confirmed before each implementation): admin login/logout/session API routes and the `requireAdminSession` middleware (`apps/api/src/routes/adminAuth.test.ts`), CORS credentials wiring so the browser will actually store/send the cookie cross-origin, the `adminAuth` Pinia store (`apps/web/src/stores/adminAuth.test.ts`), the `requiresAdminAuth` route-guard predicate (`apps/web/src/router/adminGuard.test.ts`), the `admin` API client (`apps/web/src/api/admin.test.ts`), and `AdminLoginView` (wrong-password inline error, correct-password redirect).
+- Full workspace `build`/`lint`/`test` pass: `apps/api` 66 tests (up from 60), `apps/web` 96 tests (up from 80), `packages/shared` unaffected. Lint clean (one auto-fixable Vue formatting warning resolved via `eslint --fix`).
+- Added a minimal `AdminDashboardView` placeholder (`apps/web/src/views/admin/AdminDashboardView.vue`) so the login redirect and route guard have a concrete `/admin` destination to test against; 002-003 replaces its content with the real Dashboard.
+- Manual end-to-end verification against the real running dev servers — see Manual Test Record above.
