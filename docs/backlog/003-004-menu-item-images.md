@@ -1,6 +1,6 @@
 # 003-004 — Menu Item Images
 
-**Status:** Backlog
+**Status:** Active
 
 ## Description
 
@@ -56,4 +56,4 @@ Feature: Menu item photos
 
 ## Status
 
-Backlog
+Active
