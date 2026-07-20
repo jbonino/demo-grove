@@ -47,10 +47,6 @@ Give an operator visibility into what Phases 0-1 built.
 Make the demo reachable and interview-ready.
 
 - Fly.io deployment: `apps/api` and built `apps/web` as separate Fly apps
-- MongoDB Atlas (free tier) wired as the production database
-- Seed script run against production data
-- Real Apple Pay at checkout (Stripe Payment Request Button + domain association), now that a live HTTPS URL exists to verify against — the Phase 1 mock included an Apple Pay row that was cut to card-only pending this
-- Playwright E2E: critical customer path (browse → checkout → confirmation) — admin login → dashboard already covered in Phase 2
 - README / demo walkthrough script for the interview
 
 **Exit criteria:** a live URL exists, the full customer and admin paths work on it, and there's a documented walkthrough ready to run.

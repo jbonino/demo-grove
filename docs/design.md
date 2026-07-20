@@ -14,7 +14,7 @@ Browse menu → add to cart → checkout (phone number + Stripe payment) → poi
 - Menu items: name, description, price, category. Cart is client-side, no account required to build one.
 - Checkout requires phone number, cart items, and a successful Stripe (test mode) payment.
 - A successful payment creates an `Order` and issues loyalty points in the same flow — not a separate manual step.
-- Payment method is card only through Phase 0-2; real Apple Pay requires domain verification against a live HTTPS URL, so it's deferred to Phase 3 (see roadmap).
+- Payment method is card only (see §8 — real Apple Pay is out of scope).
 
 **Loyalty & Rewards**
 - 1 point per $1 of pre-tax subtotal, credited on successful payment.
@@ -57,10 +57,10 @@ Balance for a phone number = sum of matching `LoyaltyEvents.points` (earn positi
 - **API:** REST/JSON. Stripe webhook verifies signatures before writing; idempotent on `stripePaymentIntentId`.
 - **Auth:** admin-only, signed cookie; customers identified by phone number, not credentials.
 - **Testing:** Vitest + supertest for loyalty math and order/payment flow; Playwright E2E for the critical customer path (browse → checkout → confirmation) and admin login → dashboard.
-- **Deployment:** Fly.io for both `apps/api` and the built `apps/web` static assets; MongoDB via Atlas free tier. A live URL is a Phase 0 exit requirement.
+- **Deployment:** Fly.io for both `apps/api` and the built `apps/web` static assets; MongoDB via Atlas free tier. A live URL is a Phase 3 exit requirement.
 
 Full stack wiring, routes, and schema details live in `architecture.md` as they're implemented.
 
 ## 8. Out of Scope / Future Vision
 
-Multi-tenant (multiple restaurants), admin-editable menu/rewards, marketing automation (win-back SMS/email), smart upselling/ML recommendations, POS/delivery integrations, tiered loyalty status. Deferred deliberately to keep the demo buildable — worth naming as "what's next" in the interview.
+Multi-tenant (multiple restaurants), admin-editable menu/rewards, marketing automation (win-back SMS/email), smart upselling/ML recommendations, POS/delivery integrations, tiered loyalty status, real Apple Pay/Google Pay at checkout (card only for the demo). Deferred deliberately to keep the demo buildable — worth naming as "what's next" in the interview.
