@@ -56,3 +56,32 @@ export async function fetchDashboardStats(): Promise<DashboardStatsDTO> {
   }
   return res.json();
 }
+
+export interface CustomerRowDTO {
+  name: string;
+  phone: string;
+  pointsBalance: number;
+  lifetimeOrders: number;
+  lastOrderAt: string;
+}
+
+export interface CustomerListDTO {
+  customers: CustomerRowDTO[];
+  page: number;
+  totalPages: number;
+}
+
+export async function fetchCustomers(options: { search?: string; page?: number }): Promise<CustomerListDTO> {
+  const params = new URLSearchParams();
+  if (options.search) params.set("search", options.search);
+  if (options.page) params.set("page", String(options.page));
+  const query = params.toString();
+
+  const res = await fetch(`${apiBaseUrl}/api/admin/customers${query ? `?${query}` : ""}`, {
+    credentials: "include",
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch customers: ${res.status}`);
+  }
+  return res.json();
+}

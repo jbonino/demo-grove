@@ -1,6 +1,6 @@
 # 002-004 — Admin Customers List
 
-**Status:** Active
+**Status:** Done
 
 ## Description
 
@@ -51,3 +51,20 @@ Feature: Admin customers list
 ## Suggested Implementation Model
 
 **Sonnet** — a non-trivial aggregation (group + join + search + pagination) plus a full responsive screen; more than mechanical but a well-understood pattern.
+
+## Manual Test Record (2026-07-20)
+
+Verified against the real running dev servers (API on :3001, web on :5173) and the seeded MongoDB dataset (~35 customers from prior seed runs), via Playwright screenshots at desktop (1280×900) and mobile (390×844) viewports:
+
+- **Desktop**: sidebar nav with Customers highlighted, table columns (Name/Phone/Points Balance in gold-bold/Lifetime Orders/Last Order), search pill top-right, Prev/Next pagination footer showing "Page 1 of 2" with Prev disabled — matches the design handoff.
+- **Mobile**: search bar full-width above a stacked card list (name/phone/balance/orders/date per card), bottom tab bar with Customers active; consistent with the fixed-bottom-nav pattern already verified in 002-003 (nav overlaps mid-scroll content transiently but doesn't clip anything permanently).
+- **Search**: typing "Maya" live-filtered to the 2 matching customers (Maya Grant, Maya Ito) and correctly reset pagination to "Page 1 of 1".
+- **Pagination**: clicking Next advanced to "Page 2 of 2" with the remaining ~15 customers, Next disabled and Prev enabled on the last page.
+- Confirmed via `curl` that `GET /api/admin/customers` requires the admin session cookie and returns paginated JSON matching the shape in Technical Notes.
+
+## Verification record (2026-07-20)
+
+- `apps/api`: 84 tests passing (up from 74) — added `admin/customerList.test.ts` (7 tests) and `routes/adminCustomers.test.ts` (3 tests).
+- `apps/web`: 118 tests passing (up from 108) — added `api/admin.test.ts` additions (3 tests), `components/admin/CustomersList.test.ts` (4 tests), `views/admin/AdminCustomersView.test.ts` (3 tests).
+- `npm run build --workspaces` and `npm run lint --workspaces` both clean.
+- No `architecture.md`/`design.md`/`product-roadmap.md` updates needed — no schema changes, and the design handoff (`docs/design/design_handoff_phase2/README.md`) already explicitly flagged pagination as undesigned, which the ticket's Technical Notes already accounted for.

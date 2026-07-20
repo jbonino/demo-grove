@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { adminLogin, adminLogout, checkAdminSession, fetchDashboardStats } from "./admin";
+import { adminLogin, adminLogout, checkAdminSession, fetchDashboardStats, fetchCustomers } from "./admin";
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -88,5 +88,38 @@ describe("fetchDashboardStats", () => {
   it("throws when the request fails", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 401 }));
     await expect(fetchDashboardStats()).rejects.toThrow(/Failed to fetch dashboard stats/);
+  });
+});
+
+describe("fetchCustomers", () => {
+  it("requests customers with credentials included, passing search and page as query params", async () => {
+    const result = { customers: [], page: 1, totalPages: 1 };
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve(result) });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await fetchCustomers({ search: "jane", page: 2 });
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      expect.stringMatching(/\/api\/admin\/customers\?.*search=jane.*page=2|\/api\/admin\/customers\?.*page=2.*search=jane/),
+      expect.objectContaining({ credentials: "include" }),
+    );
+    expect(response).toEqual(result);
+  });
+
+  it("omits query params that are not provided", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve({ customers: [], page: 1, totalPages: 1 }) });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await fetchCustomers({});
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      expect.stringMatching(/\/api\/admin\/customers(\?)?$/),
+      expect.objectContaining({ credentials: "include" }),
+    );
+  });
+
+  it("throws when the request fails", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 401 }));
+    await expect(fetchCustomers({})).rejects.toThrow(/Failed to fetch customers/);
   });
 });
