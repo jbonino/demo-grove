@@ -33,7 +33,7 @@ Browse menu → add to cart → checkout (phone number + Stripe payment) → poi
 
 **Admin:** log in → dashboard (orders + loyalty stats at a glance) → drill into customers or individual orders.
 
-**Screens:** `/` (menu), cart, `/checkout`, `/confirmation`, `/loyalty` (phone lookup), `/admin/login`, `/admin`, `/admin/customers`, `/admin/orders`, `/readme` (project overview + demo walkthrough — the repo is private, so this is how an interviewer reads it from just the live URL).
+**Screens:** `/` (menu), `/checkout` (cart line items + contact/pickup/payment combined, per 003-003), `/confirmation`, `/loyalty` (phone lookup), `/admin/login`, `/admin`, `/admin/customers`, `/admin/orders`, `/readme` (project overview + demo walkthrough — the repo is private, so this is how an interviewer reads it from just the live URL).
 
 ## 5. Content
 

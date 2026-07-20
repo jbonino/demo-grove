@@ -48,6 +48,7 @@ Make the demo reachable and interview-ready.
 
 - Fly.io deployment: a single Fly app serving the API and the built `apps/web` static assets together
 - README / demo walkthrough script for the interview
+- Combine Cart and Checkout into a single screen (fewer steps in the customer flow)
 
 **Exit criteria:** a live URL exists, the full customer and admin paths work on it, and there's a documented walkthrough ready to run.
 
