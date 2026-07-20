@@ -26,3 +26,33 @@ export async function checkAdminSession(): Promise<boolean> {
   });
   return res.ok;
 }
+
+export interface RecentOrderDTO {
+  id: string;
+  customerName: string;
+  createdAt: string;
+  totalCents: number;
+  status: "Completed";
+}
+
+export interface DashboardStatsDTO {
+  ordersToday: number;
+  ordersTodayDelta: number;
+  revenueTodayCents: number;
+  revenueTodayDeltaCents: number;
+  pointsIssued7d: number;
+  pointsRedeemed7d: number;
+  signups7d: number;
+  ordersOutOf7d: number;
+  recentOrders: RecentOrderDTO[];
+}
+
+export async function fetchDashboardStats(): Promise<DashboardStatsDTO> {
+  const res = await fetch(`${apiBaseUrl}/api/admin/dashboard`, {
+    credentials: "include",
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch dashboard stats: ${res.status}`);
+  }
+  return res.json();
+}

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { adminLogin, adminLogout, checkAdminSession } from "./admin";
+import { adminLogin, adminLogout, checkAdminSession, fetchDashboardStats } from "./admin";
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -57,5 +57,36 @@ describe("checkAdminSession", () => {
   it("returns false when the session endpoint responds unauthorized", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 401 }));
     expect(await checkAdminSession()).toBe(false);
+  });
+});
+
+describe("fetchDashboardStats", () => {
+  it("requests dashboard stats with credentials included and returns them", async () => {
+    const stats = {
+      ordersToday: 4,
+      ordersTodayDelta: 1,
+      revenueTodayCents: 5000,
+      revenueTodayDeltaCents: 1000,
+      pointsIssued7d: 300,
+      pointsRedeemed7d: 2,
+      signups7d: 3,
+      ordersOutOf7d: 12,
+      recentOrders: [],
+    };
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve(stats) });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await fetchDashboardStats();
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      expect.stringContaining("/api/admin/dashboard"),
+      expect.objectContaining({ credentials: "include" }),
+    );
+    expect(result).toEqual(stats);
+  });
+
+  it("throws when the request fails", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 401 }));
+    await expect(fetchDashboardStats()).rejects.toThrow(/Failed to fetch dashboard stats/);
   });
 });
