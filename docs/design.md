@@ -45,7 +45,7 @@ Browse menu → add to cart → checkout (phone number + Stripe payment) → poi
 | Collection | Key fields |
 |---|---|
 | `MenuItems` | name, description, price, category |
-| `Orders` | items (menu item ref + qty + price snapshot), subtotal, phone, stripePaymentIntentId, status, createdAt |
+| `Orders` | items (menu item ref + qty + price snapshot), subtotal, phone, customerName (optional, added Phase 2 for admin display), stripePaymentIntentId, status, createdAt |
 | `LoyaltyEvents` | phone, orderId (nullable), type (`earn`/`redeem`), points, createdAt |
 | `Rewards` | name, pointsCost, description |
 

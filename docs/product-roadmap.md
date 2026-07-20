@@ -33,10 +33,12 @@ Layer the points economy onto the ordering flow already built.
 
 Give an operator visibility into what Phases 0-1 built.
 
+- Optional customer name at checkout + seed backfill (needed so admin screens have a name to show — nothing captured one before this phase)
 - Admin login (shared password, signed cookie session)
 - Dashboard: recent orders + loyalty stats at a glance
 - Customers list (with point balances)
 - Orders list (with detail view)
+- Playwright E2E: admin login → dashboard (pulled forward from Phase 3 during Phase 2 brainstorming, since the Dashboard ticket produces both halves of that flow)
 
 **Exit criteria:** an operator can log in and see all orders, customers, and loyalty activity without touching the database directly.
 
@@ -48,7 +50,7 @@ Make the demo reachable and interview-ready.
 - MongoDB Atlas (free tier) wired as the production database
 - Seed script run against production data
 - Real Apple Pay at checkout (Stripe Payment Request Button + domain association), now that a live HTTPS URL exists to verify against — the Phase 1 mock included an Apple Pay row that was cut to card-only pending this
-- Playwright E2E: critical customer path (browse → checkout → confirmation), admin login → dashboard
+- Playwright E2E: critical customer path (browse → checkout → confirmation) — admin login → dashboard already covered in Phase 2
 - README / demo walkthrough script for the interview
 
 **Exit criteria:** a live URL exists, the full customer and admin paths work on it, and there's a documented walkthrough ready to run.

@@ -51,6 +51,8 @@ Orders are created by the Stripe webhook handler, not by `POST /api/orders` — 
 
 `Order` also carries `rewardRedeemed: { name, discountAmountCents } | null` (set when a reward discounted the order), `pointsEarned: number`, and `pointsBalanceAfter: number` (both default `0`) — written by the webhook handler alongside the Order itself.
 
+`customerName: string | null` (default `null`) — optional name captured at checkout (002-001), used by the Phase 2 admin panel since there's no `Customer` collection or account system to source a name from otherwise. Deliberately not in `design.md` §6's original field list; added during Phase 2 brainstorming once the admin design handoff turned out to need a name and nothing in the system captured one.
+
 **LoyaltyEvent** (`apps/api/src/models/LoyaltyEvent.ts`)
 - `phone: string` (required)
 - `orderId: ObjectId | null` ref `Order`
