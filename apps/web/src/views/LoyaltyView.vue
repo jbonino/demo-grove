@@ -117,7 +117,7 @@ h1 {
   border-radius: 4px;
   padding: 13px 16px;
   background: white;
-  font-size: 14px;
+  font-size: 16px;
   font-family: var(--font-body);
 }
 
@@ -126,7 +126,7 @@ h1 {
   color: var(--color-cream);
   border: none;
   border-radius: 4px;
-  padding: 13px 24px;
+  padding: 14px 24px;
   font-weight: 600;
   font-size: 15px;
   cursor: pointer;

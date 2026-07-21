@@ -117,6 +117,9 @@ function handleAdd(item: MenuItemDTO) {
 }
 
 .add-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   background: var(--color-deep-green);
   color: var(--color-cream);
   font-size: 13px;

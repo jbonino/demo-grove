@@ -108,14 +108,14 @@ input[type="password"] {
   border: 1px solid var(--color-border);
   border-radius: 4px;
   padding: 13px 16px;
-  font-size: 14px;
+  font-size: 16px;
   font-family: var(--font-body);
 }
 
 .submit-btn {
   border: none;
   border-radius: 4px;
-  padding: 13px 16px;
+  padding: 14px 16px;
   background: var(--color-deep-green);
   color: var(--color-cream);
   font-size: 15px;

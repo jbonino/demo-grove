@@ -265,7 +265,7 @@ input[type="time"] {
   border-radius: 4px;
   padding: 13px 16px;
   background: white;
-  font-size: 14px;
+  font-size: 16px;
   font-family: var(--font-body);
 }
 
@@ -275,6 +275,9 @@ input[type="time"] {
 }
 
 .pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   border-radius: 20px;
   padding: 10px 20px;
   border: 1px solid var(--color-border);

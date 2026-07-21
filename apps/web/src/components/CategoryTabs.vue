@@ -42,7 +42,7 @@ const tabs = computed(() => ["All", ...props.categories]);
   font-family: var(--font-display);
   font-size: 17px;
   color: var(--color-placeholder);
-  padding: 0 0 12px;
+  padding: 12px 12px;
   cursor: pointer;
   white-space: nowrap;
 }
@@ -60,6 +60,7 @@ const tabs = computed(() => ["All", ...props.categories]);
 
   .tab {
     font-size: 14px;
+    padding: 13px 12px;
   }
 }
 </style>

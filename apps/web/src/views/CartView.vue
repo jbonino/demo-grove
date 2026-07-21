@@ -56,8 +56,11 @@ function goToCheckout() {
 }
 
 .empty-state a {
+  display: inline-block;
   color: var(--color-deep-green);
   font-weight: 600;
+  padding: 14px 12px;
+  margin: -14px -12px;
 }
 
 .cart-grid {

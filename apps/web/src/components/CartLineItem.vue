@@ -100,6 +100,7 @@ function formatPrice(cents: number): string {
 }
 
 .stepper button {
+  position: relative;
   background: none;
   border: none;
   color: var(--color-deep-green);
@@ -108,6 +109,16 @@ function formatPrice(cents: number): string {
   cursor: pointer;
   line-height: 1;
   padding: 0 4px;
+}
+
+.stepper button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
 }
 
 .quantity {

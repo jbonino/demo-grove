@@ -94,7 +94,7 @@ function formatDate(iso: string): string {
   border: 1px solid var(--color-border);
   border-radius: 20px;
   padding: 8px 16px;
-  font-size: 13px;
+  font-size: 16px;
   font-family: inherit;
 }
 
