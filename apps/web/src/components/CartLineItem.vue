@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import type { CartLine } from "../stores/cart";
 
 const props = defineProps<{ line: CartLine }>();
 const emit = defineEmits<{ setQuantity: [itemId: string, quantity: number] }>();
+
+const imageFailed = ref(false);
 
 function formatPrice(cents: number): string {
   return `$${(cents / 100).toFixed(2)}`;
@@ -11,7 +14,16 @@ function formatPrice(cents: number): string {
 
 <template>
   <div class="line-item">
+    <img
+      v-if="line.imageUrl && !imageFailed"
+      class="photo"
+      :src="line.imageUrl"
+      :alt="line.name"
+      loading="lazy"
+      @error="imageFailed = true"
+    >
     <div
+      v-else
       class="photo"
       aria-hidden="true"
     />
@@ -52,6 +64,8 @@ function formatPrice(cents: number): string {
   width: 76px;
   height: 76px;
   flex-shrink: 0;
+  display: block;
+  object-fit: cover;
   border-radius: 6px;
   background: repeating-linear-gradient(
     45deg,

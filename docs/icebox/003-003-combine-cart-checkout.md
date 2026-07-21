@@ -1,6 +1,8 @@
 # 003-003 — Combine Cart & Checkout
 
-**Status:** Active
+**Status:** Icebox
+
+_Deferred 2026-07-20: cart page stays as its own screen for now; revisit combining with checkout later._
 
 ## Description
 
@@ -70,4 +72,4 @@ Feature: Combined cart and checkout
 
 ## Status
 
-Active
+Icebox

@@ -29,4 +29,29 @@ describe("CartLineItem", () => {
     await wrapper.find('[aria-label="Decrease quantity"]').trigger("click");
     expect(wrapper.emitted("setQuantity")).toEqual([["1", 0]]);
   });
+
+  describe("photo", () => {
+    it("shows an image when the line has an imageUrl", () => {
+      const lineWithPhoto = { ...line, imageUrl: "https://example.com/photo.jpg" };
+      const wrapper = mount(CartLineItem, { props: { line: lineWithPhoto } });
+      const img = wrapper.find("img.photo");
+      expect(img.exists()).toBe(true);
+      expect(img.attributes("src")).toBe("https://example.com/photo.jpg");
+      expect(img.attributes("alt")).toBe(lineWithPhoto.name);
+    });
+
+    it("shows the placeholder when the line has no imageUrl", () => {
+      const wrapper = mount(CartLineItem, { props: { line } });
+      expect(wrapper.find("img.photo").exists()).toBe(false);
+      expect(wrapper.find("div.photo").exists()).toBe(true);
+    });
+
+    it("falls back to the placeholder if the image fails to load", async () => {
+      const lineWithPhoto = { ...line, imageUrl: "https://example.com/broken.jpg" };
+      const wrapper = mount(CartLineItem, { props: { line: lineWithPhoto } });
+      await wrapper.find("img.photo").trigger("error");
+      expect(wrapper.find("img.photo").exists()).toBe(false);
+      expect(wrapper.find("div.photo").exists()).toBe(true);
+    });
+  });
 });

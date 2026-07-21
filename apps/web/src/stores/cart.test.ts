@@ -23,6 +23,12 @@ describe("cart store", () => {
     expect(cart.totalItemCount).toBe(2);
   });
 
+  it("stores imageUrl on the line when provided", () => {
+    const cart = useCartStore();
+    cart.addItem({ itemId: "1", name: "Burrata", unitPrice: 1600, imageUrl: "https://example.com/burrata.jpg" });
+    expect(cart.lines[0].imageUrl).toBe("https://example.com/burrata.jpg");
+  });
+
   it("tracks total item count across distinct items", () => {
     const cart = useCartStore();
     cart.addItem({ itemId: "1", name: "Burrata", unitPrice: 1600 });

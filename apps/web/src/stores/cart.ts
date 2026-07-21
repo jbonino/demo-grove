@@ -6,6 +6,7 @@ export interface CartLine {
   name: string;
   quantity: number;
   unitPrice: number;
+  imageUrl?: string;
 }
 
 export const useCartStore = defineStore("cart", () => {
@@ -19,7 +20,7 @@ export const useCartStore = defineStore("cart", () => {
     lines.value.reduce((sum, line) => sum + line.quantity * line.unitPrice, 0),
   );
 
-  function addItem(item: { itemId: string; name: string; unitPrice: number }) {
+  function addItem(item: { itemId: string; name: string; unitPrice: number; imageUrl?: string }) {
     const existing = lines.value.find((line) => line.itemId === item.itemId);
     if (existing) {
       existing.quantity += 1;

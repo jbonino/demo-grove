@@ -45,7 +45,7 @@ function selectCategory(category: string) {
 }
 
 function addToCart(item: MenuItemDTO) {
-  cart.addItem({ itemId: item.id, name: item.name, unitPrice: item.priceCents });
+  cart.addItem({ itemId: item.id, name: item.name, unitPrice: item.priceCents, imageUrl: item.imageUrl });
 }
 
 onMounted(async () => {

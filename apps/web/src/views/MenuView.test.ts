@@ -3,10 +3,18 @@ import { mount, flushPromises } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import * as menuItemsApi from "../api/menuItems";
 import { createTestRouter } from "../test/testRouter";
+import { useCartStore } from "../stores/cart";
 import MenuView from "./MenuView.vue";
 
 const mockItems = [
-  { id: "1", name: "Burrata & Heirloom Tomato", description: "desc", priceCents: 1600, category: "Starters" },
+  {
+    id: "1",
+    name: "Burrata & Heirloom Tomato",
+    description: "desc",
+    priceCents: 1600,
+    category: "Starters",
+    imageUrl: "https://example.com/burrata.jpg",
+  },
   { id: "2", name: "Tuna Tartare", description: "desc", priceCents: 1900, category: "Starters" },
   { id: "3", name: "Herb-Crusted Rack of Lamb", description: "desc", priceCents: 3400, category: "Entrées" },
 ];
@@ -105,6 +113,16 @@ describe("MenuView", () => {
     await wrapper.find(".add-button").trigger("click");
 
     expect(wrapper.find(".cart-pill").text()).toContain("Cart · 1");
+  });
+
+  it("passes the item's imageUrl into the cart line when adding", async () => {
+    const wrapper = await mountMenuView();
+    await flushPromises();
+
+    await wrapper.find(".add-button").trigger("click");
+
+    const cart = useCartStore();
+    expect(cart.lines[0].imageUrl).toBe("https://example.com/burrata.jpg");
   });
 
   describe("loading state", () => {
