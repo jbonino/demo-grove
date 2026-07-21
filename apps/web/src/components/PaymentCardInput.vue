@@ -16,7 +16,13 @@ onMounted(async () => {
     return;
   }
   const elements = stripe.elements();
-  card = elements.create("card");
+  card = elements.create("card", {
+    style: {
+      base: {
+        fontSize: "16px",
+      },
+    },
+  });
   card.mount(cardRef.value);
   emit("ready", stripe, elements, card);
 });
