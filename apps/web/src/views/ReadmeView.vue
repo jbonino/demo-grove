@@ -12,6 +12,12 @@ import AppHeader from "../components/AppHeader.vue";
         A restaurant ordering + loyalty rewards demo, built as a demo for interviews.
         Built in a single work day, agentically — see
         <a href="#build-process">Build process</a> below.
+        Source on
+        <a
+          href="https://github.com/jbonino/demo-grove"
+          target="_blank"
+          rel="noopener"
+        >GitHub</a>.
       </p>
 
       <section>
